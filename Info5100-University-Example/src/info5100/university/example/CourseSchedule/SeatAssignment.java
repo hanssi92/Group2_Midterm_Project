@@ -32,20 +32,34 @@ public class SeatAssignment {
         return seat.getCourseCredits();
        
     }
+    
     public Seat getSeat(){
         return seat;
     }
+    
     public CourseOffer getCourseOffer(){
         
         return seat.getCourseOffer();
     }
+    
     public Course getAssociatedCourse(){
         
         return getCourseOffer().getSubjectCourse();
     }
+    
     public float GetCourseStudentScore(){
         return getCreditHours()*grade;
     }
+    
+    public CourseLoad getCourseLoad() { // for search student in PerformanceReport
+        return courseload;
+    }
+    
+    public float getGrade(){ // for search student in PerformanceReport
+        return grade;
+    }
+    
+    
     
     
     

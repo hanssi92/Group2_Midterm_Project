@@ -7,6 +7,7 @@ package info5100.university.example.Persona.Faculty;
 
 import info5100.university.example.Persona.*;
 import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.Department.Department;
 import java.util.ArrayList;
 
 /**
@@ -18,10 +19,58 @@ public class FacultyProfile {
     Person person;
     ArrayList <FacultyAssignment> facultyassignments; 
     
+    private String facultyId;
+    private String firstName;
+    private String lastName;
+    
+    private Department department;
+    
+    private String title;
+    private String email;
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public ArrayList<FacultyAssignment> getFacultyassignments() {
+        return facultyassignments;
+    }
+
+    public String getFacultyid() {
+        return facultyId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    
+    @Override
+    public String toString() {
+        return facultyId;
+    }
+    
     public FacultyProfile(Person p) {
 
         person = p;
         facultyassignments = new ArrayList();
+        
+        facultyId = p.getPersonId();
     }
     public  double getProfAverageOverallRating(){
         
@@ -57,5 +106,7 @@ public class FacultyProfile {
         }
         return false;
     }
+    
+    
 
 }

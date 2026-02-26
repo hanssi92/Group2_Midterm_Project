@@ -9,6 +9,9 @@ package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
  * @author Hyungs
  */
 public class CourseDetailJPanel extends javax.swing.JPanel {
+    
+    
+    
 
     /**
      * Creates new form CourseDetailJPanel

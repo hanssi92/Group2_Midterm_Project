@@ -27,10 +27,11 @@ public class CourseOffer {
      
     public void AssignAsTeacher(FacultyProfile fp) {
 
-        facultyassignment = new FacultyAssignment(fp, this);
+        facultyassignment = fp.AssignAsTeacher(this); // edited 
     }
 
     public FacultyProfile getFacultyProfile() {
+        if (facultyassignment == null) return null; //calling getFacultyProfile() may cause a NullPointerException
         return facultyassignment.getFacultyProfile();
     }
 
