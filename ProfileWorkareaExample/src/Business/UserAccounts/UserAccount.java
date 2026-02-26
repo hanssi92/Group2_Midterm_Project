@@ -6,6 +6,7 @@
 package Business.UserAccounts;
 
 import Business.Profiles.Profile;
+import Business.Person.Person;
 
 
 
@@ -15,40 +16,37 @@ import Business.Profiles.Profile;
  */
 public class UserAccount {
     
-    Profile profile;
+    Person person;
+    
     String username;
     String password;
     
-    public UserAccount (Profile profile, String un, String pw){
+    public UserAccount (Person p, String un, String pw){
+        person = p;
+        
         username = un;
-         password = pw;
-         this.profile = profile;
-
+        password = pw;
     }
-
+    
+    public Person getPerson() {
+        return person;
+    }
+    
     public String getPersonId(){
-        return profile.getPerson().getPersonId();
+        return person.getPersonId();
     }
     public String getUserLoginName(){
         return username;
     }
 
         public boolean isMatch(String id){
-        if(getPersonId().equals(id)) return true;
-        return false;
+            return person.getPersonId().equals(id);
     }
         public boolean IsValidUser(String un, String pw){
         
             if (username.equalsIgnoreCase(un) && password.equals(pw)) return true;
             else return false;
         
-        }
-        public String getRole(){
-            return profile.getRole();
-        }
-        
-        public Profile getAssociatedPersonProfile(){
-            return profile;
         }
         
     @Override

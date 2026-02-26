@@ -15,6 +15,7 @@ import Business.UserAccounts.UserAccountDirectory;
 import UserInterface.WorkAreas.AdminRole.AdminRoleWorkAreaJPanel;
 import UserInterface.WorkAreas.FacultyRole.FacultyWorkAreaJPanel;
 import UserInterface.WorkAreas.StudentRole.StudentWorkAreaJPanel;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
 import javax.swing.JPanel;
 
 /**
@@ -166,7 +167,7 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
 
         }
 
- /*      if (profile instanceof FacultyProfile) {
+        else if (profile instanceof info5100.university.example.Persona.Faculty.FacultyProfile) {
             facultyworkarea = new FacultyWorkAreaJPanel(business, CardSequencePanel);
             CardSequencePanel.removeAll();
             CardSequencePanel.add("faculty", facultyworkarea);

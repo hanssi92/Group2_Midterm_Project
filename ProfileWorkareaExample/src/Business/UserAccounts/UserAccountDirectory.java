@@ -6,6 +6,7 @@
 package Business.UserAccounts;
 
 import Business.Profiles.Profile;
+import Business.Person.Person;
 
 import java.util.ArrayList;
 
@@ -18,12 +19,13 @@ public class UserAccountDirectory {
       ArrayList<UserAccount> useraccountlist ;
     
       public UserAccountDirectory (){
-          
-       useraccountlist = new ArrayList();
-
+       useraccountlist = new ArrayList<>();
+    }
+      public ArrayList<UserAccount> getUserAccountList() {
+      return useraccountlist;
     }
 
-    public UserAccount newUserAccount(Profile p, String un, String pw) {
+    public UserAccount newUserAccount(Person p, String un, String pw) {
 
         UserAccount ua = new UserAccount (p,  un,  pw);
         useraccountlist.add(ua);
@@ -50,8 +52,4 @@ public class UserAccountDirectory {
         }
             return null; //not found after going through the whole list
          }   
-     public ArrayList<UserAccount> getUserAccountList()
-     {
-         return useraccountlist;
-     }
 }

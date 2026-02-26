@@ -63,6 +63,10 @@ public void addElectiveCourse(Course c){
     public StudentDirectory getStudentDirectory() {
     return studentdirectory;
     }
+    
+    public FacultyDirectory getFacultyDirectory() {
+        return facultydirectory;
+    }
 
     public CourseSchedule newCourseSchedule(String semester) {
 
