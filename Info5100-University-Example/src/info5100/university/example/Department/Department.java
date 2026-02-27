@@ -113,12 +113,16 @@ public class Department {
     public void RegisterForAClass(String studentid, String cn, String semester) {
 
         StudentProfile sp = studentdirectory.findStudent(studentid);
+        if (sp == null) return;
 
         CourseLoad cl = sp.getCurrentCourseLoad();
+        if (cl == null) return;
 
         CourseSchedule cs = mastercoursecatalog.get(semester);
+        if (cs == null) return;
 
         CourseOffer co = cs.getCourseOfferByNumber(cn);
+        if (co == null) return;
 
         co.assignEmptySeat(cl);
 

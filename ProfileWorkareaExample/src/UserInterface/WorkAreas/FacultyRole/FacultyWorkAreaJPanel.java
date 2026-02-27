@@ -151,12 +151,11 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnManageCourseIdentifyResourceAssetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageCourseIdentifyResourceAssetsActionPerformed
         // TODO add your handling code here:
-        CardSequencePanel.removeAll();
-
+        
         ManageCourseListJPanel mcj = new ManageCourseListJPanel(business, CardSequencePanel);
-
-        CardSequencePanel.add("Manage Course", mcj);
-        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+       
+        CardSequencePanel.add("ManageCourses", mcj);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).show(CardSequencePanel, "ManageCourses");
 
     }//GEN-LAST:event_btnManageCourseIdentifyResourceAssetsActionPerformed
 
@@ -166,7 +165,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
         ManageStudentProfileListJPanel msp = new ManageStudentProfileListJPanel(business, CardSequencePanel);
 
-        CardSequencePanel.add("Manage Student", msp);
+        CardSequencePanel.add("ManageStudent", msp);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
   
@@ -178,7 +177,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
       
         FacultyProfileJPanel fpj = new FacultyProfileJPanel(business, CardSequencePanel);
         
-        CardSequencePanel.add("Faculty Profile", fpj);
+        CardSequencePanel.add("FacultyProfile", fpj);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 }//GEN-LAST:event_btnfacultyProfileIdentifyEventsActionPerformed
 

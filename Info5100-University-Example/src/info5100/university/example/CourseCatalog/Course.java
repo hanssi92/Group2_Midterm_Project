@@ -23,10 +23,10 @@ public class Course {
 
     }
 
-    public String getCOurseNumber() {
+    public String getCourseNumber() {
         return number;
     }
-
+    
     public int getCoursePrice() {
         return price * credits;
 
@@ -36,8 +36,21 @@ public class Course {
         return credits;
 }
     
+    public void setCredits(int c) {
+        this.credits = c;
+    }
+    
     public String getCourseName() {
         return name;
+    }
+    
+    public void setCourseName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString () {
+        return getCourseNumber();
     }
     
 }

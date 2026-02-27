@@ -56,7 +56,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="txtCredits" max="32767" attributes="0"/>
                                           <Component id="txtDepartment" max="32767" attributes="0"/>
-                                          <Component id="txtSeatCapacity" min="-2" pref="145" max="-2" attributes="0"/>
+                                          <Component id="txtLastUpdated" min="-2" pref="145" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -101,7 +101,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblLastUpdated" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtSeatCapacity" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtLastUpdated" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="157" max="-2" attributes="0"/>
@@ -151,14 +151,23 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCourseNumber">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCourseName">
     </Component>
     <Component class="javax.swing.JTextField" name="txtCredits">
     </Component>
     <Component class="javax.swing.JTextField" name="txtDepartment">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtSeatCapacity">
+    <Component class="javax.swing.JTextField" name="txtLastUpdated">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnCourseBack">
       <Properties>
@@ -198,6 +207,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCourseSaveActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

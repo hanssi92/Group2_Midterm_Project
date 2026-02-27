@@ -39,7 +39,7 @@ public class CourseCatalog {
         
         for( Course c: courselist){
             
-            if(c.getCOurseNumber().equals(n)) return c;
+            if(c.getCourseNumber().equals(n)) return c;
         }
         return null;
     }

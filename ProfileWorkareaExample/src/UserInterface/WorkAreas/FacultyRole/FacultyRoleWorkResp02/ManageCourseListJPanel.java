@@ -5,10 +5,13 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import UserInterface.WorkAreas.FacultyRole.FacultyWorkAreaJPanel;
 import info5100.university.example.CourseCatalog.Course;
 import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.CourseSchedule.CourseSchedule;
 import info5100.university.example.Department.Department;
+import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -114,10 +117,34 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.show(CardSequencePanel, "faculty");
+        
+        CardSequencePanel.remove(this);
+        
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblCourseList.getSelectedRow();
+        
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Please select the row first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel)tblCourseList.getModel();
+        
+        Course selectedCourse = (Course) model.getValueAt(selectedRow, 0);
+        
+        CourseDetailJPanel panel = new CourseDetailJPanel(business, CardSequencePanel, selectedCourse);
+        
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.show(CardSequencePanel, "CourseDetail");
+        
+        populateTable();
+        
     }//GEN-LAST:event_btnViewActionPerformed
 
 
@@ -135,15 +162,11 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
         
         Department dept = business.getDepartment();
         
-        CourseSchedule cs = dept.getCourseSchedule("Spring 2026");
-        if (cs == null) return;
-        
-        for (CourseOffer co : cs.getSchedule()) {
-            Course c = co.getSubjectCourse();
+        for (Course c : dept.getCourseCatalog().getCourseList()) {
             
             Object row [] = new Object [5];
             
-            row[0] = c.getCOurseNumber();
+            row[0] = c;
             row[1] = c.getCourseName();
             row[2] = c.getCredits();
             row[3] = dept.getName();

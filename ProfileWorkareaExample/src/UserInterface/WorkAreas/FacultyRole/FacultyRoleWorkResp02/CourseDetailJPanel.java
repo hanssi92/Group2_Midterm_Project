@@ -5,7 +5,15 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import info5100.university.example.CourseCatalog.Course;
+import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.CourseSchedule;
+import info5100.university.example.CourseSchedule.Seat;
+import info5100.university.example.Department.Department;
+import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,15 +23,24 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     
     Business business;
     JPanel CardSequencePanel;
+    Course course;
     
     /**
      * Creates new form CourseDetailJPanel
      */
-    public CourseDetailJPanel(Business b, JPanel csp) {
+    public CourseDetailJPanel(Business b, JPanel csp, Course c) {
         initComponents();
         
         this.business = b;
         this.CardSequencePanel = csp;
+        this.course = c;
+        
+        populateCourseFields();
+        papulateOfferFields();
+        setFieldEditable();
+        
+        btnCourseSave.setEnabled(false);
+
     }
 
     /**
@@ -45,7 +62,7 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         txtCourseName = new javax.swing.JTextField();
         txtCredits = new javax.swing.JTextField();
         txtDepartment = new javax.swing.JTextField();
-        txtSeatCapacity = new javax.swing.JTextField();
+        txtLastUpdated = new javax.swing.JTextField();
         btnCourseBack = new javax.swing.JButton();
         btnCourseUpdate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -64,6 +81,12 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         lblDepartment.setText("Dpartment:");
 
         lblLastUpdated.setText("Last Updated:");
+
+        txtCourseNumber.setEditable(false);
+
+        txtDepartment.setEditable(false);
+
+        txtLastUpdated.setEditable(false);
 
         btnCourseBack.setText("Back");
         btnCourseBack.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +116,11 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblCourseOffer);
 
         btnCourseSave.setText("Save");
+        btnCourseSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCourseSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -133,7 +161,7 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtCredits)
                                             .addComponent(txtDepartment)
-                                            .addComponent(txtSeatCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(txtLastUpdated, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -164,7 +192,7 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLastUpdated)
-                    .addComponent(txtSeatCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLastUpdated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
@@ -176,14 +204,85 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setFieldEditable() {
+        txtCourseName.setEditable(true);
+        txtCredits.setEditable(true);
+        
+        txtCourseNumber.setEditable(false);
+        txtDepartment.setEditable(false);
+        txtLastUpdated.setEditable(false);
+        
+    }
+
+    
     private void btnCourseBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseBackActionPerformed
         // TODO add your handling code here:
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.show(CardSequencePanel, "ManageCourses");
+        
+        CardSequencePanel.remove(this);
+        
     }//GEN-LAST:event_btnCourseBackActionPerformed
 
     private void btnCourseUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseUpdateActionPerformed
         // TODO add your handling code here:
+        
+        setFieldEditable();
+        btnCourseSave.setEnabled(true);
+        
+        
     }//GEN-LAST:event_btnCourseUpdateActionPerformed
 
+    private void btnCourseSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseSaveActionPerformed
+        // TODO add your handling code here:
+        
+        // validation: course name
+        String newName = txtCourseName.getText();
+        if (newName.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Couirse Name is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // validation: credits
+        int newCredits;
+        try {
+        newCredits = Integer.parseInt(txtCredits.getText().trim());
+            if (newCredits <= 0) {
+            JOptionPane.showMessageDialog(this, "Credits must be a positive number.");
+            return;
+             }
+            
+        } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Credits must be a number.");
+        return;
+        
+        }
+        
+        // Model Update
+        course.setCourseName(txtCourseName.getText());
+        course.setCredits(Integer.parseInt(txtCredits.getText()));
+        
+        // LastUpdated Setting
+        Department dept = business.getDepartment();
+        dept.getCourseCatalog().updateLastUpdated();
+        txtLastUpdated.setText(java.time.LocalDate.now().toString());
+        
+        JOptionPane.showMessageDialog(this, "Successfully Saved!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        
+        //fields, button 
+        setAllFieldsDisabled();
+        btnCourseSave.setEnabled(false);
+        btnCourseUpdate.setEnabled(true);
+        
+    }//GEN-LAST:event_btnCourseSaveActionPerformed
+
+    private void setAllFieldsDisabled() {
+        txtCourseNumber.setEditable(false);
+        txtCourseName.setEditable(false);
+        txtCredits.setEditable(false);
+        txtDepartment.setEditable(false);
+        txtLastUpdated.setEditable(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCourseBack;
@@ -201,6 +300,59 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtCourseNumber;
     private javax.swing.JTextField txtCredits;
     private javax.swing.JTextField txtDepartment;
-    private javax.swing.JTextField txtSeatCapacity;
+    private javax.swing.JTextField txtLastUpdated;
     // End of variables declaration//GEN-END:variables
+
+    private void populateCourseFields() {
+        txtCourseNumber.setText(course.getCourseNumber());
+        txtCourseName.setText(course.getCourseName());
+        txtCredits.setText(String.valueOf(course.getCredits()));
+        
+        Department dept = business.getDepartment();
+        txtDepartment.setText(dept.getName());
+        
+        txtLastUpdated.setText(dept.getCourseCatalog().getLastUpdated());
+        
+    }
+    
+    private void papulateOfferFields() {
+        DefaultTableModel model = (DefaultTableModel) tblCourseOffer.getModel();
+        model.setRowCount(0);
+        
+        Department dept = business.getDepartment();
+        
+        String semester = "Spring2026";
+        
+        CourseSchedule cs = dept.getCourseSchedule(semester);
+        if (cs == null) return;
+        
+        CourseOffer co = cs.getCourseOfferByNumber(course.getCourseNumber());
+        if (co == null) return;
+        
+        int seatCapacity = 0;
+        int available = 0;
+        
+        if (co.getSeatlist() != null) {
+            seatCapacity = co.getSeatlist().size();
+            
+            for (Seat s : co.getSeatlist()) {
+                if (s != null && ! s.isOccupied()) {
+                    available ++;
+                }
+            }
+        }
+    
+        Object[] row = new Object [4];
+        row[0] = semester;
+        row[1] = co;
+        row[2] = seatCapacity;
+        row[3] = available;
+        
+        model.addRow(row);
+    
+    }
+
+    
+
+    
 }
