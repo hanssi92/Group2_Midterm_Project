@@ -4,17 +4,30 @@
  */
 package UserInterface.WorkAreas.StudentRole;
 
+import Business.Business;
+import Business.Profiles.StudentProfile;
+import javax.swing.JPanel;
+
 /**
  *
  * @author sumayyahhusain
  */
 public class StudentManageProfileJPanel extends javax.swing.JPanel {
+    
+    Business business;
+    StudentProfile student;
+    JPanel CardSequencePanel;
 
     /**
      * Creates new form StudentManageProfileJPanel
      */
-    public StudentManageProfileJPanel() {
+    public StudentManageProfileJPanel(Business b, StudentProfile sp, JPanel csp) {
+        business = b;
+        student = sp;
+        CardSequencePanel = csp;
+        
         initComponents();
+        populateData();
     }
 
     /**
@@ -37,10 +50,19 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
         lblMyProfileTitle.setText("My Profile");
 
         btnBack.setText("<< Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         lblName.setText("Name:");
 
         lblStudentID.setText("Student ID:");
+
+        fieldName.setEditable(false);
+
+        fieldStudentID.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -83,6 +105,14 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.removeAll();
+        StudentWorkAreaJPanel studentPanel = new StudentWorkAreaJPanel(business, student, CardSequencePanel);
+        CardSequencePanel.add("student", studentPanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -92,4 +122,10 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblStudentID;
     // End of variables declaration//GEN-END:variables
+
+    private void populateData() {
+        fieldName.setText(student.getPerson().getPersonId());
+        fieldStudentID.setText(student.getPerson().getPersonId());
+       
+    }
 }

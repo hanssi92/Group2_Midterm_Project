@@ -4,16 +4,27 @@
  */
 package UserInterface.WorkAreas.StudentRole;
 
+import Business.Business;
+import Business.Profiles.StudentProfile;
+import javax.swing.JPanel;
+
 /**
  *
  * @author sumayyahhusain
  */
 public class StudentCourseWork extends javax.swing.JPanel {
 
+    private StudentProfile studentProfile;
+    private JPanel CardSequencePanel;
+    Business business;
+    
     /**
      * Creates new form StudentCourseWork
      */
-    public StudentCourseWork() {
+    public StudentCourseWork(StudentProfile studentProfile,JPanel CardSequencePanel) {
+        this.studentProfile = studentProfile;
+        this.CardSequencePanel = CardSequencePanel;
+        
         initComponents();
     }
 
@@ -40,6 +51,11 @@ public class StudentCourseWork extends javax.swing.JPanel {
         lblManageCourseworkTitle.setText("Manage Coursework");
 
         btnBack.setText("<< Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,6 +121,14 @@ public class StudentCourseWork extends javax.swing.JPanel {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.removeAll();
+        StudentWorkAreaJPanel studentPanel = new StudentWorkAreaJPanel(business, studentProfile, CardSequencePanel);
+        CardSequencePanel.add("student", studentPanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

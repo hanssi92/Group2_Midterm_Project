@@ -4,16 +4,28 @@
  */
 package UserInterface.WorkAreas.StudentRole;
 
+import Business.Business;
+import Business.Profiles.StudentProfile;
+import javax.swing.JPanel;
+
 /**
  *
  * @author sumayyahhusain
  */
 public class TranscriptJPanel extends javax.swing.JPanel {
 
+    Business business;
+    StudentProfile studentProfile;
+    JPanel CardSequencePanel;
+    
+    
     /**
      * Creates new form TranscriptJPanel
      */
-    public TranscriptJPanel() {
+    public TranscriptJPanel(StudentProfile studentProfile, JPanel CardSequencePanel) {
+        this.studentProfile = studentProfile;
+        this.CardSequencePanel = CardSequencePanel;
+        
         initComponents();
     }
 
@@ -37,6 +49,11 @@ public class TranscriptJPanel extends javax.swing.JPanel {
         lblTranscriptTitle.setText("My Transcript");
 
         btnBack.setText("<< Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         lblSelectSemester.setText("Select Semester:");
 
@@ -89,6 +106,14 @@ public class TranscriptJPanel extends javax.swing.JPanel {
                 .addContainerGap(72, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.removeAll();
+        StudentWorkAreaJPanel studentPanel = new StudentWorkAreaJPanel(business, studentProfile, CardSequencePanel);
+        CardSequencePanel.add("student", studentPanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,16 +4,26 @@
  */
 package UserInterface.WorkAreas.StudentRole;
 
+import Business.Business;
+import Business.Profiles.StudentProfile;
+import javax.swing.JPanel;
+
 /**
  *
  * @author sumayyahhusain
  */
 public class CourseRegistrationJPanel extends javax.swing.JPanel {
 
+    Business business;
+    StudentProfile studentProfile;
+    JPanel CardSequencePanel;
+    
     /**
      * Creates new form CourseRegistrationJPanel
      */
-    public CourseRegistrationJPanel() {
+    public CourseRegistrationJPanel(Business business, StudentProfile studentProfile, JPanel CardSequencePanel) {
+        this.studentProfile = studentProfile;
+        this.CardSequencePanel = CardSequencePanel;
         initComponents();
     }
 
@@ -45,12 +55,21 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
         lblCourseRegistrationTitle.setText("Course Registration");
 
         btnBack.setText("<< Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         lblSearch.setText("Search:");
 
         cmbSearchType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        fieldSearch.setText("jTextField1");
+        fieldSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldSearchActionPerformed(evt);
+            }
+        });
 
         btnSearch.setText("Search");
 
@@ -142,7 +161,7 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEnroll)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblMyCourses)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,6 +174,18 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
     private void btnDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDropActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.removeAll();
+        StudentWorkAreaJPanel studentPanel = new StudentWorkAreaJPanel(business, studentProfile, CardSequencePanel);
+        CardSequencePanel.add("student", studentPanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void fieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

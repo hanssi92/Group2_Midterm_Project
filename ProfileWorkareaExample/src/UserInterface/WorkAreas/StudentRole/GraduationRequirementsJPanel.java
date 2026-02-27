@@ -4,16 +4,27 @@
  */
 package UserInterface.WorkAreas.StudentRole;
 
+import Business.Business;
+import Business.Profiles.StudentProfile;
+import javax.swing.JPanel;
+
 /**
  *
  * @author sumayyahhusain
  */
 public class GraduationRequirementsJPanel extends javax.swing.JPanel {
 
+    private StudentProfile studentProfile;
+    private JPanel CardSequencePanel;
+    private Business business;
+    
     /**
      * Creates new form GraduationRequirementsJPanel
      */
-    public GraduationRequirementsJPanel() {
+    public GraduationRequirementsJPanel(StudentProfile studentProfile, JPanel CardSequencePanel) {
+        this.studentProfile = studentProfile;
+        this.CardSequencePanel = CardSequencePanel;
+        
         initComponents();
     }
 
@@ -39,6 +50,11 @@ public class GraduationRequirementsJPanel extends javax.swing.JPanel {
         lblGradRequirementsTitle.setText("Graduation Requirements & Progress");
 
         btnBack.setText("<< Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         lblCredits.setText("Credits:");
 
@@ -107,6 +123,14 @@ public class GraduationRequirementsJPanel extends javax.swing.JPanel {
     private void fieldCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCreditsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldCreditsActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.removeAll();
+        StudentWorkAreaJPanel studentPanel = new StudentWorkAreaJPanel(business, studentProfile, CardSequencePanel);
+        CardSequencePanel.add("student", studentPanel);
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
