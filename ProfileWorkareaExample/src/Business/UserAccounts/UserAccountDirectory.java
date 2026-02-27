@@ -6,7 +6,7 @@
 package Business.UserAccounts;
 
 import Business.Profiles.Profile;
-import Business.Person.Person;
+import info5100.university.example.Persona.Person;
 
 import java.util.ArrayList;
 
@@ -25,9 +25,9 @@ public class UserAccountDirectory {
       return useraccountlist;
     }
 
-    public UserAccount newUserAccount(Person p, String un, String pw) {
+    public UserAccount newUserAccount(Person p, String un, String pw, String role) {
 
-        UserAccount ua = new UserAccount (p,  un,  pw);
+        UserAccount ua = new UserAccount (p, un, pw, role);
         useraccountlist.add(ua);
         return ua;
     }

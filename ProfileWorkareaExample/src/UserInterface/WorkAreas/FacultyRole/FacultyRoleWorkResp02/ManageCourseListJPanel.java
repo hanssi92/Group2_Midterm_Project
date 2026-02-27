@@ -4,17 +4,32 @@
  */
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
+import Business.Business;
+import info5100.university.example.CourseCatalog.Course;
+import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.CourseSchedule;
+import info5100.university.example.Department.Department;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Hyungs
  */
 public class ManageCourseListJPanel extends javax.swing.JPanel {
-
+    JPanel CardSequencePanel;
+    Business business;
+    
     /**
      * Creates new form ManageCourseListJPanel
      */
-    public ManageCourseListJPanel() {
+    public ManageCourseListJPanel(Business b, JPanel csp) {
         initComponents();
+        
+        this.business = b;
+        this.CardSequencePanel = csp;
+        
+        populateTable();
     }
 
     /**
@@ -87,9 +102,9 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitle)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnView))
@@ -113,4 +128,29 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblCourseList;
     // End of variables declaration//GEN-END:variables
+
+    private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) tblCourseList.getModel();
+        model.setRowCount(0);
+        
+        Department dept = business.getDepartment();
+        
+        CourseSchedule cs = dept.getCourseSchedule("Spring 2026");
+        if (cs == null) return;
+        
+        for (CourseOffer co : cs.getSchedule()) {
+            Course c = co.getSubjectCourse();
+            
+            Object row [] = new Object [5];
+            
+            row[0] = c.getCOurseNumber();
+            row[1] = c.getCourseName();
+            row[2] = c.getCredits();
+            row[3] = dept.getName();
+            row[4] = dept.getCourseCatalog().getLastUpdated();
+            
+            model.addRow(row);
+            
+        }
+    }
 }

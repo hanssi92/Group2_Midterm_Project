@@ -46,11 +46,20 @@ public class Department {
         degree = new Degree("MSIS");
         
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public void addCoreCourse(Course c){
         degree.addCoreCourse(c);
         
     }
-public void addElectiveCourse(Course c){
+    public void addElectiveCourse(Course c){
         degree.addElectiveCourse(c);
         
     }

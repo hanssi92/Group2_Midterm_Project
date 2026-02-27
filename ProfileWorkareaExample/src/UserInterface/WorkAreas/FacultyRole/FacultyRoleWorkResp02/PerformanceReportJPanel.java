@@ -4,17 +4,24 @@
  */
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
+import Business.Business;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Hyungs
  */
 public class PerformanceReportJPanel extends javax.swing.JPanel {
-
+    Business business;
+    JPanel CardSequencePanel;
     /**
      * Creates new form PerformanceReportJPanel
      */
-    public PerformanceReportJPanel() {
+    public PerformanceReportJPanel(Business b, JPanel csp) {
         initComponents();
+        
+        this.business = b;
+        this.CardSequencePanel = csp;
     }
 
     /**

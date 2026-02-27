@@ -28,11 +28,9 @@
                           <Component id="lblProfInformation" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="lblLastName" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblFacultyId" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="lblLastName" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblFacultyId" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblDepartment" alignment="0" max="32767" attributes="0"/>
                                   <Component id="lblTitle" alignment="0" max="32767" attributes="0"/>
                                   <Component id="lblEmail" alignment="0" max="32767" attributes="0"/>

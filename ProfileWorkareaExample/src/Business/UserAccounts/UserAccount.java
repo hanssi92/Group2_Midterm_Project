@@ -6,7 +6,7 @@
 package Business.UserAccounts;
 
 import Business.Profiles.Profile;
-import Business.Person.Person;
+import info5100.university.example.Persona.Person;
 
 
 
@@ -21,12 +21,17 @@ public class UserAccount {
     String username;
     String password;
     
-    public UserAccount (Person p, String un, String pw){
+    String role;
+    Object associatedPersonProfile;
+    
+    public UserAccount (Person p, String un, String pw, String role){
         person = p;
         
         username = un;
         password = pw;
+        this.role = role;
     }
+   
     
     public Person getPerson() {
         return person;
@@ -49,6 +54,18 @@ public class UserAccount {
         
         }
         
+    public String getRole() {
+        return role;
+    }
+    
+    public Object getAssociatedPersonProfile() {
+        return associatedPersonProfile;
+    }
+    
+    public void setAssociatedPersonProfile(Object p) {
+    associatedPersonProfile = p;   
+    }
+    
     @Override
         public String toString(){
             

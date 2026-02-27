@@ -4,20 +4,26 @@
  */
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
+import Business.Business;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Hyungs
  */
 public class CourseDetailJPanel extends javax.swing.JPanel {
     
+    Business business;
+    JPanel CardSequencePanel;
     
-    
-
     /**
      * Creates new form CourseDetailJPanel
      */
-    public CourseDetailJPanel() {
+    public CourseDetailJPanel(Business b, JPanel csp) {
         initComponents();
+        
+        this.business = b;
+        this.CardSequencePanel = csp;
     }
 
     /**
