@@ -6,7 +6,10 @@ package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
 import Business.UserAccounts.UserAccount;
+import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyDirectory;
 import info5100.university.example.Persona.Faculty.FacultyProfile;
+import info5100.university.example.Persona.Person;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +24,8 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
     UserAccount userAccount;
     
+    private FacultyProfile facultyProfile;
+    
     /**
      * Creates new form MyProfileJPanel
      */
@@ -31,7 +36,9 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         this.CardSequencePanel = csp;
         this.userAccount = ua;
         
+        
         populateFields();
+        
         setAllfieldDisabled();
         btnSave.setEnabled(false);
         
@@ -145,12 +152,13 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
                             .addComponent(txtTitle)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
                         .addComponent(btnBack)
-                        .addGap(74, 74, 74)
+                        .addGap(18, 18, 18)
                         .addComponent(btnUpdate)
-                        .addGap(65, 65, 65)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSave)))
-                .addGap(220, 220, 220))
+                .addGap(228, 228, 228))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,32 +203,62 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void populateFields() {
         
-        if (userAccount == null || userAccount.getAssociatedPersonProfile() == null) {
-            JOptionPane.showMessageDialog(null, "No faculty linked to this account.", "Warning", JOptionPane.WARNING_MESSAGE);
+        if (userAccount == null || userAccount.getAssociatedPerson() == null) {
+            JOptionPane.showMessageDialog(null, "No faculty profile. Please Create your account first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
-        FacultyProfile fp = (FacultyProfile) userAccount.getAssociatedPersonProfile();
+        Person p = userAccount.getAssociatedPerson();
         
-        txtFacultyId.setText(fp.getFacultyid());
-        txtFirstName.setText(fp.getFirstName());
-        txtLastName.setText(fp.getLastName());
+        Department dept = business.getDepartment();
+        FacultyDirectory fd = dept.getFacultyDirectory();
+        
+        FacultyProfile fp = dept.getFacultyDirectory().findTeachingFaculty(p.getPersonId());
+        
+        txtFacultyId.setText(facultyProfile.getFacultyid());
+        txtFirstName.setText(facultyProfile.getFirstName());
+        txtLastName.setText(facultyProfile.getLastName());
+        
+        Department d = facultyProfile.getDepartment();
+        txtDepartment.setText(d == null ? "" : d.getName());
+        
+        txtTitle.setText(facultyProfile.getTitle());
+        txtEmail.setText(facultyProfile.getEmail());
         
     }
 
-    private void setAllfieldDisabled() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
     private void txtFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirstNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFirstNameActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        if (facultyProfile == null) {
+            JOptionPane.showMessageDialog(null, "No faculty profile. Please Create your account first", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        facultyProfile.setFirstName(txtFirstName.getText());
+        facultyProfile.setFirstName(txtLastName.getText());
+        facultyProfile.setTitle(txtTitle.getText());
+        facultyProfile.setEmail(txtEmail.getText());
+        
+        //to get "MSIS" 
+        facultyProfile.SetDepartment(business.getDepartment());
+        
+        JOptionPane.showMessageDialog(this, "Successfully Saved!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        
+        setAllfieldDisabled();
+        btnSave.setEnabled(false);
+        
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        setEditable(true);
+        btnSave.setEnabled(true);
+        
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -253,6 +291,22 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
+
+        
+    private void setAllfieldDisabled() {
+        setEditable(false);
+    }
+    
+    private void setEditable(boolean b) {
+        txtFacultyId.setEditable(false);
+        txtDepartment.setEditable(false);
+        
+        txtFirstName.setEditable(true);
+        txtLastName.setEnabled(true);
+        txtTitle.setEnabled(true);
+        txtEmail.setEnabled(true);
+    }
+
 
 
 }

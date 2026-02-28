@@ -12,8 +12,9 @@ package info5100.university.example.Persona;
 public class Person {
     
     String id;
-    String personId;
-    String name;
+    String nuid;
+    String firstName;
+    String lastName;
 
     
     public Person (String id){
@@ -29,17 +30,24 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-    
-    
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPersonId(){
-        return id;
+        return nuid;
     }
 
         public boolean isMatch(String id){

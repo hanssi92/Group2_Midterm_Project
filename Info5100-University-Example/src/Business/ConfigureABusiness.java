@@ -9,7 +9,6 @@ package Business;
 import Business.Business;
 import Business.UserAccounts.UserAccount;
 import Business.UserAccounts.UserAccountDirectory;
-import Business.Profiles.EmployeeDirectory;
 import info5100.university.example.CourseCatalog.Course;
 import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.CourseSchedule.CourseSchedule;
@@ -65,6 +64,8 @@ class ConfigureABusiness {
         //admin account
         UserAccount uaAdmin = uad.newUserAccount(person001, "admin", "****", "Admin"); /// order products for one of the customers and performed by a sales person
 
+        
+        
         ///Student Registration and Login account
         // student1
         StudentProfile sp1 = sd.newStudentProfile(person003);
@@ -73,7 +74,7 @@ class ConfigureABusiness {
         dept.RegisterForAClass(person003.getPersonId(), "INFO7245", "sem");
         
         UserAccount uaStudent = uad.newUserAccount(person003, "student", "****", "Student");
-        uaStudent.setAssociatedPersonProfile(sp);
+       
         
         // student2
         StudentProfile sp2 = sd.newStudentProfile(person002);
@@ -82,7 +83,7 @@ class ConfigureABusiness {
         dept.RegisterForAClass(person002.getPersonId(), "INFO6225", "sem");
         
         UserAccount uaStudent2 = uad.newUserAccount(person002, "student2", "****", "Student");
-        uaStudent.setAssociatedPersonProfile(sp);
+      
         
         // student3
         StudentProfile sp3 = sd.newStudentProfile(person005);
@@ -91,7 +92,7 @@ class ConfigureABusiness {
         dept.RegisterForAClass(person005.getPersonId(), "INFO6255", "sem");
         
         UserAccount uaStudent3 = uad.newUserAccount(person005, "student3", "****", "Student");
-        uaStudent.setAssociatedPersonProfile(sp);
+       
         
         // student4
         StudentProfile sp4 = sd.newStudentProfile(person006);
@@ -100,7 +101,7 @@ class ConfigureABusiness {
         dept.RegisterForAClass(person006.getPersonId(), "INFO7260", "sem");
         
         UserAccount uaStudent4 = uad.newUserAccount(person006, "student", "****", "Student");
-        uaStudent.setAssociatedPersonProfile(sp);
+        
         
         // student5
         StudentProfile sp5 = sd.newStudentProfile(person008);
@@ -109,40 +110,46 @@ class ConfigureABusiness {
         dept.RegisterForAClass(person008.getPersonId(), "INFO6245", "sem");
    
         UserAccount uaStudent5 = uad.newUserAccount(person008, "student8", "****", "Student");
-        uaStudent.setAssociatedPersonProfile(sp);
+        
         
         //-----------------------------------------------------------
         
         //Faculty Assign and Login account
         FacultyProfile fp1 = fd.newFacultyProfile(person001); //John Smith
         UserAccount uaFaculty = uad.newUserAccount(person001, "faculty1", "****", "Faculty");
-        uaFaculty.setAssociatedPersonProfile(fp1);
         
         fp1.setFacultyId("NUF001");
         fp1.setFirstName("John");
         fp1.setLastName("Smith");
         fp1.SetDepartment(dept);
+        fp1.setTitle("Professor");
+        fp1.setEmail("john.smit@northeaster.edu");
         
 
         FacultyProfile fp2 = fd.newFacultyProfile(person007); //Laura Brown
         UserAccount uaFaculty1 = uad.newUserAccount(person007, "faculty2", "****", "Faculty");
-        uaFaculty1.setAssociatedPersonProfile(fp2);
         
         fp2.setFacultyId("NUF002");
         fp2.setFirstName("Laura");
         fp2.setLastName("Brown");
         fp2.SetDepartment(dept);
+        fp2.setTitle("Professor");
+        fp2.setEmail("laura.brwon@northeaster.edu");
         
         FacultyProfile fp3 = fd.newFacultyProfile(person009); //Briana Cory
         UserAccount uaFaculty2 = uad.newUserAccount(person009, "faculty3", "****", "Faculty");
-        uaFaculty2.setAssociatedPersonProfile(fp3);
         
-        
-        
-            ///-----------------------------------------------------------
+        fp3.setFacultyId("NUF003");
+        fp3.setFirstName("Briana");
+        fp3.setLastName("Cory");
+        fp3.SetDepartment(dept);
+        fp3.setTitle("Professor");
+        fp3.setEmail("briana.cory@northeaster.edu");
+
+        ///-----------------------------------------------------------
         /// Create Course
         Course c1 = dept.newCourse("Application Engineering", "INFO5100", 4);
-        Course c2 = dept.newCourse("Agile Software Development ", "INFO7245", 4);
+        Course c2 = dept.newCourse("Agile Software Development", "INFO7245", 4);
         Course c3 = dept.newCourse("Business Processing Engineering", "INFO7260", 4);
         Course c4 = dept.newCourse("Planning and Managing Information System", "INFO6245", 4);
         Course c5 = dept.newCourse("Software Quality Control and Management", "INFO6255", 4);
@@ -158,30 +165,25 @@ class ConfigureABusiness {
         
         ///4. Create course offer and assign faculty
         CourseOffer co1 = csSpring2026.newCourseOffer("INFO5100");
-        co1.AssignAsTeacher(fp);
+        co1.AssignAsTeacher(fp1);
+        co1.generatSeats(20);
         
         CourseOffer co2 = csSpring2026.newCourseOffer("INFO7245");   
-        co2.AssignAsTeacher(fp);
+        co2.AssignAsTeacher(fp1);
+        co2.generatSeats(20);
         
         CourseOffer co3 = csSpring2026.newCourseOffer("INFO7260");   
-        co2.AssignAsTeacher(fp);   
+        co3.AssignAsTeacher(fp2);  
+        co3.generatSeats(20);
         
         CourseOffer co4 = csSpring2026.newCourseOffer("INFO6245");   
-        co2.AssignAsTeacher(fp);  
+        co4.AssignAsTeacher(fp2);  
+        co4.generatSeats(20);
         
         CourseOffer co5 = csSpring2026.newCourseOffer("INFO6245");   
-        co2.AssignAsTeacher(fp);
-        
-        ///5. Generate Seats
-        co1.generatSeats(20);
-        co2.generatSeats(20);
-        co3.generatSeats(20);
-        co4.generatSeats(20);
+        co5.AssignAsTeacher(fp3);
         co5.generatSeats(20);
-        
-        
-        
-        
+
         
         return business;
 

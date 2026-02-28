@@ -24,6 +24,10 @@ public class StudentDirectory {
 
     }
 
+    public ArrayList<StudentProfile> getStudentlist() {
+        return studentlist;
+    }
+    
     public StudentProfile newStudentProfile(Person p) {
 
         StudentProfile sp = new StudentProfile(p);

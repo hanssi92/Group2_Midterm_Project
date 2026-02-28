@@ -10,6 +10,7 @@ import info5100.university.example.CourseCatalog.Course;
 import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.CourseSchedule.CourseSchedule;
 import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,8 +21,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Hyungs
  */
 public class ManageCourseListJPanel extends javax.swing.JPanel {
-    JPanel CardSequencePanel;
+    
     Business business;
+    JPanel CardSequencePanel;
+    
     
     /**
      * Creates new form ManageCourseListJPanel
@@ -31,6 +34,7 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
         
         this.business = b;
         this.CardSequencePanel = csp;
+        
         
         populateTable();
     }
@@ -108,9 +112,9 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBack)
-                    .addComponent(btnView))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnView)
+                    .addComponent(btnBack))
                 .addContainerGap(223, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -5,12 +5,9 @@
  */
 package Business;
 
-import Business.Person.PersonDirectory;
-import Business.Profiles.EmployeeDirectory;
-import Business.Profiles.StudentDirectory;
+
 import Business.UserAccounts.UserAccountDirectory;
 import info5100.university.example.Department.Department;
-import info5100.university.example.Persona.Faculty.FacultyDirectory;
 
 /**
  *
@@ -19,7 +16,7 @@ import info5100.university.example.Persona.Faculty.FacultyDirectory;
 public class Business {
 
     String name;
-    Department department; //INFO5100
+    Department department; //MSIS
     UserAccountDirectory useraccountdirectory; //login purpose
     
 

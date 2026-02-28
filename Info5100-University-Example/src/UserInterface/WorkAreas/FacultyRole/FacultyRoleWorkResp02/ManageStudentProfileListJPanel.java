@@ -5,25 +5,37 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import info5100.university.example.CourseSchedule.SeatAssignment;
+import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
+import info5100.university.example.Persona.StudentProfile;
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Hyungs
  */
 public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
-    JPanel CardSequencePanel;
+    
     Business business;
+    JPanel CardSequencePanel;
+    FacultyProfile facultyProfile;
+    
     
     
     /**
      * Creates new form ManageStudentProfileListJPanel
      */
-    public ManageStudentProfileListJPanel(Business b, JPanel csp) {
+    public ManageStudentProfileListJPanel(Business b, JPanel csp, FacultyProfile fp) {
         initComponents();
         
         this.business = b;
         this.CardSequencePanel = csp;
+        this.facultyProfile = fp;
+        
+        populateTable();
     }
 
     /**
@@ -58,6 +70,11 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblManageStudentProfile);
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnViewDetails.setText("View Details");
         btnViewDetails.addActionListener(new java.awt.event.ActionListener() {
@@ -103,6 +120,10 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -111,4 +132,25 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblManageStudentProfile;
     // End of variables declaration//GEN-END:variables
+
+    private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
+        model.setRowCount(0);
+        
+        Department dept = business.getDepartment();
+        
+        
+        ArrayList<StudentProfile> sp = new ArrayList<>();
+        
+        if (dept != null && dept.getStudentDirectory() != null) {
+            sp = dept.getStudentDirectory().getStudentlist();
+            
+            Object[] row = new Object[5];
+            row[0] = sp;
+            row[1] = (sp.)
+            
+        
+        } 
+
+ 
 }

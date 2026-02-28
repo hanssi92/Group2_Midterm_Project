@@ -11,10 +11,13 @@
 package UserInterface.WorkAreas.FacultyRole;
 
 import Business.Business;
+import Business.UserAccounts.UserAccount;
 import UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02.FacultyProfileJPanel;
 import UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02.ManageCourseListJPanel;
 import UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02.ManageStudentProfileListJPanel;
 import UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02.PerformanceReportJPanel;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
+
 import javax.swing.JPanel;
 
 /**
@@ -22,19 +25,22 @@ import javax.swing.JPanel;
  * @author kal
  */
 public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
-
-    javax.swing.JPanel CardSequencePanel;
+    
     Business business;
+    javax.swing.JPanel CardSequencePanel;
+    UserAccount userAccount;
+    FacultyProfile facultyProfile;
 
     /**
      * Creates new form UnitRiskWorkArea
      */
 
-    public FacultyWorkAreaJPanel(Business b, JPanel csp) {
+    public FacultyWorkAreaJPanel(Business b, JPanel csp, UserAccount ua) {
         initComponents();
 
         business = b;
         this.CardSequencePanel = csp;
+        this.userAccount = ua;
     }
 
     /**
@@ -163,7 +169,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         CardSequencePanel.removeAll();
 
-        ManageStudentProfileListJPanel msp = new ManageStudentProfileListJPanel(business, CardSequencePanel);
+        ManageStudentProfileListJPanel msp = new ManageStudentProfileListJPanel(business, CardSequencePanel, facultyProfile);
 
         CardSequencePanel.add("ManageStudent", msp);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
@@ -174,8 +180,8 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
     private void btnfacultyProfileIdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfacultyProfileIdentifyEventsActionPerformed
         // TODO add your handling code here:
         CardSequencePanel.removeAll();
-      
-        FacultyProfileJPanel fpj = new FacultyProfileJPanel(business, CardSequencePanel);
+     
+        FacultyProfileJPanel fpj = new FacultyProfileJPanel(business,CardSequencePanel, userAccount);
         
         CardSequencePanel.add("FacultyProfile", fpj);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);

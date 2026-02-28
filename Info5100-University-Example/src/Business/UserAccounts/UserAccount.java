@@ -17,6 +17,7 @@ public class UserAccount {
     String username;
     String password;
     String role; // Add a role variable, because there is not getRole() func in Person
+    Object associatedPersonProfile; //for all profiles (Faculty,student,admin)
     
     public UserAccount (Person person, String un, String pw, String role) {
         this.username = un;
@@ -50,7 +51,15 @@ public class UserAccount {
     public Person getAssociatedPerson() {
         return person;
     }
-        
+    
+    public Object getAssociatedPersonProfile() {
+        return associatedPersonProfile;
+    }
+    
+    public void setAssociatedPersonProfile(Object associatedPersonProfile) {
+        this.associatedPersonProfile = associatedPersonProfile;
+    }
+
     @Override
     public String toString() {
         return getUserLoginName();
