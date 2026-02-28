@@ -9,6 +9,7 @@ import info5100.university.example.Persona.*;
 import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.Department.Department;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,122 +17,104 @@ import java.util.ArrayList;
  */
 public class FacultyProfile {
 
-    Person person;
-    ArrayList <FacultyAssignment> facultyassignments; 
+    private final Person person;
+    private final ArrayList<FacultyAssignment> facultyAssignments;
     
-    private String facultyId;
-    private String firstName;
-    private String lastName;
-    
+    private String name;
+    private String office;
+    private String phone;
+    private String bio;
     private Department department;
     
-    private String title;
-    private String email;
+    public FacultyProfile(Person p) {
+
+        person = p;
+        facultyAssignments = new ArrayList<FacultyAssignment>();
+    }
+    
+    public  double getProfAverageOverallRating(){
+        
+        double sum = 0.0;
+        //for each facultyassignment extract class rating
+        //add them up and divide by the number of teaching assignmnet;
+        for(FacultyAssignment fa: facultyAssignments){
+            sum = sum + fa.getRating();
+            
+        }
+        //divide by the total number of faculty assignments
+        return sum/(facultyAssignments.size()*1.0); //this ensure we have double/double       
+    }
+
+    /**
+     * Assign this faculty as the teacher of a course.
+     * This also links the course to the faculty (bi-directional association).
+     */
+    public FacultyAssignment assignToCourse(CourseOffer co) {
+        FacultyAssignment fa = new FacultyAssignment(this, co);
+        facultyAssignments.add(fa);
+        co.assignFaculty(this); // connect faculty and course
+        return fa;
+    }
+
+    /** Get the list of all teaching assignments for this faculty */
+    public List<FacultyAssignment> getFacultyAssignments() {
+        return facultyAssignments;
+    }
 
     public Person getPerson() {
         return person;
     }
 
-    public ArrayList<FacultyAssignment> getFacultyassignments() {
-        return facultyassignments;
+    /** Utility method to check if a person ID matches this faculty */
+    public boolean isMatch(String id) {
+        return person != null && person.getPersonId().equals(id);
     }
 
-    public String getFacultyid() {
-        return facultyId;
+    /** Return the faculty name for display */
+    @Override
+    public String toString() {
+        return (person == null ? "N/A" : person.getName());
+    }
+    public String getOffice() {
+        return office == null ? "" : office;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPhone() {
+        return phone == null ? "" : phone;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getBio() {
+        return bio == null ? "" : bio;
+    }
+
+    public void updateProfile(String name, String office, String phone, String bio) {
+        if (person != null && name != null && !name.trim().isEmpty()) {
+        person.setName(name.trim());
+    }
+        this.office = office;
+        this.phone = phone;
+        this.bio = bio;
+    }
+
+    public void setOffice(String office) {
+        this.office = office;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public Department getDepartment() {
         return department;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setFacultyId(String facultyId) {
-        this.facultyId = facultyId;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    public void SetDepartment(Department department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
     
     
-    @Override
-    public String toString() {
-        return facultyId;
-    }
-    
-    public FacultyProfile(Person p) {
-
-        person = p;
-        facultyassignments = new ArrayList();
-        
-        facultyId = p.getPersonId();
-    }
-    public  double getProfAverageOverallRating(){
-        
-        double sum = 0.0;
-        //for each facultyassignment extract class rating
-        //add them up and divide by the number of teaching assignmnet;
-        for(FacultyAssignment fa: facultyassignments){
-            
-            sum = sum + fa.getRating();
-            
-        }
-        //divide by the total number of faculty assignments
-        
-        return sum/(facultyassignments.size()*1.0); //this ensure we have double/double
-        
-    }
-
-    public FacultyAssignment AssignAsTeacher(CourseOffer co){
-        
-        FacultyAssignment fa = new FacultyAssignment(this, co);
-        facultyassignments.add(fa);
-        
-        return fa;
-    }
-    
-    public FacultyProfile getCourseOffer(String courseid){
-        return null; //complete it later
-    }
-
-    public boolean isMatch(String id) {
-        if (person.getPersonId().equals(id)) {
-            return true;
-        }
-        return false;
-    }
-    
-    
-
 }

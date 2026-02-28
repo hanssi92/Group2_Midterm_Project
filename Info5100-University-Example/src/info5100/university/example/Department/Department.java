@@ -47,6 +47,15 @@ public class Department {
         
     }
 
+    public Degree getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Degree degree) {
+        this.degree = degree;
+    }
+    
+
     public String getName() {
         return name;
     }

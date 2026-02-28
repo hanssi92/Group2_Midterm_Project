@@ -5,54 +5,81 @@
  */
 package info5100.university.example.Persona;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
  * @author kal bugrara
  */
-public class Person {
+public class PersonDirectory {
     
-    String id;
-    String nuid;
-    String firstName;
-    String lastName;
-
+      ArrayList<Person> personlist ;
     
-    public Person (String id){
-        
-        this.id = id;
+      public PersonDirectory (){
+          
+       personlist = new ArrayList();
+
     }
 
-    public String getId() {
-        return id;
+    public Person newPerson(String id) {
+
+        Person p = new Person(id);
+        personlist.add(p);
+        return p;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Person findPerson(String id) {
+
+        for (Person p : personlist) {
+
+            if (p.isMatch(id)) {
+                return p;
+            }
+        }
+            return null; //not found after going through the whole list
+         }
+
+    public ArrayList<Person> getPersonList() {
+        return personlist;
+    }
+    
+        // Method to remove a person by Person object
+    public boolean removePerson(Person personToRemove) {
+        if (personToRemove == null) return false;
+        return personlist.remove(personToRemove);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    // Method to remove a person by ID
+    public boolean removePersonById(String id) {
+        Person personToRemove = null;
+        for (Person p : personlist) {
+            if (p.getPersonId().equals(id)) {
+                personToRemove = p;
+                break; // Found the person
+            }
+        }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (personToRemove != null) {
+            personlist.remove(personToRemove);
+            return true; // Successfully removed
+        } else {
+            return false; // Person not found
+        }
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPersonId(){
-        return nuid;
-    }
-
-        public boolean isMatch(String id){
-        if(getPersonId().equals(id)) return true;
-        return false;
+    
+    public Person findPersonByEmail(String email) {
+        if (email == null || email.isEmpty()) return null;
+        // Use Iterator to safely remove while iterating
+         Iterator<Person> iterator = personlist.iterator();
+         while (iterator.hasNext()) {
+             Person p = iterator.next();
+             if (p.isMatch(email)) {
+                 iterator.remove();
+                 return p; // Found and removed
+             }
+         }
+         return null; // Not found
     }
     
 }

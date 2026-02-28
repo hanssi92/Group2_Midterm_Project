@@ -8,8 +8,11 @@ import Business.Business;
 import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Department.Department;
 import info5100.university.example.Persona.Faculty.FacultyProfile;
+import info5100.university.example.Persona.Person;
 import info5100.university.example.Persona.StudentProfile;
+import java.awt.CardLayout;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -118,6 +121,22 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
 
     private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblManageStudentProfile.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Please select a row.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
+        StudentProfile selectedStudent = (StudentProfile) model.getValueAt(selectedRow, 0);
+        
+        StudentProfileDetailJPanel sdj = new StudentProfileDetailJPanel(business, CardSequencePanel, studentProfile);
+        CardSequencePanel.add("StudentDetail",sdj);
+        
+        CardLayout layout = (CardLayout)CardSequencePanel.getLayout();
+        layout.show(CardSequencePanel, "StudentDetail");
+        
+        
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -138,16 +157,23 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         model.setRowCount(0);
         
         Department dept = business.getDepartment();
+        if (dept == null || dept.getStudentDirectory() == null) return;
         
-        
-        ArrayList<StudentProfile> sp = new ArrayList<>();
-        
-        if (dept != null && dept.getStudentDirectory() != null) {
-            sp = dept.getStudentDirectory().getStudentlist();
+        for (StudentProfile s : dept.getStudentDirectory().getStudentlist()) {
+            if (s == null || s.getPerson() == null) continue;
+            
+            Person p = s.getPerson();
             
             Object[] row = new Object[5];
-            row[0] = sp;
-            row[1] = (sp.)
+            row[0] = s;
+            row[1] = p.getFirstName();
+            row[2] = p.getLastName();
+            row[3] = "";
+            row[4] = "";
+            
+            model.addRow(row);
+
+        }
             
         
         } 

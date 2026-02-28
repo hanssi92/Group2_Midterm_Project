@@ -5,6 +5,9 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Person;
+import info5100.university.example.Persona.StudentProfile;
 import javax.swing.JPanel;
 
 /**
@@ -13,16 +16,21 @@ import javax.swing.JPanel;
  */
 public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     
-    Business business;
-    JPanel CardSequencePanel;
+    private Business business;
+    private JPanel CardSequencePanel;
+    private StudentProfile studentProfile;
     /**
      * Creates new form StudentProfileDetailJPanel
      */
-    public StudentProfileDetailJPanel(Business b, JPanel csp) {
+    public StudentProfileDetailJPanel(Business b, JPanel csp, StudentProfile sp) {
         initComponents();
         
         this.business = b;
         this.CardSequencePanel = csp;
+        this.studentProfile = sp;
+        
+        populateFields();
+        setEditMode();
     }
 
     /**
@@ -155,4 +163,22 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtNuId;
     // End of variables declaration//GEN-END:variables
+
+    private void populateFields() {
+        if (studentProfile == null || studentProfile.getPerson() == null) return;
+        
+        Person p = studentProfile.getPerson();
+        
+        Department dept = business.getDepartment();
+        
+        txtNuId.setText(p.getPersonId());
+        txtFirstName.setText(p.getFirstName());
+        txtLastName.setText(p.getLastName());
+        txtDegree.setText(p.);
+        
+    }
+
+    private void setEditMode() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
