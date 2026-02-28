@@ -6,6 +6,7 @@
 package Business.UserAccounts;
 
 import Business.Profiles.Profile;
+import info5100.university.example.Persona.Person;
 
 
 
@@ -15,27 +16,36 @@ import Business.Profiles.Profile;
  */
 public class UserAccount {
     
-    Profile profile;
+    Person person;
+    
     String username;
     String password;
     
-    public UserAccount (Profile profile, String un, String pw){
+    String role;
+    Object associatedPersonProfile;
+    
+    public UserAccount (Person p, String un, String pw, String role){
+        person = p;
+        
         username = un;
-         password = pw;
-         this.profile = profile;
-
+        password = pw;
+        this.role = role;
     }
-
+   
+    
+    public Person getPerson() {
+        return person;
+    }
+    
     public String getPersonId(){
-        return profile.getPerson().getPersonId();
+        return person.getPersonId();
     }
     public String getUserLoginName(){
         return username;
     }
 
         public boolean isMatch(String id){
-        if(getPersonId().equals(id)) return true;
-        return false;
+            return person.getPersonId().equals(id);
     }
         public boolean IsValidUser(String un, String pw){
         
@@ -43,14 +53,19 @@ public class UserAccount {
             else return false;
         
         }
-        public String getRole(){
-            return profile.getRole();
-        }
         
-        public Profile getAssociatedPersonProfile(){
-            return profile;
-        }
-        
+    public String getRole() {
+        return role;
+    }
+    
+    public Object getAssociatedPersonProfile() {
+        return associatedPersonProfile;
+    }
+    
+    public void setAssociatedPersonProfile(Object p) {
+    associatedPersonProfile = p;   
+    }
+    
     @Override
         public String toString(){
             

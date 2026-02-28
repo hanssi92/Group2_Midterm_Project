@@ -27,20 +27,22 @@ public class UserAccountDirectory {
 
     public UserAccount newUserAccount(Person p) {
 
-        UserAccount sp = new UserAccount(p);
-        studentlist.add(sp);
-        return sp;
+        UserAccount ua = new UserAccount(p);
+        studentlist.add(ua);
+        return ua;
+    }
+    
+    public ArrayList<UserAccount> getStudentList() {
+        return studentlist;
     }
 
     public UserAccount findStudent(String id) {
 
         for (UserAccount sp : studentlist) {
-
-         //   if (sp.isMatch(id)) {
-         //       return sp;
-         //   }
-        }
+            if(sp.isMatch(id)) { // if (sp.isMatch(id))
+                return sp;
+            }
+        }     
             return null; //not found after going through the whole list
          }
-    
 }

@@ -57,5 +57,17 @@ public class CourseSchedule {
         }
         return sum;
     }
+    
+    public ArrayList<CourseOffer> getSchedule() { //CourseDetailJPanel purpose
+        return schedule;
+    }
+    
+    public String getSemester() {  //CourseDetailJPanel purpose
+        return semester;
+    }
+    
+    public CourseCatalog getCourseCatalog() {  //CourseDetailJPanel purpose
+        return coursecatalog; 
+    }
 
 }

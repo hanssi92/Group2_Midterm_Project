@@ -40,14 +40,26 @@ public class Department {
         coursecatalog = new CourseCatalog(this);
         studentdirectory = new StudentDirectory(this); //pass the department object so it stays linked to it
         persondirectory = new PersonDirectory();
+        
+        facultydirectory = new FacultyDirectory(this); 
+                
         degree = new Degree("MSIS");
         
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public void addCoreCourse(Course c){
         degree.addCoreCourse(c);
         
     }
-public void addElectiveCourse(Course c){
+    public void addElectiveCourse(Course c){
         degree.addElectiveCourse(c);
         
     }
@@ -59,6 +71,10 @@ public void addElectiveCourse(Course c){
 
     public StudentDirectory getStudentDirectory() {
     return studentdirectory;
+    }
+    
+    public FacultyDirectory getFacultyDirectory() {
+        return facultydirectory;
     }
 
     public CourseSchedule newCourseSchedule(String semester) {
@@ -97,12 +113,16 @@ public void addElectiveCourse(Course c){
     public void RegisterForAClass(String studentid, String cn, String semester) {
 
         StudentProfile sp = studentdirectory.findStudent(studentid);
+        if (sp == null) return;
 
         CourseLoad cl = sp.getCurrentCourseLoad();
+        if (cl == null) return;
 
         CourseSchedule cs = mastercoursecatalog.get(semester);
+        if (cs == null) return;
 
         CourseOffer co = cs.getCourseOfferByNumber(cn);
+        if (co == null) return;
 
         co.assignEmptySeat(cl);
 

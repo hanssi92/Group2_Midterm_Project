@@ -22,8 +22,9 @@ public class FacultyDirectory {
 
         department = d;
         teacherlist = new ArrayList();
-
     }
+    
+    
 
     public FacultyProfile newFacultyProfile(Person p) {
 
