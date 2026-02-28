@@ -11,6 +11,7 @@ import info5100.university.example.CourseSchedule.CourseSchedule;
 import info5100.university.example.CourseSchedule.Seat;
 import info5100.university.example.Department.Department;
 import java.awt.CardLayout;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -21,25 +22,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CourseDetailJPanel extends javax.swing.JPanel {
     
-    Business business;
     JPanel CardSequencePanel;
+    Department department;
     Course course;
+    
+    Business business;
     
     /**
      * Creates new form CourseDetailJPanel
      */
-    public CourseDetailJPanel(Business b, JPanel csp, Course c) {
+    
+    public CourseDetailJPanel(JPanel csp, Department dept, Course c) {
         initComponents();
         
-        this.business = b;
         this.CardSequencePanel = csp;
+        this.department = dept;
         this.course = c;
         
         populateCourseFields();
-        papulateOfferFields();
-        setFieldEditable();
-        
-        btnCourseSave.setEnabled(false);
+        papulateOfferTable();
+        setEditMode();
 
     }
 
@@ -204,13 +206,16 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void setFieldEditable() {
-        txtCourseName.setEditable(true);
-        txtCredits.setEditable(true);
-        
+    private void setEditMode() {
         txtCourseNumber.setEditable(false);
         txtDepartment.setEditable(false);
         txtLastUpdated.setEditable(false);
+        
+        txtCourseName.setEditable(true);
+        txtCredits.setEditable(true);
+        
+        btnCourseSave.setEnabled(true);
+        btnCourseUpdate.setEnabled(true);
         
     }
 
@@ -227,7 +232,7 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     private void btnCourseUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseUpdateActionPerformed
         // TODO add your handling code here:
         
-        setFieldEditable();
+        setEditMode();
         btnCourseSave.setEnabled(true);
         
         
@@ -237,25 +242,27 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         // validation: course name
-        String newName = txtCourseName.getText();
-        if (newName.isEmpty()) {
+        String name = txtCourseName.getText();
+        String creditstext = txtCredits.getText();
+        
+        if (name.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Couirse Name is required.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         // validation: credits
-        int newCredits;
+        int Credits;
         try {
-        newCredits = Integer.parseInt(txtCredits.getText().trim());
-            if (newCredits <= 0) {
-            JOptionPane.showMessageDialog(this, "Credits must be a positive number.");
-            return;
-             }
-            
-        } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Credits must be a number.");
+            Credits = Integer.parseInt(txtCredits.getText());
+
+        } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Credits must be a valid number.");
         return;
         
+        }
+        if (Credits <=0) {
+            JOptionPane.showMessageDialog(this, "Credits must be greater than 0", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
         
         // Model Update
@@ -267,22 +274,14 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         dept.getCourseCatalog().updateLastUpdated();
         txtLastUpdated.setText(java.time.LocalDate.now().toString());
         
-        JOptionPane.showMessageDialog(this, "Successfully Saved!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Course upated.", "Information", JOptionPane.INFORMATION_MESSAGE);
         
         //fields, button 
-        setAllFieldsDisabled();
-        btnCourseSave.setEnabled(false);
-        btnCourseUpdate.setEnabled(true);
-        
-    }//GEN-LAST:event_btnCourseSaveActionPerformed
+        populateCourseFields();
+        papulateOfferTable();
+        setEditMode();
 
-    private void setAllFieldsDisabled() {
-        txtCourseNumber.setEditable(false);
-        txtCourseName.setEditable(false);
-        txtCredits.setEditable(false);
-        txtDepartment.setEditable(false);
-        txtLastUpdated.setEditable(false);
-    }
+    }//GEN-LAST:event_btnCourseSaveActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCourseBack;
@@ -304,10 +303,13 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void populateCourseFields() {
+        if (course == null) return;
+        
         txtCourseNumber.setText(course.getCourseNumber());
         txtCourseName.setText(course.getCourseName());
         txtCredits.setText(String.valueOf(course.getCredits()));
         
+        //to show department
         Department dept = business.getDepartment();
         txtDepartment.setText(dept.getName());
         
@@ -315,55 +317,33 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         
     }
     
-    private void papulateOfferFields() {
+    private void papulateOfferTable() {
         DefaultTableModel model = (DefaultTableModel) tblCourseOffer.getModel();
         model.setRowCount(0);
         
-        Department dept = business.getDepartment();
+        if (department == null || course == null) return;
         
-        String semester = "Spring2026";
-        
-        CourseSchedule cs = dept.getCourseSchedule(semester);
-        if (cs == null) return;
-            //JOptionPane.showMessageDialog(this, "cs is null. semester=" + semester); // Debug
-
-        CourseOffer co = cs.getCourseOfferByNumber(course.getCourseNumber());
-        if (co == null) return;
-            //JOptionPane.showMessageDialog(this, "CourseSchedule is NULL for semester = ["+ semester + "]\n" + 
-            // "check your configure: newCourseSchedule(\"" + semester + "\")", "Debug", JOptionPane.WARNING_MESSAGE); //Debug - Table not visible
-
-        int seatCapacity = 0;
-        int available = 0;
-        
-        if (co.getSeatlist() != null) {
-            seatCapacity = co.getSeatlist().size();
+        HashMap<String, CourseSchedule> map = department.getMasterCourseCatalog();
+        for (String semester : department.getMasterCourseCatalog().keySet()) {
+            CourseSchedule cs = department.getMasterCourseCatalog().get(semester);
+            if (cs == null || cs.getSchedule() == null) continue;
             
-            for (Seat s : co.getSeatlist()) {
-                if (s != null && ! s.isOccupied()) {
-                    available ++;
-                }
+            for (CourseOffer co : cs.getSchedule()) {
+                if (co==null) continue;
+                
+                int seatCapacity = co.getSeatCount();
+                int enrolled = co.getTotalCourseRevenues();
+                int available = seatCapacity - enrolled;
+                
+                Object [] row = new Object [4];
+                row[0] = semester;
+                row[1] = co.getScheduleTime();
+                row[2] = seatCapacity;
+                row[3] = available;
+                
+                model.addRow(row);
+
             }
         }
-    
-        Object[] row = new Object [4];
-        row[0] = semester;
-        row[1] = co;
-        row[2] = seatCapacity;
-        row[3] = available;
-        
-        model.addRow(row);
-    
     }
-    
-    private int countAvailableSeats(CourseOffer offer) {
-        int count = 0;
-        for (Seat s : offer.getSeatlist()) {
-            if (!s.isOccupied()) count ++;
-        }
-        return count;
-    }
-
-    
-
-    
 }

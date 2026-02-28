@@ -56,9 +56,9 @@ public class StudentDirectory {
 
         for (StudentProfile sp : studentlist) {
             Person person = sp.getPerson();
-            if (person != null && person.getName() != null) {
+            if (person != null && person.getFirstName()!= null) {
                 // Use .contains() for partial matches
-                if (person.getName().toLowerCase().contains(searchNameLower)) {
+                if (person.getFirstName().toLowerCase().contains(searchNameLower)) {
                     foundStudents.add(sp);
                 }
             }

@@ -5,8 +5,10 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyAssignment;
 import info5100.university.example.Persona.Faculty.FacultyProfile;
 import info5100.university.example.Persona.Person;
 import info5100.university.example.Persona.StudentProfile;
@@ -25,6 +27,7 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
     Business business;
     JPanel CardSequencePanel;
     FacultyProfile facultyProfile;
+    Department department;
     
     
     
@@ -156,27 +159,29 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
         model.setRowCount(0);
         
-        Department dept = business.getDepartment();
-        if (dept == null || dept.getStudentDirectory() == null) return;
+        FacultyProfile faculty = resolveLoggedInFaculty();
         
-        for (StudentProfile s : dept.getStudentDirectory().getStudentlist()) {
-            if (s == null || s.getPerson() == null) continue;
-            
-            Person p = s.getPerson();
-            
-            Object[] row = new Object[5];
-            row[0] = s;
-            row[1] = p.getFirstName();
-            row[2] = p.getLastName();
-            row[3] = "";
-            row[4] = "";
-            
-            model.addRow(row);
-
+        if (faculty == null) {
+            JOptionPane.showMessageDialog(null, "Check your useraccount.");
+            return;
         }
-            
         
+        //if facultyAssignment = null
+        if (faculty.getFacultyAssignments() == null || faculty.getFacultyAssignments().isEmpty()) {
+            return;
+        }
+        for (FacultyAssignment fa : faculty.getFacultyAssignments()) {
+            CourseOffer co = fa.getCourseOffer();
+            
+            for (SeatAssignment sa : co.getSeatAssignments()) {
+                StudentProfile sp = sa.getStudentProfile();
+                
+                Person p = sp.getPerson();
+                
+                model.addRow(new Object[] {
+                    sp.getPerson().getPersonId(),p.getFirstName(),p.getLastName(), department.getDegree(), sp.getPerson().getGPA()
+                });
+            }
+            }
+        }
         } 
-
- 
-}

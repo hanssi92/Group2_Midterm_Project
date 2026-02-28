@@ -22,8 +22,6 @@ public class CourseOffer {
     private CourseSchedule courseSchedule;
     private FacultyAssignment facultyAssignment;
     private String scheduleTime;
-    private String syllabus;
-    private boolean enrollmentOpen = true;
 
     public ArrayList<SeatAssignment> getSeatAssignments() {
         ArrayList<SeatAssignment> seatAssignments = new ArrayList<>();
@@ -142,34 +140,6 @@ public class CourseOffer {
         return seatlist == null ? 0 : seatlist.size();
     }
 
-
-    public int getEnrolledCount() {
-        if (seatlist == null) return 0;
-        int count = 0;
-        for (Seat s : seatlist) {
-            if (s.isOccupied()) count++;
-        }
-        return count;
-    }
-    public String getSyllabus() {
-        return syllabus == null ? "No syllabus uploaded" : syllabus;
-    }
-
-    public void setSyllabus(String syllabus) {
-        this.syllabus = syllabus;
-    }
-
-    public boolean isEnrollmentOpen() {
-        return enrollmentOpen;
-    }
-
-    public void openEnrollment() {
-        this.enrollmentOpen = true;
-    }
-
-    public void closeEnrollment() {
-        this.enrollmentOpen = false;
-    }
     @Override
     public String toString() {
         return course.getCourseName(); 

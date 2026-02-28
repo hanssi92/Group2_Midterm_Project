@@ -44,7 +44,10 @@ public class Department {
         this.facultydirectory = new FacultyDirectory(); 
                 
         degree = new Degree("MSIS");
-        
+    }
+    
+    public HashMap<String, CourseSchedule> getMasterCourseCatalog() {
+        return mastercoursecatalog;
     }
 
     public Degree getDegree() {

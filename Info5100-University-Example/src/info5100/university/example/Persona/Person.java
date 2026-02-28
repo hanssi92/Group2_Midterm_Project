@@ -16,12 +16,13 @@ public class Person {
     
 
     private String personId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String degree;
     String email;
-    String phoneNumber;
-    private String contactInfo;
-    private String officeHours;
+    private int GPA;
     
+
     public String getEmail() {
         return email;
     }
@@ -30,16 +31,6 @@ public class Person {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    
-    
-    
     public Person (String id){
         
         this.personId = id;
@@ -53,30 +44,39 @@ public class Person {
         return false;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public int getGPA() {
+        return GPA;
+    }
+
+    public void setGPA(int GPA) {
+        this.GPA = GPA;
     }
     
-    public String getName() {
-        return name;
-    }
-
-
-    public String getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
-    public String getOfficeHours() {
-        return officeHours;
-    }
-
-    public void setOfficeHours(String officeHours) {
-        this.officeHours = officeHours;
-    }
+    
 
     @Override
     public String toString() {

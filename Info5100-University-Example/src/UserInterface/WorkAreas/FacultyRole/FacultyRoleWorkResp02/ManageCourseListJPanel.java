@@ -137,10 +137,11 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
             return;
         }
         
-        DefaultTableModel model = (DefaultTableModel)tblCourseList.getModel();
-        Course selectedCourse = (Course) model.getValueAt(selectedRow, 0);
+        Course selectedCourse = (Course) tblCourseList.getValueAt(selectedRow, 0);
         
-        CourseDetailJPanel panel = new CourseDetailJPanel(business, CardSequencePanel, selectedCourse);
+        Department dept = business.getDepartment();
+        
+        CourseDetailJPanel panel = new CourseDetailJPanel(CardSequencePanel, dept , selectedCourse);
         CardSequencePanel.add("CourseDetail", panel);
         
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
