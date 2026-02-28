@@ -5,7 +5,7 @@
 package UserInterface.WorkAreas.StudentRole;
 
 import Business.Business;
-import Business.Profiles.StudentProfile;
+import info5100.university.example.Persona.StudentProfile;
 import javax.swing.JPanel;
 
 /**
