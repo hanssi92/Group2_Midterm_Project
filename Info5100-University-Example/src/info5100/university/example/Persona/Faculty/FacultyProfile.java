@@ -59,6 +59,31 @@ public class FacultyProfile {
     public String getEmail() {
         return email;
     }
+
+    public void setFacultyId(String facultyId) {
+        this.facultyId = facultyId;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    public void SetDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     
     @Override
     public String toString() {

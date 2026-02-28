@@ -5,6 +5,10 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import Business.UserAccounts.UserAccount;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
+import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -12,18 +16,25 @@ import javax.swing.JPanel;
  * @author Hyungs
  */
 public class FacultyProfileJPanel extends javax.swing.JPanel {
-
-    JPanel CardSequencePanel;
+    
     Business business;
+    JPanel CardSequencePanel;
+    UserAccount userAccount;
     
     /**
      * Creates new form MyProfileJPanel
      */
-    public FacultyProfileJPanel(Business b, JPanel csp) {
+    public FacultyProfileJPanel(Business b, JPanel csp, UserAccount ua) {
         initComponents();
         
         this.business = b;
         this.CardSequencePanel = csp;
+        this.userAccount = ua;
+        
+        populateFields();
+        setAllfieldDisabled();
+        btnSave.setEnabled(false);
+        
     }
 
     /**
@@ -76,6 +87,11 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         });
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -104,46 +120,44 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(307, 307, 307)
+                .addComponent(lblProfileTitle)
+                .addContainerGap(328, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblProfInformation)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(307, 307, 307)
-                        .addComponent(lblProfileTitle))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblLastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFacultyId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFirstName)
+                            .addComponent(lblDepartment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPersonInformation))
+                        .addGap(73, 73, 73)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFacultyId)
+                            .addComponent(txtFirstName)
+                            .addComponent(txtLastName)
+                            .addComponent(txtDepartment)
+                            .addComponent(txtTitle)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(232, 232, 232)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProfInformation)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(lblLastName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblFacultyId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblFirstName, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addComponent(lblDepartment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblPersonInformation))
-                                .addGap(73, 73, 73)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtFacultyId)
-                                    .addComponent(txtFirstName)
-                                    .addComponent(txtLastName)
-                                    .addComponent(txtDepartment)
-                                    .addComponent(txtTitle)
-                                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBack)
-                                .addGap(74, 74, 74)
-                                .addComponent(btnUpdate)
-                                .addGap(65, 65, 65)
-                                .addComponent(btnSave)))))
-                .addContainerGap(213, Short.MAX_VALUE))
+                        .addComponent(btnBack)
+                        .addGap(74, 74, 74)
+                        .addComponent(btnUpdate)
+                        .addGap(65, 65, 65)
+                        .addComponent(btnSave)))
+                .addGap(220, 220, 220))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblProfileTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lblPersonInformation)
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -171,15 +185,32 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnUpdate)
                     .addComponent(btnSave))
-                .addGap(48, 48, 48))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+    private void populateFields() {
+        
+        if (userAccount == null || userAccount.getAssociatedPersonProfile() == null) {
+            JOptionPane.showMessageDialog(null, "No faculty linked to this account.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        FacultyProfile fp = (FacultyProfile) userAccount.getAssociatedPersonProfile();
+        
+        txtFacultyId.setText(fp.getFacultyid());
+        txtFirstName.setText(fp.getFirstName());
+        txtLastName.setText(fp.getLastName());
+        
+    }
 
+    private void setAllfieldDisabled() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     private void txtFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirstNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFirstNameActionPerformed
@@ -191,6 +222,15 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.remove(this);
+        
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.previous(CardSequencePanel);
+        
+    }//GEN-LAST:event_btnBackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -213,4 +253,6 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
+
+
 }

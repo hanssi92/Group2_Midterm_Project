@@ -325,10 +325,13 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         
         CourseSchedule cs = dept.getCourseSchedule(semester);
         if (cs == null) return;
-        
+            //JOptionPane.showMessageDialog(this, "cs is null. semester=" + semester); // Debug
+
         CourseOffer co = cs.getCourseOfferByNumber(course.getCourseNumber());
         if (co == null) return;
-        
+            //JOptionPane.showMessageDialog(this, "CourseSchedule is NULL for semester = ["+ semester + "]\n" + 
+            // "check your configure: newCourseSchedule(\"" + semester + "\")", "Debug", JOptionPane.WARNING_MESSAGE); //Debug - Table not visible
+
         int seatCapacity = 0;
         int available = 0;
         
@@ -350,6 +353,14 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         
         model.addRow(row);
     
+    }
+    
+    private int countAvailableSeats(CourseOffer offer) {
+        int count = 0;
+        for (Seat s : offer.getSeatlist()) {
+            if (!s.isOccupied()) count ++;
+        }
+        return count;
     }
 
     

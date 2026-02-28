@@ -128,22 +128,20 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblCourseList.getSelectedRow();
-        
         if (selectedRow < 0) {
             JOptionPane.showMessageDialog(null, "Please select the row first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         DefaultTableModel model = (DefaultTableModel)tblCourseList.getModel();
-        
         Course selectedCourse = (Course) model.getValueAt(selectedRow, 0);
         
         CourseDetailJPanel panel = new CourseDetailJPanel(business, CardSequencePanel, selectedCourse);
+        CardSequencePanel.add("CourseDetail", panel);
         
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
         layout.show(CardSequencePanel, "CourseDetail");
         
-        populateTable();
         
     }//GEN-LAST:event_btnViewActionPerformed
 
