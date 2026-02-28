@@ -16,23 +16,63 @@ import java.util.ArrayList;
  */
 public class CourseOffer {
 
-    Course course;
-    ArrayList<Seat> seatlist;
-    FacultyAssignment facultyassignment;
+    private Course course;
+    private int number;
+    private ArrayList<Seat> seatlist;
+    private CourseSchedule courseSchedule;
+    private FacultyAssignment facultyAssignment;
+    private String scheduleTime;
+    private String syllabus;
+    private boolean enrollmentOpen = true;
 
-    public CourseOffer(Course c) {
-        course = c;
-        seatlist = new ArrayList();
+    public ArrayList<SeatAssignment> getSeatAssignments() {
+        ArrayList<SeatAssignment> seatAssignments = new ArrayList<>();
+        for (Seat s : seatlist) {
+            if (s.isOccupied()) {
+                seatAssignments.add(s.getSeatAssignment());
+            }
+        }
+        return seatAssignments;
+    }
+
+    public double computeAverageGrade() {
+        ArrayList<SeatAssignment> assignments = getSeatAssignments();
+        if (assignments.isEmpty()) return 0.0;
+
+        double total = 0.0;
+        for (SeatAssignment sa : assignments) {
+            total += sa.getGrade();
+        }
+        return total / assignments.size();
+    }
+    
+    public CourseOffer(CourseSchedule cs, Course c) {
+        this.course = c;
+        this.courseSchedule = cs;
+        this.seatlist = new ArrayList();
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
      
-    public void AssignAsTeacher(FacultyProfile fp) {
-
-        facultyassignment = fp.AssignAsTeacher(this); // edited 
+    public String getScheduleTime() {
+        return scheduleTime == null ? "TBD" : scheduleTime;
     }
 
+    public void setScheduleTime(String scheduleTime) {
+        this.scheduleTime = scheduleTime;
+    }
+    
     public FacultyProfile getFacultyProfile() {
-        if (facultyassignment == null) return null; //calling getFacultyProfile() may cause a NullPointerException
-        return facultyassignment.getFacultyProfile();
+        if (facultyAssignment == null) {
+            return null;
+        }
+        return facultyAssignment.getFacultyProfile();
     }
 
     public String getCourseNumber() {
@@ -40,22 +80,14 @@ public class CourseOffer {
     }
 
     public void generatSeats(int n) {
-
         for (int i = 0; i < n; i++) {
-
             seatlist.add(new Seat(this, i));
         }
-    }
-    
-    public ArrayList<Seat> getSeatlist() {
-        return seatlist;
+
     }
 
- 
     public Seat getEmptySeat() {
-
         for (Seat s : seatlist) {
-
             if (!s.isOccupied()) {
                 return s;
             }
@@ -94,4 +126,55 @@ public class CourseOffer {
         return course.getCredits();
     }
 
+    public void assignFaculty(FacultyProfile fp) {
+        this.facultyAssignment = new FacultyAssignment(fp, this);
+        if (fp != null && fp.getFacultyAssignments() != null){
+            fp.getFacultyAssignments().add(this.facultyAssignment);
+        }
+    }
+   
+    public java.util.ArrayList<Seat> getSeatList() {
+        return seatlist;
+    }
+
+  
+    public int getSeatCount() {
+        return seatlist == null ? 0 : seatlist.size();
+    }
+
+
+    public int getEnrolledCount() {
+        if (seatlist == null) return 0;
+        int count = 0;
+        for (Seat s : seatlist) {
+            if (s.isOccupied()) count++;
+        }
+        return count;
+    }
+    public String getSyllabus() {
+        return syllabus == null ? "No syllabus uploaded" : syllabus;
+    }
+
+    public void setSyllabus(String syllabus) {
+        this.syllabus = syllabus;
+    }
+
+    public boolean isEnrollmentOpen() {
+        return enrollmentOpen;
+    }
+
+    public void openEnrollment() {
+        this.enrollmentOpen = true;
+    }
+
+    public void closeEnrollment() {
+        this.enrollmentOpen = false;
+    }
+    @Override
+    public String toString() {
+        return course.getCourseName(); 
+    }
+    public CourseSchedule getCourseSchedule() {
+        return courseSchedule;
+    }
 }

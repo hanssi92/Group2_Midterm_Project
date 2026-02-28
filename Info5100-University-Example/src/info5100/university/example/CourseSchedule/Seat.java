@@ -15,7 +15,6 @@ public class Seat {
     int number;
     SeatAssignment seatassignment; //links back to studentprofile
     CourseOffer courseoffer;
-    
     public Seat (CourseOffer co, int n){
         courseoffer = co;
         number = n;
@@ -39,12 +38,13 @@ public class Seat {
     public int getCourseCredits(){
         return courseoffer.getCreditHours();
     }
-    
-    public SeatAssignment getSeatAssignment() { //PerformanceReport
+    public SeatAssignment getSeatAssignment() {
         return seatassignment;
     }
     
-    public int getSeatNumber() {
-        return number;
+    // Method to mark the seat as unoccupied and remove the link to the assignment
+    public void unassignSeat() {
+        this.occupied = false;
+        this.seatassignment = null; // Remove the reference back to the SeatAssignment
     }
 }
