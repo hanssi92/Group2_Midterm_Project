@@ -12,74 +12,75 @@ import java.util.Iterator;
  *
  * @author kal bugrara
  */
-public class PersonDirectory {
+public class Person {
     
-      ArrayList<Person> personlist ;
-    
-      public PersonDirectory (){
-          
-       personlist = new ArrayList();
 
+    private String personId;
+    private String name;
+    String email;
+    String phoneNumber;
+    private String contactInfo;
+    private String officeHours;
+    
+    public String getEmail() {
+        return email;
     }
 
-    public Person newPerson(String id) {
-
-        Person p = new Person(id);
-        personlist.add(p);
-        return p;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Person findPerson(String id) {
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-        for (Person p : personlist) {
-
-            if (p.isMatch(id)) {
-                return p;
-            }
-        }
-            return null; //not found after going through the whole list
-         }
-
-    public ArrayList<Person> getPersonList() {
-        return personlist;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
     
-        // Method to remove a person by Person object
-    public boolean removePerson(Person personToRemove) {
-        if (personToRemove == null) return false;
-        return personlist.remove(personToRemove);
+    
+    
+    public Person (String id){
+        
+        this.personId = id;
+    }
+    public String getPersonId(){
+        return personId;
     }
 
-    // Method to remove a person by ID
-    public boolean removePersonById(String id) {
-        Person personToRemove = null;
-        for (Person p : personlist) {
-            if (p.getPersonId().equals(id)) {
-                personToRemove = p;
-                break; // Found the person
-            }
-        }
+    public boolean isMatch(String id){
+        if (getPersonId().equals(id)) return true;
+        return false;
+    }
 
-        if (personToRemove != null) {
-            personlist.remove(personToRemove);
-            return true; // Successfully removed
-        } else {
-            return false; // Person not found
-        }
+    public void setName(String name) {
+        this.name = name;
     }
     
-    public Person findPersonByEmail(String email) {
-        if (email == null || email.isEmpty()) return null;
-        // Use Iterator to safely remove while iterating
-         Iterator<Person> iterator = personlist.iterator();
-         while (iterator.hasNext()) {
-             Person p = iterator.next();
-             if (p.isMatch(email)) {
-                 iterator.remove();
-                 return p; // Found and removed
-             }
-         }
-         return null; // Not found
+    public String getName() {
+        return name;
     }
-    
+
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    public String getOfficeHours() {
+        return officeHours;
+    }
+
+    public void setOfficeHours(String officeHours) {
+        this.officeHours = officeHours;
+    }
+
+    @Override
+    public String toString() {
+        return personId;
+    }
 }
+
