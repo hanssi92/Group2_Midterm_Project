@@ -27,15 +27,16 @@ public class CourseOffer {
      
     public void AssignAsTeacher(FacultyProfile fp) {
 
-        facultyassignment = new FacultyAssignment(fp, this);
+        facultyassignment = fp.AssignAsTeacher(this); // edited 
     }
 
     public FacultyProfile getFacultyProfile() {
+        if (facultyassignment == null) return null; //calling getFacultyProfile() may cause a NullPointerException
         return facultyassignment.getFacultyProfile();
     }
 
     public String getCourseNumber() {
-        return course.getCOurseNumber();
+        return course.getCourseNumber();
     }
 
     public void generatSeats(int n) {
@@ -43,11 +44,14 @@ public class CourseOffer {
         for (int i = 0; i < n; i++) {
 
             seatlist.add(new Seat(this, i));
-
         }
-
+    }
+    
+    public ArrayList<Seat> getSeatlist() {
+        return seatlist;
     }
 
+ 
     public Seat getEmptySeat() {
 
         for (Seat s : seatlist) {

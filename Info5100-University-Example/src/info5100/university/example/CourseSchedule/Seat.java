@@ -15,6 +15,7 @@ public class Seat {
     int number;
     SeatAssignment seatassignment; //links back to studentprofile
     CourseOffer courseoffer;
+    
     public Seat (CourseOffer co, int n){
         courseoffer = co;
         number = n;
@@ -37,5 +38,13 @@ public class Seat {
     }
     public int getCourseCredits(){
         return courseoffer.getCreditHours();
+    }
+    
+    public SeatAssignment getSeatAssignment() { //PerformanceReport
+        return seatassignment;
+    }
+    
+    public int getSeatNumber() {
+        return number;
     }
 }

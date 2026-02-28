@@ -6,6 +6,7 @@
 package info5100.university.example.CourseCatalog;
 
 import info5100.university.example.Department.Department;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  */
 public class CourseCatalog {
     Department department;
-    String lastupdated;
+    LocalDate lastupdated; // edit from String to LocalDate (update time purpose)
     ArrayList<Course> courselist; 
     public CourseCatalog(Department d){
         courselist = new ArrayList();
@@ -28,6 +29,9 @@ public class CourseCatalog {
     public Course newCourse(String n, String nm, int cr){
         Course c = new Course(n, nm, cr);
         courselist.add(c);
+        
+        updateLastUpdated();
+        
         return c;
     }
     
@@ -35,9 +39,21 @@ public class CourseCatalog {
         
         for( Course c: courselist){
             
-            if(c.getCOurseNumber().equals(n)) return c;
+            if(c.getCourseNumber().equals(n)) return c;
         }
         return null;
+    }
+    
+    public String getLastUpdated() {  // courseDeatilJPanel purpose
+        return lastupdated.toString();
+    }
+    
+    public void updateLastUpdated() { //add
+        lastupdated = LocalDate.now();
+    }
+    
+    public Department getDepartment() {
+        return department;
     }
 
 }
