@@ -213,14 +213,14 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         Department dept = business.getDepartment();
         FacultyDirectory fd = dept.getFacultyDirectory();
         
-        FacultyProfile fp = dept.getFacultyDirectory().findTeachingFaculty(p.getPersonId());
-        
-        txtFacultyId.setText(facultyProfile.getFacultyid());
+        FacultyProfile facultyProfile = fd.findFacultyByPersonId(p.getPersonId());
+
+        txtFacultyId.setText(p.getPersonId());
         txtFirstName.setText(facultyProfile.getFirstName());
         txtLastName.setText(facultyProfile.getLastName());
         
         Department d = facultyProfile.getDepartment();
-        txtDepartment.setText(d == null ? "" : d.getName());
+        txtDepartment.setText(dept.getName());
         
         txtTitle.setText(facultyProfile.getTitle());
         txtEmail.setText(facultyProfile.getEmail());
@@ -245,7 +245,7 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         facultyProfile.setEmail(txtEmail.getText());
         
         //to get "MSIS" 
-        facultyProfile.SetDepartment(business.getDepartment());
+        facultyProfile.setDepartment(business.getDepartment());
         
         JOptionPane.showMessageDialog(this, "Successfully Saved!", "Information", JOptionPane.INFORMATION_MESSAGE);
         

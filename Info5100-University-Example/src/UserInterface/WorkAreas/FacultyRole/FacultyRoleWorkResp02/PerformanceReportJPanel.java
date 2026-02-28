@@ -5,7 +5,21 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import Business.UserAccounts.UserAccount;
+import info5100.university.example.CourseCatalog.Course;
+import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.CourseSchedule;
+import info5100.university.example.CourseSchedule.Seat;
+import info5100.university.example.CourseSchedule.SeatAssignment;
+import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyAssignment;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
+import info5100.university.example.Persona.Person;
+import info5100.university.example.Persona.StudentProfile;
+import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,6 +28,9 @@ import javax.swing.JPanel;
 public class PerformanceReportJPanel extends javax.swing.JPanel {
     Business business;
     JPanel CardSequencePanel;
+    
+    Department department;
+    UserAccount userAccount;
     /**
      * Creates new form PerformanceReportJPanel
      */
@@ -22,6 +39,12 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
         
         this.business = b;
         this.CardSequencePanel = csp;
+        
+        populateCourseCombo();
+        populateSemesterCombo();
+        
+        DefaultTableModel model = (DefaultTableModel) tblPerformanceReports.getModel();
+        model.setRowCount(0);
     }
 
     /**
@@ -55,6 +78,11 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
         });
 
         btnGenerate.setText("Generate ");
+        btnGenerate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateActionPerformed(evt);
+            }
+        });
 
         lblCourse.setText("Course:");
 
@@ -83,6 +111,11 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
         });
 
         btnView.setText("View Student Details");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -141,11 +174,93 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.show(CardSequencePanel, "faculty");
+        
+        CardSequencePanel.remove(this);
+        
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void cmbCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCourseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbCourseActionPerformed
+
+    private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tblPerformanceReports.getModel();
+        model.setRowCount(0);
+        
+        Department dept = business.getDepartment();
+        
+        if (department == null) return;
+        if (cmbCourse.getSelectedItem() == null) return;
+        if (cmbSemester.getSelectedItem() == null) return;
+        
+        //Course
+        Course selectedCourse = (Course) cmbCourse.getSelectedItem();
+        String semester = (String) cmbSemester.getSelectedItem();
+        
+        //semester
+        CourseSchedule cs = department.getCourseSchedule(semester);
+        if (cs == null) {
+            JOptionPane.showMessageDialog(null, "No Course Schedule for " + semester, "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        //enrolled students only (SeatAssignment list)
+        CourseOffer co = cs.getCourseOfferByNumber(selectedCourse.getCourseNumber());
+        if (co == null) {
+            JOptionPane.showMessageDialog(null, "Course not offered this semester", "Information", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        for (Seat s : co.getSeatList()) {
+            if (s == null) continue;
+            if (!s.isOccupied()) continue;
+            
+            SeatAssignment sa = s.getSeatAssignment();
+            if (sa == null) continue;
+            
+            StudentProfile sp = sa.getStudentProfile();
+            if (sp == null) continue;
+            
+            Person p = sp.getPerson();
+            if (p == null) continue;
+            
+            Object row[] = new Object[5];
+            
+            row[0] = sp;
+            row[1] = p.getFirstName() + "" + p.getLastName();
+            row[2] = dept.getDegree().toString();
+            row[3] = sp.getTranscript().calculateOverallGPA();
+            row[4] = "Enrolled";
+            
+            model.addRow(row);
+        }
+        
+    }//GEN-LAST:event_btnGenerateActionPerformed
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblPerformanceReports.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(null, "Please select a student row first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        StudentProfile sp = (StudentProfile) tblPerformanceReports.getValueAt(selectedRow, 0);
+        
+        Department dept = business.getDepartment();
+        
+        StudentProfileDetailJPanel panel = new StudentProfileDetailJPanel (business, CardSequencePanel);
+        
+        CardSequencePanel.add("StudentProfileDetailJPanel", panel);
+        
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.next(CardSequencePanel);
+        
+                
+    }//GEN-LAST:event_btnViewActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -160,4 +275,38 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblPerformanceReports;
     // End of variables declaration//GEN-END:variables
+
+    private void populateCourseCombo() {
+        cmbCourse.removeAllItems();
+        
+        Object ap = userAccount.getAssociatedPersonProfile();
+        if (!(ap instanceof FacultyProfile)) return;
+        
+        FacultyProfile fp = (FacultyProfile) ap;
+        
+        int count = 0;
+        for (FacultyAssignment fa : fp.getFacultyAssignments()) {
+            if (fa == null || fa.getCourseOffer() == null) continue;
+            
+            Course c = fa.getCourseOffer().getCourse();
+            if (c == null) continue;
+            
+            cmbCourse.addItem(c.getCourseName());
+            count++;
+            if (count >= 5) break;
+            
+        }
+    }
+
+    private void populateSemesterCombo() {
+        cmbSemester.removeAllItems();
+        
+        if (department != null && department.getMasterCourseCatalog() != null && !department.getMasterCourseCatalog().isEmpty()) {
+            for (String sem : department.getMasterCourseCatalog().keySet()) {
+                cmbSemester.addItem(sem);
+            }
+        } else{
+            cmbSemester.addItem("Spring2026"); // fallback
+        }
+    }
 }

@@ -13,7 +13,6 @@ import java.util.Iterator;
  * @author kal bugrara
  */
 public class Person {
-    
 
     private String personId;
     private String firstName;

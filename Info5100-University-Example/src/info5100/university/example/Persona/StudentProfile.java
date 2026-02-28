@@ -72,6 +72,11 @@ public class StudentProfile {
     public double getTuitionBalance() {
         return tuitionBalance;
     }
+    
+    @Override
+    public String toString(){
+        return person.getPersonId(); // NUID purpose
+    }
 
     // Method to update balance (e.g., when enrolling or paying)
     public void updateTuitionBalance(double amount) {

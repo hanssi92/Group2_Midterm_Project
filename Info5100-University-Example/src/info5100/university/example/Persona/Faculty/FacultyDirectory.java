@@ -98,9 +98,9 @@ public class FacultyDirectory {
 
         for (FacultyProfile fp : teacherList) {
             Person person = fp.getPerson();
-            if (person != null && person.getName() != null) {
+            if (person != null && person.getFirstName()!= null) {
                 // Use .contains() for partial matches
-                if (person.getName().toLowerCase().contains(searchNameLower)) {
+                if (person.getFirstName().toLowerCase().contains(searchNameLower)) {
                     foundFaculty.add(fp);
                 }
             }

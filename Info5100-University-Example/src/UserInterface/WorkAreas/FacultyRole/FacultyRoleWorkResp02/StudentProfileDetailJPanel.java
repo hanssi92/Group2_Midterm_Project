@@ -8,6 +8,8 @@ import Business.Business;
 import info5100.university.example.Department.Department;
 import info5100.university.example.Persona.Person;
 import info5100.university.example.Persona.StudentProfile;
+import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -16,21 +18,23 @@ import javax.swing.JPanel;
  */
 public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     
-    private Business business;
-    private JPanel CardSequencePanel;
-    private StudentProfile studentProfile;
+    Business business;
+    JPanel CardSequencePanel;
+    StudentProfile studentProfile;
+    
+    Department department;
+    
     /**
      * Creates new form StudentProfileDetailJPanel
      */
-    public StudentProfileDetailJPanel(Business b, JPanel csp, StudentProfile sp) {
+    public StudentProfileDetailJPanel(Business b, JPanel csp) {
         initComponents();
         
         this.business = b;
         this.CardSequencePanel = csp;
-        this.studentProfile = sp;
         
         populateFields();
-        setEditMode();
+        setAllFieldsDisabled();
     }
 
     /**
@@ -73,10 +77,25 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
         txtNuId.setEditable(false);
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -146,6 +165,40 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        txtFirstName.setEditable(true);
+        txtLastName.setEditable(true);
+        
+        btnSave.setEnabled(true);
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        Person p = studentProfile.getPerson();
+        
+        p.setFirstName(txtFirstName.getText());
+        p.setLastName(txtLastName.getText());
+        
+        setAllFieldsDisabled();
+        
+        btnSave.setEnabled(false);
+        
+        JOptionPane.showMessageDialog(this, "Student profile updated successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        CardSequencePanel.remove(this);
+        
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.previous(CardSequencePanel);
+        
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -165,20 +218,24 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void populateFields() {
-        if (studentProfile == null || studentProfile.getPerson() == null) return;
-        
         Person p = studentProfile.getPerson();
-        
-        Department dept = business.getDepartment();
-        
+
         txtNuId.setText(p.getPersonId());
         txtFirstName.setText(p.getFirstName());
         txtLastName.setText(p.getLastName());
-        txtDegree.setText(p.);
+        
+        txtDegree.setText(department.getDegree().toString());
+        
+        double gpa = studentProfile.getTranscript().calculateOverallGPA();
+        txtGpa.setText(String.valueOf(gpa));
         
     }
 
-    private void setEditMode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private void setAllFieldsDisabled() {
+        txtNuId.setEditable(false);
+        txtFirstName.setEditable(false);
+        txtLastName.setEditable(false);
+        txtDegree.setEditable(false);
+        txtGpa.setEditable(false);
     }
 }

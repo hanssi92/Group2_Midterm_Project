@@ -5,7 +5,9 @@
 package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
+import Business.UserAccounts.UserAccount;
 import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.Seat;
 import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Department.Department;
 import info5100.university.example.Persona.Faculty.FacultyAssignment;
@@ -28,6 +30,8 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
     FacultyProfile facultyProfile;
     Department department;
+    
+    UserAccount userAccount;
     
     
     
@@ -133,7 +137,7 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
         StudentProfile selectedStudent = (StudentProfile) model.getValueAt(selectedRow, 0);
         
-        StudentProfileDetailJPanel sdj = new StudentProfileDetailJPanel(business, CardSequencePanel, studentProfile);
+        StudentProfileDetailJPanel sdj = new StudentProfileDetailJPanel(business, CardSequencePanel);
         CardSequencePanel.add("StudentDetail",sdj);
         
         CardLayout layout = (CardLayout)CardSequencePanel.getLayout();
@@ -159,29 +163,38 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
         model.setRowCount(0);
         
-        FacultyProfile faculty = resolveLoggedInFaculty();
+        FacultyProfile fp = (FacultyProfile) userAccount.getAssociatedPersonProfile();
         
-        if (faculty == null) {
-            JOptionPane.showMessageDialog(null, "Check your useraccount.");
-            return;
-        }
+        if (fp == null) return;
         
-        //if facultyAssignment = null
-        if (faculty.getFacultyAssignments() == null || faculty.getFacultyAssignments().isEmpty()) {
-            return;
-        }
-        for (FacultyAssignment fa : faculty.getFacultyAssignments()) {
+        for (FacultyAssignment fa : fp.getFacultyAssignments()) {
             CourseOffer co = fa.getCourseOffer();
             
-            for (SeatAssignment sa : co.getSeatAssignments()) {
+            if (co == null) continue;
+            
+            for(Seat s :co.getSeatList()) {
+                SeatAssignment sa = s.getSeatAssignment();
+                
+                if (sa == null) continue;
+                
                 StudentProfile sp = sa.getStudentProfile();
+                
+                if (sp == null) continue;
                 
                 Person p = sp.getPerson();
                 
-                model.addRow(new Object[] {
-                    sp.getPerson().getPersonId(),p.getFirstName(),p.getLastName(), department.getDegree(), sp.getPerson().getGPA()
-                });
-            }
+                Object row[] = new Object[5];
+                row[0] = p.getPersonId();
+                row[1] = p.getFirstName();
+                row[2] = p.getLastName();
+                row[3] = sp.getDepartment().getDegree().getName();
+                row[4] = sp.getTranscript().calculateOverallGPA();
+                
+                model.addRow(row);
+                
             }
         }
+        
+
         } 
+}
