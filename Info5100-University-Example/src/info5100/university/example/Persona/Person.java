@@ -11,40 +11,76 @@ package info5100.university.example.Persona;
  */
 public class Person {
     
-    String id;
-    String personId;
-    String name;
 
+    private String personId;
+    private String name;
+    String email;
+    String phoneNumber;
+    private String contactInfo;
+    private String officeHours;
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    
     
     public Person (String id){
         
-        this.id = id;
+        this.personId = id;
+    }
+    public String getPersonId(){
+        return personId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
+    public boolean isMatch(String id){
+        if (getPersonId().equals(id)) return true;
+        return false;
     }
 
     public void setName(String name) {
         this.name = name;
     }
     
-    
-    public String getPersonId(){
-        return id;
+    public String getName() {
+        return name;
     }
 
-        public boolean isMatch(String id){
-        if(getPersonId().equals(id)) return true;
-        return false;
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    public String getOfficeHours() {
+        return officeHours;
+    }
+
+    public void setOfficeHours(String officeHours) {
+        this.officeHours = officeHours;
     }
     
+    
+
+
+    @Override
+    public String toString() {
+        return personId;
+    }
 }
+
