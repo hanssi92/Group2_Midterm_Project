@@ -121,7 +121,7 @@ class ConfigureABusiness {
         fp1.setFacultyId("NUF001");
         fp1.setFirstName("John");
         fp1.setLastName("Smith");
-        fp1.SetDepartment(dept);
+        fp1.setDepartment(dept);
         fp1.setTitle("Professor");
         fp1.setEmail("john.smit@northeaster.edu");
         
@@ -132,7 +132,7 @@ class ConfigureABusiness {
         fp2.setFacultyId("NUF002");
         fp2.setFirstName("Laura");
         fp2.setLastName("Brown");
-        fp2.SetDepartment(dept);
+        fp2.setDepartment(dept);
         fp2.setTitle("Professor");
         fp2.setEmail("laura.brwon@northeaster.edu");
         
@@ -142,7 +142,7 @@ class ConfigureABusiness {
         fp3.setFacultyId("NUF003");
         fp3.setFirstName("Briana");
         fp3.setLastName("Cory");
-        fp3.SetDepartment(dept);
+        fp3.setDepartment(dept);
         fp3.setTitle("Professor");
         fp3.setEmail("briana.cory@northeaster.edu");
 
@@ -165,23 +165,23 @@ class ConfigureABusiness {
         
         ///4. Create course offer and assign faculty
         CourseOffer co1 = csSpring2026.newCourseOffer("INFO5100");
-        co1.AssignAsTeacher(fp1);
+        co1.assignFaculty(fp1);
         co1.generatSeats(20);
         
         CourseOffer co2 = csSpring2026.newCourseOffer("INFO7245");   
-        co2.AssignAsTeacher(fp1);
+        co2.assignFaculty(fp1);
         co2.generatSeats(20);
         
         CourseOffer co3 = csSpring2026.newCourseOffer("INFO7260");   
-        co3.AssignAsTeacher(fp2);  
+        co3.assignFaculty(fp2);  
         co3.generatSeats(20);
         
         CourseOffer co4 = csSpring2026.newCourseOffer("INFO6245");   
-        co4.AssignAsTeacher(fp2);  
+        co4.assignFaculty(fp2);  
         co4.generatSeats(20);
         
         CourseOffer co5 = csSpring2026.newCourseOffer("INFO6245");   
-        co5.AssignAsTeacher(fp3);
+        co5.assignFaculty(fp3);
         co5.generatSeats(20);
 
         

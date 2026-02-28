@@ -20,10 +20,11 @@ public class FacultyProfile {
     private final Person person;
     private final ArrayList<FacultyAssignment> facultyAssignments;
     
-    private String name;
-    private String office;
-    private String phone;
-    private String bio;
+    private String facultyId;
+    private String firstName;
+    private String lastName;
+    private String title;
+    private String email;
     private Department department;
     
     public FacultyProfile(Person p) {
@@ -42,6 +43,7 @@ public class FacultyProfile {
             
         }
         //divide by the total number of faculty assignments
+        if (facultyAssignments.isEmpty()) return 0.0;
         return sum/(facultyAssignments.size()*1.0); //this ensure we have double/double       
     }
 
@@ -70,42 +72,44 @@ public class FacultyProfile {
         return person != null && person.getPersonId().equals(id);
     }
 
-    /** Return the faculty name for display */
-    @Override
-    public String toString() {
-        return (person == null ? "N/A" : person.getName());
-    }
-    public String getOffice() {
-        return office == null ? "" : office;
+    public String getFacultyId() {
+        return facultyId;
     }
 
-    public String getPhone() {
-        return phone == null ? "" : phone;
+    public void setFacultyId(String facultyId) {
+        this.facultyId = facultyId;
     }
 
-    public String getBio() {
-        return bio == null ? "" : bio;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void updateProfile(String name, String office, String phone, String bio) {
-        if (person != null && name != null && !name.trim().isEmpty()) {
-        person.setName(name.trim());
-    }
-        this.office = office;
-        this.phone = phone;
-        this.bio = bio;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setOffice(String office) {
-        this.office = office;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Department getDepartment() {
@@ -115,6 +119,7 @@ public class FacultyProfile {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
     
     
 }
