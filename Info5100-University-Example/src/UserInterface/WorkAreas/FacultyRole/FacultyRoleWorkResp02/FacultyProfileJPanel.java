@@ -330,7 +330,7 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         txtEmail.setText(facultyProfile.getEmail());
         
         txtLastUpdated.setText(java.time.LocalDate.now().toString());
-
+        
     }
 
 }

@@ -26,21 +26,24 @@ import javax.swing.table.DefaultTableModel;
  * @author Hyungs
  */
 public class PerformanceReportJPanel extends javax.swing.JPanel {
-    Business business;
-    JPanel CardSequencePanel;
-    UserAccount userAccount;
     
+    Business business;
+    FacultyProfile facultyProfile;
+    JPanel CardSequencePanel;
     Department department;
+   
     
     /**
      * Creates new form PerformanceReportJPanel
      */
-    public PerformanceReportJPanel(Business b, JPanel csp, UserAccount userAccount) {
+    public PerformanceReportJPanel(Business business,FacultyProfile facultyProfile, JPanel CardSequencePanel ) {
         initComponents();
         
-        this.business = b;
-        this.CardSequencePanel = csp;
-        this.userAccount = userAccount;
+        this.business = business;
+        this.facultyProfile = facultyProfile;
+        this.CardSequencePanel = CardSequencePanel;
+
+        this.department = business.getDepartment();
         
         populateCourseCombo();
         populateSemesterCombo();
@@ -145,12 +148,13 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
                                 .addGap(131, 131, 131))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblTitle)
-                                .addGap(301, 301, 301))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnView)
-                        .addGap(14, 14, 14))))
+                                .addGap(301, 301, 301))))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(233, 233, 233)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnView)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,11 +170,11 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
                     .addComponent(cmbSemester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnView))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(256, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -192,30 +196,27 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblPerformanceReports.getModel();
         model.setRowCount(0);
         
-        Department dept = business.getDepartment();
-        
         if (department == null) return;
         if (cmbCourse.getSelectedItem() == null) return;
         if (cmbSemester.getSelectedItem() == null) return;
         
-        //Course
-        Course selectedCourse = (Course) cmbCourse.getSelectedItem();
+        String courseNumber = (String) cmbCourse.getSelectedItem();
         String semester = (String) cmbSemester.getSelectedItem();
-        
+
         //semester
         CourseSchedule cs = department.getCourseSchedule(semester);
         if (cs == null) {
             JOptionPane.showMessageDialog(null, "No Course Schedule for " + semester, "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         //enrolled students only (SeatAssignment list)
-        CourseOffer co = cs.getCourseOfferByNumber(selectedCourse.getCourseNumber());
+        CourseOffer co = cs.getCourseOfferByNumber(courseNumber);
         if (co == null) {
             JOptionPane.showMessageDialog(null, "Course not offered this semester", "Information", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
+
         for (Seat s : co.getSeatList()) {
             if (s == null) continue;
             if (!s.isOccupied()) continue;
@@ -224,21 +225,23 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
             if (sa == null) continue;
             
             StudentProfile sp = sa.getStudentProfile();
-            if (sp == null) continue;
+            if (sp == null || sp.getPerson() == null) continue;
             
             Person p = sp.getPerson();
-            if (p == null) continue;
             
             Object row[] = new Object[5];
-            
             row[0] = sp;
             row[1] = p.getFirstName() + "" + p.getLastName();
-            row[2] = dept.getDegree().toString();
-            row[3] = sp.getTranscript().calculateOverallGPA();
-            row[4] = "Enrolled";
+            row[2] = p.getDegree();
+            row[3] = p.getGPA();
+            row[4] = (p.getGPA() >= 3.0) ? "Good Standing" : "Failed";
             
             model.addRow(row);
+            
+
         }
+        
+
         
     }//GEN-LAST:event_btnGenerateActionPerformed
 
@@ -254,12 +257,11 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
         
         Department dept = business.getDepartment();
         
-        StudentProfileDetailJPanel panel = new StudentProfileDetailJPanel (business, CardSequencePanel);
-        
-        CardSequencePanel.add("StudentProfileDetailJPanel", panel);
+        StudentProfileDetailJPanel panel = new StudentProfileDetailJPanel (business, sp,CardSequencePanel);
+        CardSequencePanel.add("StudentDetail", panel);
         
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
-        layout.next(CardSequencePanel);
+        layout.show(CardSequencePanel, "StudentDetail");
         
                 
     }//GEN-LAST:event_btnViewActionPerformed
@@ -281,22 +283,14 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
     private void populateCourseCombo() {
         cmbCourse.removeAllItems();
         
-        Object ap = userAccount.getAssociatedPersonProfile();
-        if (!(ap instanceof FacultyProfile)) return;
+        if (facultyProfile == null) return;
         
-        FacultyProfile fp = (FacultyProfile) ap;
-        
-        int count = 0;
-        for (FacultyAssignment fa : fp.getFacultyAssignments()) {
+        for (FacultyAssignment fa : facultyProfile.getFacultyAssignments()) {
             if (fa == null || fa.getCourseOffer() == null) continue;
+            CourseOffer co = fa.getCourseOffer();
+            if (co.getCourse() == null) continue;
             
-            Course c = fa.getCourseOffer().getCourse();
-            if (c == null) continue;
-            
-            cmbCourse.addItem(c.getCourseName());
-            count++;
-            if (count >= 5) break;
-            
+            cmbCourse.addItem(co.getCourse().getCourseNumber());
         }
     }
 
@@ -308,7 +302,7 @@ public class PerformanceReportJPanel extends javax.swing.JPanel {
                 cmbSemester.addItem(sem);
             }
         } else{
-            cmbSemester.addItem("Spring2026"); // fallback
+            cmbSemester.addItem("Spring 2026"); // fallback
         }
     }
 }

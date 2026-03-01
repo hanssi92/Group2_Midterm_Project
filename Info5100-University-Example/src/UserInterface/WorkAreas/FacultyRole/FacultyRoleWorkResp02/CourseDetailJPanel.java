@@ -224,6 +224,7 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     
     private void btnCourseBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseBackActionPerformed
         // TODO add your handling code here:
+        
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
         layout.show(CardSequencePanel, "ManageCourses");
         

@@ -197,7 +197,7 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
             row[0] = sp;
             row[1] = sp.getPerson().getFirstName();
             row[2] = sp.getPerson().getLastName();
-            row[3] = sp.getDepartment();
+            row[3] = sp.getPerson().getDegree();
             row[4] = sp.getPerson().getGPA();
             
             model.addRow(row);

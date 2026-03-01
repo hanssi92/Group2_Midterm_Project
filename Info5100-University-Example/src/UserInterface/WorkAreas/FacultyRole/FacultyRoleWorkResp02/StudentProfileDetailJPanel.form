@@ -16,45 +16,48 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="217" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="38" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="234" max="-2" attributes="0"/>
                       <Component id="lblTitle" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                      <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnSave" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="lblFirstName" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNuId" min="-2" pref="61" max="-2" attributes="0"/>
-                              <Component id="lblLastName" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblGpa" min="-2" pref="60" max="-2" attributes="0"/>
-                              <Component id="lblDepartment" min="-2" pref="81" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                              <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="btnBack" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="lblFirstName" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblNuId" min="-2" pref="61" max="-2" attributes="0"/>
+                                      <Component id="lblLastName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblGpa" min="-2" pref="60" max="-2" attributes="0"/>
+                                      <Component id="lblDegree" min="-2" pref="81" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="btnBack" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtNuId" max="32767" attributes="0"/>
+                                  <Component id="txtFirstName" max="32767" attributes="0"/>
+                                  <Component id="txtLastName" max="32767" attributes="0"/>
+                                  <Component id="txtDegree" max="32767" attributes="0"/>
+                                  <Component id="txtGpa" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtNuId" max="32767" attributes="0"/>
-                          <Component id="txtFirstName" max="32767" attributes="0"/>
-                          <Component id="txtLastName" max="32767" attributes="0"/>
-                          <Component id="txtDepartment" max="32767" attributes="0"/>
-                          <Component id="txtGpa" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
+              <EmptySpace pref="222" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,8 +83,8 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblDepartment" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtDepartment" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblDegree" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtDegree" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -123,9 +126,9 @@
         <Property name="text" type="java.lang.String" value="Last Name:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblDepartment">
+    <Component class="javax.swing.JLabel" name="lblDegree">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Department:"/>
+        <Property name="text" type="java.lang.String" value="Degree"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblGpa">
@@ -142,7 +145,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtLastName">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtDepartment">
+    <Component class="javax.swing.JTextField" name="txtDegree">
     </Component>
     <Component class="javax.swing.JTextField" name="txtGpa">
     </Component>

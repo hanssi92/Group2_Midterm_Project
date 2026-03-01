@@ -71,6 +71,7 @@ class ConfigureABusiness {
         //Faculty Assign and Login account
         FacultyProfile fp1 = fd.newFacultyProfile(person001); //John Smith
         UserAccount uaFaculty1 = uad.newUserAccount(person001, "faculty1", "****", "Faculty");
+        uaFaculty1.setAssociatedPersonProfile(fp1);
         
         fp1.setFacultyId("NUF001");
         fp1.setFirstName("John");
@@ -82,6 +83,7 @@ class ConfigureABusiness {
 
         FacultyProfile fp2 = fd.newFacultyProfile(person007); //Laura Brown
         UserAccount uaFaculty2 = uad.newUserAccount(person007, "faculty2", "****", "Faculty");
+        uaFaculty2.setAssociatedPersonProfile(fp2);
         
         fp2.setFacultyId("NUF002");
         fp2.setFirstName("Laura");
@@ -92,6 +94,7 @@ class ConfigureABusiness {
         
         FacultyProfile fp3 = fd.newFacultyProfile(person009); //Briana Cory
         UserAccount uaFaculty3 = uad.newUserAccount(person009, "faculty3", "****", "Faculty");
+        uaFaculty3.setAssociatedPersonProfile(fp3);
         
         fp3.setFacultyId("NUF003");
         fp3.setFirstName("Briana");
@@ -158,7 +161,7 @@ class ConfigureABusiness {
 
         sp2.getTranscript().newCourseLoad(sem);
         dept.RegisterForAClass(person002.getPersonId(), "INFO5100", sem);
-        dept.RegisterForAClass(person002.getPersonId(), "INFO6225", sem);
+        dept.RegisterForAClass(person002.getPersonId(), "INFO6245", sem);
 
         UserAccount uaStudent2 = uad.newUserAccount(person002, "student2", "*****", "Student");
 
