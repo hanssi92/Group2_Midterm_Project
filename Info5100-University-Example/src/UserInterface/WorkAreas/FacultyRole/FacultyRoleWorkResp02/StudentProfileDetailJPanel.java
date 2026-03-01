@@ -192,11 +192,11 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        CardSequencePanel.remove(this);
-        
+
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
-        layout.previous(CardSequencePanel);
+        layout.show(CardSequencePanel, "ManageStudent");
         
+        CardSequencePanel.remove(this);
     }//GEN-LAST:event_btnBackActionPerformed
 
 

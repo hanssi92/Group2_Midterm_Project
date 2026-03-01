@@ -28,17 +28,19 @@ import javax.swing.table.DefaultTableModel;
 public class PerformanceReportJPanel extends javax.swing.JPanel {
     Business business;
     JPanel CardSequencePanel;
+    UserAccount userAccount;
     
     Department department;
-    UserAccount userAccount;
+    
     /**
      * Creates new form PerformanceReportJPanel
      */
-    public PerformanceReportJPanel(Business b, JPanel csp) {
+    public PerformanceReportJPanel(Business b, JPanel csp, UserAccount userAccount) {
         initComponents();
         
         this.business = b;
         this.CardSequencePanel = csp;
+        this.userAccount = userAccount;
         
         populateCourseCombo();
         populateSemesterCombo();

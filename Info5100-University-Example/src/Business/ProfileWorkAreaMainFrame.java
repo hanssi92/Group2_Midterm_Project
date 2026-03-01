@@ -14,8 +14,11 @@ import Business.UserAccounts.UserAccountDirectory;
 
 import UserInterface.WorkAreas.AdminRole.AdminRoleWorkAreaJPanel;
 import UserInterface.WorkAreas.FacultyRole.FacultyWorkAreaJPanel;
+import UserInterface.WorkAreas.StudentRole.StudentWorkAreaJPanel;
+import info5100.university.example.Department.Department;
 import info5100.university.example.Persona.Faculty.FacultyProfile;
 import info5100.university.example.Persona.Faculty.FacultyProfile;
+import info5100.university.example.Persona.Person;
 import info5100.university.example.Persona.StudentProfile;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
@@ -142,58 +145,39 @@ public class ProfileWorkAreaMainFrame extends javax.swing.JFrame {
         UserAccountDirectory uad = business.getUserAccountDirectory();
         UserAccount useraccount = uad.AuthenticateUser(un, pw);
         if (useraccount == null) {
-            JOptionPane.showMessageDialog(null, "Invalid username or password", "Warning", JOptionPane.WARNING_MESSAGE);
+            System.out.println("Login Failed!");
             return;
         }
-        //StudentWorkAreaJPanel studentworkareajpanel; -- need to add from Sumayyah
+        StudentWorkAreaJPanel studentworkareajpanel;
         FacultyWorkAreaJPanel facultyworkarea;
-        //AdminRoleWorkAreaJPanel adminworkarea;
-        
+        AdminRoleWorkAreaJPanel adminworkarea;
         String r = useraccount.getRole();
-        Object profile = useraccount.getAssociatedPersonProfile();
+        Person person = useraccount.getAssociatedPerson();
         
         CardSequencePanel.removeAll();
+
+
+        if (r.equals("Admin")) {
+            adminworkarea = new AdminRoleWorkAreaJPanel(business, CardSequencePanel, person);
+            CardSequencePanel.add("Admin", adminworkarea);
+        }
         
+        if (r.equals("Student")) {
+            StudentProfile spp = business.getDepartment().getStudentDirectory().findStudent(person.getPersonId());
+            
+            studentworkareajpanel = new StudentWorkAreaJPanel(business, spp, CardSequencePanel);
+            CardSequencePanel.add("student", studentworkareajpanel);
+
+        }
+
         if (r.equals("Faculty")) {
-            FacultyProfile fp = business.getDepartment().getFacultyDirectory().findTeachingFaculty(r);
-            
-            facultyworkarea = new FacultyWorkAreaJPanel (business, CardSequencePanel, userAccount);
+            FacultyProfile fp = business.getDepartment().getFacultyDirectory().findFacultyByPersonId(person.getPersonId());
+                     
+            facultyworkarea = new FacultyWorkAreaJPanel(business, fp, CardSequencePanel); 
             CardSequencePanel.add("faculty", facultyworkarea);
-        }
-
-
-        //if (profile instanceof EmployeeProfile) {
-
-            //adminworkarea = new AdminRoleWorkAreaJPanel(business, CardSequencePanel);
-            //CardSequencePanel.removeAll();
-            //CardSequencePanel.add("Admin", adminworkarea);
-            //((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
-
-       // }
+        }   
         
-        //else if (profile instanceof StudentProfile) {
-
-            //StudentProfile spp = (StudentProfile) profile;
-            //studentworkareajpanel = new StudentWorkAreaJPanel(business, spp, CardSequencePanel);
-           // CardSequencePanel.removeAll();
-            //CardSequencePanel.add("student", studentworkareajpanel);
-            //((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
-
-        //}
-        //Faculty Test purpose
-        if (profile instanceof FacultyProfile) {
-        
-            FacultyWorkAreaJPanel facultyworkarea = new FacultyWorkAreaJPanel(business, CardSequencePanel, userAccount);
-            
-            CardSequencePanel.add("faculty", facultyworkarea);
-            
-            CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
-            layout.next(CardSequencePanel);
-        }
-        else {
-                JOptionPane.showMessageDialog(null, "No Profile to this user.", "Warning", JOptionPane.WARNING_MESSAGE);
-                }
-
+        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);                                     
 
     }//GEN-LAST:event_LoginButtonActionPerformed
 

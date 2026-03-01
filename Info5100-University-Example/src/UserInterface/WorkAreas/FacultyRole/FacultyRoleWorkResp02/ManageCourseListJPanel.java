@@ -23,17 +23,19 @@ import javax.swing.table.DefaultTableModel;
 public class ManageCourseListJPanel extends javax.swing.JPanel {
     
     Business business;
+    FacultyProfile facultyProfile;
     JPanel CardSequencePanel;
     
     
     /**
      * Creates new form ManageCourseListJPanel
      */
-    public ManageCourseListJPanel(Business b, JPanel csp) {
+    public ManageCourseListJPanel(Business business, FacultyProfile facultyProfile, JPanel CardSequencePanel) {
         initComponents();
         
-        this.business = b;
-        this.CardSequencePanel = csp;
+        this.business = business;
+        this.facultyProfile = facultyProfile;
+        this.CardSequencePanel = CardSequencePanel;
         
         
         populateTable();
@@ -79,7 +81,7 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Course Number", "Course Name", "Credits", "Department", "Last Updated"
+                "Course Number", "Course Name", "Credits", "Semester", "Last Updated"
             }
         ));
         jScrollPane2.setViewportView(tblCourseList);
@@ -137,16 +139,16 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
             return;
         }
         
-        Course selectedCourse = (Course) tblCourseList.getValueAt(selectedRow, 0);
+        Object v = tblCourseList.getValueAt(selectedRow, 0);
         
+        Course selectedCourse = (Course) v;
         Department dept = business.getDepartment();
         
-        CourseDetailJPanel panel = new CourseDetailJPanel(CardSequencePanel, dept , selectedCourse);
+        CourseDetailJPanel panel = new CourseDetailJPanel (CardSequencePanel,dept, selectedCourse);
         CardSequencePanel.add("CourseDetail", panel);
         
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
         layout.show(CardSequencePanel, "CourseDetail");
-        
         
     }//GEN-LAST:event_btnViewActionPerformed
 
@@ -164,19 +166,27 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
         model.setRowCount(0);
         
         Department dept = business.getDepartment();
+        if (dept == null || dept.getCourseCatalog() == null) return;
         
+        CourseSchedule cs = dept.getCourseSchedule("Spring2026");
+        if (cs == null) return;
+        
+        for (CourseOffer co : cs.getSchedule()) {
+            
+            FacultyProfile assigned = co.getFacultyProfile();
+            if (assigned == null) continue;
+            
+            if (assigned != facultyProfile) continue;
+
         for (Course c : dept.getCourseCatalog().getCourseList()) {
-            
-            Object row [] = new Object [5];
-            
+            Object[] row = new Object[5];
             row[0] = c;
             row[1] = c.getCourseName();
             row[2] = c.getCredits();
-            row[3] = dept.getName();
+            row[3] = dept.getCourseSchedule("Spring2026");
             row[4] = dept.getCourseCatalog().getLastUpdated();
-            
             model.addRow(row);
-            
         }
     }
+}
 }

@@ -26,24 +26,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
     
-    Business business;
-    JPanel CardSequencePanel;
     FacultyProfile facultyProfile;
-    Department department;
-    
-    UserAccount userAccount;
     
     
     
     /**
      * Creates new form ManageStudentProfileListJPanel
      */
-    public ManageStudentProfileListJPanel(Business b, JPanel csp, FacultyProfile fp) {
+    public ManageStudentProfileListJPanel(Business business, JPanel CardSequencePanel, FacultyProfile facultyProfile) {
         initComponents();
         
-        this.business = b;
-        this.CardSequencePanel = csp;
-        this.facultyProfile = fp;
+        this.facultyProfile = facultyProfile;
         
         populateTable();
     }
@@ -148,6 +141,10 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
+        layout.show(CardSequencePanel, "faculty");
+        
+        CardSequencePanel.remove(this);
     }//GEN-LAST:event_btnBackActionPerformed
 
 
@@ -163,38 +160,9 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
         model.setRowCount(0);
         
-        FacultyProfile fp = (FacultyProfile) userAccount.getAssociatedPersonProfile();
-        
-        if (fp == null) return;
-        
-        for (FacultyAssignment fa : fp.getFacultyAssignments()) {
-            CourseOffer co = fa.getCourseOffer();
-            
-            if (co == null) continue;
-            
-            for(Seat s :co.getSeatList()) {
-                SeatAssignment sa = s.getSeatAssignment();
+        Department dept = business.getDepartment();
+        ///prevent null
+        if (dept == null || facultyProfile == null) return;
                 
-                if (sa == null) continue;
-                
-                StudentProfile sp = sa.getStudentProfile();
-                
-                if (sp == null) continue;
-                
-                Person p = sp.getPerson();
-                
-                Object row[] = new Object[5];
-                row[0] = p.getPersonId();
-                row[1] = p.getFirstName();
-                row[2] = p.getLastName();
-                row[3] = sp.getDepartment().getDegree().getName();
-                row[4] = sp.getTranscript().calculateOverallGPA();
-                
-                model.addRow(row);
-                
-            }
-        }
-        
-
-        } 
+    }
 }

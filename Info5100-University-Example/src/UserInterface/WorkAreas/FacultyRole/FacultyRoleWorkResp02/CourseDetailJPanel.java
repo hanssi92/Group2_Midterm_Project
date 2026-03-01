@@ -25,18 +25,16 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     JPanel CardSequencePanel;
     Department department;
     Course course;
-    
-    Business business;
-    
+
     /**
      * Creates new form CourseDetailJPanel
      */
     
-    public CourseDetailJPanel(JPanel csp, Department dept, Course c) {
+    public CourseDetailJPanel(JPanel csp, Department department, Course c) {
         initComponents();
         
         this.CardSequencePanel = csp;
-        this.department = dept;
+        this.department = department;
         this.course = c;
         
         populateCourseFields();

@@ -116,7 +116,7 @@ class ConfigureABusiness {
         
         //Faculty Assign and Login account
         FacultyProfile fp1 = fd.newFacultyProfile(person001); //John Smith
-        UserAccount uaFaculty = uad.newUserAccount(person001, "faculty1", "****", "Faculty");
+        UserAccount uaFaculty1 = uad.newUserAccount(person001, "faculty1", "****", "Faculty");
         
         fp1.setFacultyId("NUF001");
         fp1.setFirstName("John");
@@ -127,7 +127,7 @@ class ConfigureABusiness {
         
 
         FacultyProfile fp2 = fd.newFacultyProfile(person007); //Laura Brown
-        UserAccount uaFaculty1 = uad.newUserAccount(person007, "faculty2", "****", "Faculty");
+        UserAccount uaFaculty2 = uad.newUserAccount(person007, "faculty2", "****", "Faculty");
         
         fp2.setFacultyId("NUF002");
         fp2.setFirstName("Laura");
@@ -137,7 +137,7 @@ class ConfigureABusiness {
         fp2.setEmail("laura.brwon@northeaster.edu");
         
         FacultyProfile fp3 = fd.newFacultyProfile(person009); //Briana Cory
-        UserAccount uaFaculty2 = uad.newUserAccount(person009, "faculty3", "****", "Faculty");
+        UserAccount uaFaculty3 = uad.newUserAccount(person009, "faculty3", "****", "Faculty");;
         
         fp3.setFacultyId("NUF003");
         fp3.setFirstName("Briana");
