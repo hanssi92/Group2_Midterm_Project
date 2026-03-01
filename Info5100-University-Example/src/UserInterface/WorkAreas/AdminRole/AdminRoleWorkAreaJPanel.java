@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author kal
+ * @author hdIV
  */
 public class AdminRoleWorkAreaJPanel extends javax.swing.JPanel {
 
