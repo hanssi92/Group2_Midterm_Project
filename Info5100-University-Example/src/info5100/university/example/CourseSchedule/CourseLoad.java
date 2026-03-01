@@ -5,6 +5,7 @@
  */
 package info5100.university.example.CourseSchedule;
 
+import info5100.university.example.Persona.StudentProfile;
 import java.util.ArrayList;
 
 /**
@@ -13,11 +14,21 @@ import java.util.ArrayList;
  */
 public class CourseLoad {
     String semester;
+    private StudentProfile studentProfile;
     ArrayList<SeatAssignment> seatassignments;
+    
+    public String getTerm() {
+        return semester;
+    }
     
     public CourseLoad(String s){
         seatassignments = new ArrayList();
         semester = s;
+    }
+    public CourseLoad(String s, StudentProfile sp){
+        seatassignments = new ArrayList<>();
+        semester = s;
+        this.studentProfile = sp;
     }
     public SeatAssignment newSeatAssignment(CourseOffer co){
         
@@ -42,8 +53,13 @@ public class CourseLoad {
         }
         return sum;
     }
-        public ArrayList<SeatAssignment> getSeatAssignments(){
-            return seatassignments;
-        }
+    
+    public ArrayList<SeatAssignment> getSeatAssignments(){
+        return seatassignments;
+    }
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
+    }
             
 }
+

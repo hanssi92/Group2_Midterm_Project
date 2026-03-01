@@ -13,11 +13,11 @@ import info5100.university.example.CourseSchedule.CourseOffer;
  */
 public class FacultyAssignment {
     double tracerating;
-    CourseOffer courseoffer;
-    FacultyProfile facultyprofile;
+    CourseOffer courseOffer;
+    FacultyProfile facultyProfile;
     public FacultyAssignment(FacultyProfile fp, CourseOffer co){
-        courseoffer = co;
-        facultyprofile = fp;
+        courseOffer = co;
+        facultyProfile = fp;
     }
 
        public double getRating(){
@@ -29,7 +29,11 @@ public class FacultyAssignment {
            tracerating = r;
        }
     public FacultyProfile getFacultyProfile(){
-        return facultyprofile;
+        return facultyProfile;
     }
+    public CourseOffer getCourseOffer() {
+        return courseOffer;
+
+}
     
 }

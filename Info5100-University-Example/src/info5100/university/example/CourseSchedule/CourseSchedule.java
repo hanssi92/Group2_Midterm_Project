@@ -20,6 +20,9 @@ public class CourseSchedule {
     ArrayList<CourseOffer> schedule;
     String semester;
 
+    public ArrayList<CourseOffer> getSchedule(){
+        return schedule;
+    }
     public CourseSchedule(String s, CourseCatalog cc) {
         semester = s;
         coursecatalog = cc;
@@ -30,9 +33,11 @@ public class CourseSchedule {
     public CourseOffer newCourseOffer(String  n) {
 
         Course c = coursecatalog.getCourseByNumber(n);
-        if(c==null) return null;
+        if (c == null) {
+            return null;
+        }
         CourseOffer co;
-        co = new CourseOffer(c);
+        co = new CourseOffer(this, c);
         schedule.add(co);
         return co;
     }
@@ -47,7 +52,11 @@ public class CourseSchedule {
         }
         return null;
     }
-
+    
+    public String getSemester() {
+        return semester;
+    }
+    
     public int calculateTotalRevenues() {
         int sum = 0;
         for (CourseOffer co : schedule) {

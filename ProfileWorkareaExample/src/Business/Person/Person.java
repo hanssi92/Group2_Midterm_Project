@@ -9,12 +9,12 @@ package Business.Person;
  *
  * @author kal bugrara
  */
-public class Person {
+public class Person extends info5100.university.example.Persona.Person {
 
     String id;
 
     public Person(String id) {
-
+        super(id);
         this.id = id;
     }
 

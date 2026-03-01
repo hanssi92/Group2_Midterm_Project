@@ -8,8 +8,9 @@ package Business;
 import Business.Person.PersonDirectory;
 import Business.Profiles.EmployeeDirectory;
 import Business.Profiles.StudentDirectory;
-
 import Business.UserAccounts.UserAccountDirectory;
+import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyDirectory;
 
 /**
  *
@@ -18,40 +19,28 @@ import Business.UserAccounts.UserAccountDirectory;
 public class Business {
 
     String name;
-    PersonDirectory persondirectory; //all people profiles regardless of the role
-
-    EmployeeDirectory employeedirectory;
-    UserAccountDirectory useraccountdirectory;
-    StudentDirectory studentdirectory;
+    Department department; //INFO5100
+    UserAccountDirectory useraccountdirectory; //login purpose
     
 
 
     public Business(String n) {
         name = n;
-
-        persondirectory = new PersonDirectory();
-        employeedirectory = new EmployeeDirectory(this);
+                
+        department = new Department("MSIS");
         useraccountdirectory = new UserAccountDirectory();
-        studentdirectory = new StudentDirectory();
-
-
     }
-
-    public PersonDirectory getPersonDirectory() {
-        return persondirectory;
+    
+    public Department getDepartment() {
+        return department;
     }
-
+    
     public UserAccountDirectory getUserAccountDirectory() {
         return useraccountdirectory;
     }
 
-
-    public EmployeeDirectory getEmployeeDirectory() {
-        return employeedirectory;
-    }
-
-    public StudentDirectory getStudentDirectory(){
-        return studentdirectory;
+    public String getName() {
+        return name;
     }
 
 }

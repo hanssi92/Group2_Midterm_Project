@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public class Degree {
 
     String title;
+    String name;
+    
     ArrayList<Course> corelist;
     ArrayList<Course> electives;
 
@@ -24,6 +26,22 @@ public class Degree {
         title = name;
         corelist = new ArrayList();
         electives = new ArrayList();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addCoreCourse(Course c) {

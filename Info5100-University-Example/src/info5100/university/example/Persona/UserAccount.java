@@ -23,5 +23,17 @@ public class UserAccount {
     public UserAccount(Person p){
         person = p;
     }
+    //Person getter
+    public Person getPerson() { //UserAccountDirectory
+        return person;
+    }
+    
+    //UserAccountDirectory skeleton matching method
+    public boolean isMatch(String id) {
+        if (person.getPersonId().equals(id)) {
+            return true;
+        }
+        return false;
+    }
     
 }

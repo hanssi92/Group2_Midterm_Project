@@ -15,45 +15,118 @@ import java.util.ArrayList;
  */
 public class FacultyDirectory {
 
-    Department department;
-    ArrayList<FacultyProfile> teacherlist;
+    private final ArrayList<FacultyProfile> teacherList;
 
-    public FacultyDirectory(Department d) {
-
-        department = d;
-        teacherlist = new ArrayList();
-
+    public FacultyDirectory() {
+        teacherList = new ArrayList<>();
     }
 
-    public FacultyProfile newFacultyProfile(Person p) {
-
-        FacultyProfile sp = new FacultyProfile(p);
-        teacherlist.add(sp);
-        return sp;
-    }
-    
-    public FacultyProfile getTopProfessor(){
-        
-        double bestratingsofar = 0.0;
-        FacultyProfile BestProfSofar = null;
-        for(FacultyProfile fp: teacherlist)
-           if(fp.getProfAverageOverallRating()>bestratingsofar){
-           bestratingsofar = fp.getProfAverageOverallRating();
-           BestProfSofar = fp;
-           }
-        return BestProfSofar;
-        
+    /**
+     * Create a new faculty profile and add it to the directory.
+     * @param person the Person object linked to this faculty
+     * @return the created FacultyProfile
+     */
+    public FacultyProfile newFacultyProfile(Person person) {
+        FacultyProfile fp = new FacultyProfile(person);
+        teacherList.add(fp);
+        return fp;
     }
 
-    public FacultyProfile findTeachingFaculty(String id) {
+    /**
+     * Get the full list of faculty profiles.
+     * @return list of all faculty profiles
+     */
+    public ArrayList<FacultyProfile> getTeacherList() {
+        return teacherList;
+    }
 
-        for (FacultyProfile sp : teacherlist) {
-
-            if (sp.isMatch(id)) {
-                return sp;
+    /**
+     * Find a faculty profile by the person's unique ID.
+     * @param personId the unique ID of the person
+     * @return FacultyProfile if found, otherwise null
+     */
+    public FacultyProfile findFacultyByPersonId(String personId) {
+        for (FacultyProfile fp : teacherList) {
+            if (fp.isMatch(personId)) {
+                return fp;
             }
         }
-            return null; //not found after going through the whole list
-         }
+        return null;
+    }
+
+    /**
+     * Find which faculty is teaching a specific course number.
+     * @param courseNumber the course ID
+     * @return FacultyProfile of the teaching faculty, or null if none found
+     */
+    public FacultyProfile findTeachingFacultyByCourseNumber(String courseNumber) {
+        for (FacultyProfile fp : teacherList) {
+            for (FacultyAssignment fa : fp.getFacultyAssignments()) {
+                if (courseNumber.equals(fa.getCourseOffer().getCourseNumber())) {
+                    return fp;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Find the faculty with the highest average rating.
+     * @return FacultyProfile with the best rating, or null if no faculty exist
+     */
+    public FacultyProfile getTopProfessor() {
+        double bestRating = 0.0;
+        FacultyProfile bestProfessor = null;
+
+        for (FacultyProfile fp : teacherList) {
+            double avg = fp.getProfAverageOverallRating();
+            if (avg > bestRating) {
+                bestRating = avg;
+                bestProfessor = fp;
+            }
+        }
+        return bestProfessor;
+    }
     
+    public ArrayList<FacultyProfile> searchFacultyByName(String name) {
+        ArrayList<FacultyProfile> foundFaculty = new ArrayList<>();
+        String searchNameLower = name.trim().toLowerCase();
+
+        if (searchNameLower.isEmpty()) {
+            return foundFaculty; // Return empty list if search term is empty
+        }
+
+        for (FacultyProfile fp : teacherList) {
+            Person person = fp.getPerson();
+            if (person != null && person.getFirstName()!= null) {
+                // Use .contains() for partial matches
+                if (person.getFirstName().toLowerCase().contains(searchNameLower)) {
+                    foundFaculty.add(fp);
+                }
+            }
+        }
+        return foundFaculty; // Return the list of matches
+    }
+    
+    public boolean removeFacultyById(String id) {
+        FacultyProfile facultyToRemove = null;
+        for (FacultyProfile fp : teacherList) {
+            if (fp.getPerson().getPersonId().equals(id)) {
+                facultyToRemove = fp;
+                break; // Found the faculty
+            }
+        }
+
+        if (facultyToRemove != null) {
+            teacherList.remove(facultyToRemove);
+            return true; // Successfully removed
+        } else {
+            return false; // Faculty not found
+        }
+    }    
+
+    @Override
+    public String toString() {
+        return "FacultyDirectory with " + teacherList.size() + " faculty profiles.";
+    }
 }
