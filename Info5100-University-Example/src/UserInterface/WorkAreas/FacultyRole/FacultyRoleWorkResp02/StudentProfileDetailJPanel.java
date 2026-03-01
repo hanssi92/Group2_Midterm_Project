@@ -19,22 +19,23 @@ import javax.swing.JPanel;
 public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     
     Business business;
-    JPanel CardSequencePanel;
     StudentProfile studentProfile;
-    
     Department department;
+    JPanel CardSequencePanel;
     
     /**
      * Creates new form StudentProfileDetailJPanel
      */
-    public StudentProfileDetailJPanel(Business b, JPanel csp) {
+    public StudentProfileDetailJPanel(Business business,StudentProfile studentProfile, JPanel CardSequencePanel) {
         initComponents();
         
-        this.business = b;
-        this.CardSequencePanel = csp;
+        this.business = business;
+        this.studentProfile = studentProfile;
+        this.CardSequencePanel = CardSequencePanel;
         
         populateFields();
-        setAllFieldsDisabled();
+        setViewMode();
+        setEditMode();
     }
 
     /**
@@ -50,12 +51,12 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
         lblNuId = new javax.swing.JLabel();
         lblFirstName = new javax.swing.JLabel();
         lblLastName = new javax.swing.JLabel();
-        lblDgree = new javax.swing.JLabel();
+        lblDepartment = new javax.swing.JLabel();
         lblGpa = new javax.swing.JLabel();
         txtNuId = new javax.swing.JTextField();
         txtFirstName = new javax.swing.JTextField();
         txtLastName = new javax.swing.JTextField();
-        txtDegree = new javax.swing.JTextField();
+        txtDepartment = new javax.swing.JTextField();
         txtGpa = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -70,7 +71,7 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
 
         lblLastName.setText("Last Name:");
 
-        lblDgree.setText("Degree:");
+        lblDepartment.setText("Department:");
 
         lblGpa.setText("GPA:");
 
@@ -101,35 +102,37 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(334, 334, 334)
-                .addComponent(lblTitle)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(268, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(217, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTitle)
+                        .addGap(111, 111, 111))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addGap(18, 18, 18)
+                        .addGap(90, 90, 90)
                         .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSave)
-                        .addGap(2, 2, 2))
+                        .addComponent(btnSave))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFirstName)
-                            .addComponent(lblNuId, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblLastName)
-                            .addComponent(lblDgree, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblGpa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(67, 67, 67)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblFirstName)
+                                .addComponent(lblNuId, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblLastName)
+                                .addComponent(lblGpa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBack)
+                                .addGap(21, 21, 21)))
+                        .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNuId)
                             .addComponent(txtFirstName)
                             .addComponent(txtLastName)
-                            .addComponent(txtDegree)
+                            .addComponent(txtDepartment)
                             .addComponent(txtGpa, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(264, 264, 264))
+                .addGap(178, 178, 178))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,27 +153,24 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
                     .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDgree)
-                    .addComponent(txtDegree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblDepartment)
+                    .addComponent(txtDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblGpa)
                     .addComponent(txtGpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnUpdate)
                     .addComponent(btnSave))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        txtFirstName.setEditable(true);
-        txtLastName.setEditable(true);
-        
-        btnSave.setEnabled(true);
+        setEditMode();
         
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -181,7 +181,6 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
         p.setFirstName(txtFirstName.getText());
         p.setLastName(txtLastName.getText());
         
-        setAllFieldsDisabled();
         
         btnSave.setEnabled(false);
         
@@ -194,7 +193,7 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
 
         CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
-        layout.show(CardSequencePanel, "ManageStudent");
+        layout.show(CardSequencePanel, "ManageStudentsJPanel");
         
         CardSequencePanel.remove(this);
     }//GEN-LAST:event_btnBackActionPerformed
@@ -204,13 +203,13 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel lblDgree;
+    private javax.swing.JLabel lblDepartment;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblGpa;
     private javax.swing.JLabel lblLastName;
     private javax.swing.JLabel lblNuId;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JTextField txtDegree;
+    private javax.swing.JTextField txtDepartment;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtGpa;
     private javax.swing.JTextField txtLastName;
@@ -218,24 +217,40 @@ public class StudentProfileDetailJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void populateFields() {
-        Person p = studentProfile.getPerson();
+        if (studentProfile == null) return;
 
-        txtNuId.setText(p.getPersonId());
-        txtFirstName.setText(p.getFirstName());
-        txtLastName.setText(p.getLastName());
+        txtNuId.setText(studentProfile.getPerson().getPersonId());
+        txtFirstName.setText(studentProfile.getPerson().getFirstName());
+        txtLastName.setText(studentProfile.getPerson().getLastName());
         
-        txtDegree.setText(department.getDegree().toString());
+        txtDepartment.setText(department == null ? "" : department.getName());
         
         double gpa = studentProfile.getTranscript().calculateOverallGPA();
         txtGpa.setText(String.valueOf(gpa));
         
     }
 
-    private void setAllFieldsDisabled() {
+    private void setViewMode() {
         txtNuId.setEditable(false);
         txtFirstName.setEditable(false);
         txtLastName.setEditable(false);
-        txtDegree.setEditable(false);
+        txtDepartment.setEditable(false);
         txtGpa.setEditable(false);
+        
+        btnUpdate.setEnabled(false);
+        
+        btnSave.setEnabled(true);
+        btnSave.setVisible(false);
+    }
+    
+    private void setEditMode() {
+        txtNuId.setEditable(false);
+        txtFirstName.setEditable(true);
+        txtLastName.setEditable(true);
+        txtDepartment.setEditable(true);
+        txtGpa.setEditable(false);
+        
+        btnUpdate.setEnabled(true);
+        btnSave.setEnabled(true);
     }
 }

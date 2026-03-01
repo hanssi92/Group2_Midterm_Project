@@ -6,6 +6,7 @@ package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
 import Business.UserAccounts.UserAccount;
+import info5100.university.example.CourseCatalog.Course;
 import info5100.university.example.CourseSchedule.CourseLoad;
 import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.CourseSchedule.CourseSchedule;
@@ -96,53 +97,53 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(302, Short.MAX_VALUE)
-                .addComponent(lblTitle)
-                .addGap(294, 294, 294))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(261, 261, 261)
+                        .addComponent(lblTitle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(220, 220, 220)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(103, 103, 103)
                         .addComponent(btnViewDetails)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitle)
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnViewDetails))
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
         // TODO add your handling code here:
+        
         int selectedRow = tblManageStudentProfile.getSelectedRow();
         if (selectedRow < 0) {
-            JOptionPane.showMessageDialog(null, "Please select a row.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please select the row first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
-        DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
-        StudentProfile selectedStudent = (StudentProfile) model.getValueAt(selectedRow, 0);
+        Object v = tblManageStudentProfile.getValueAt(selectedRow, 0);
         
-        StudentProfileDetailJPanel sdj = new StudentProfileDetailJPanel(business, CardSequencePanel);
-        CardSequencePanel.add("StudentDetail",sdj);
+        StudentProfile sp = (StudentProfile) v;
         
-        CardLayout layout = (CardLayout)CardSequencePanel.getLayout();
+        StudentProfileDetailJPanel panel = new StudentProfileDetailJPanel (business, sp, CardSequencePanel);
+        CardSequencePanel.add("StudentDetail", panel);
+        
+        CardLayout layout = (CardLayout) CardSequencePanel.getLayout();
         layout.show(CardSequencePanel, "StudentDetail");
-        
-        
+ 
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -166,26 +167,22 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblManageStudentProfile.getModel();
         model.setRowCount(0);
         
-        Department dept = business.getDepartment();
-        if (dept == null || facultyProfile == null) return;
+        if (facultyProfile == null) return;
+        // remove duplicate
+        java.util.Set<StudentProfile> unique = new java.util.HashSet<>();
         
-        String sem = "Spring 2026";
-        CourseSchedule cs = dept.getCourseSchedule(sem);
-        if (cs == null) return;
-        
-        java.util.HashSet<StudentProfile> unique = new java.util.HashSet<>();
-        
-        for (CourseOffer co : cs.getSchedule()) {
+        // Faculty + CourseOffer
+        for (FacultyAssignment fa : facultyProfile.getFacultyAssignments()) {
+            if (fa == null) continue;
             
-            FacultyProfile assigned = co.getFacultyProfile();
-            if (assigned == null) continue;
+            CourseOffer co = fa.getCourseOffer();
+            if (co == null) continue;
             
-            //subjects that assigned only
-            if (assigned != facultyProfile) continue;
+            // student (SeatAssignment)
+            java.util.ArrayList<SeatAssignment> sas = co.getSeatAssignments();
+            if (sas == null) continue;
             
-            //students enrolled subjects
-            for (Seat s : co.getSeatList()) {
-                SeatAssignment sa = s.getSeatAssignment();
+            for (SeatAssignment sa: sas) {
                 if (sa == null) continue;
                 
                 CourseLoad cl = sa.getCourseLoad();
@@ -193,19 +190,20 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
                 
                 StudentProfile sp = cl.getStudentProfile();
                 if (sp == null) continue;
+
+                if (!unique.add(sp)) continue;
                 
-                unique.add(sp);
-            }
-        }
-        for (StudentProfile sp : unique) {
             Object [] row = new Object[5];
-            row[0] = sp.getPerson().getPersonId();
+            row[0] = sp;
             row[1] = sp.getPerson().getFirstName();
             row[2] = sp.getPerson().getLastName();
             row[3] = sp.getDepartment();
             row[4] = sp.getPerson().getGPA();
             
             model.addRow(row);
-        }     
-    }
+                
+            }
+        }
+    }     
 }
+
