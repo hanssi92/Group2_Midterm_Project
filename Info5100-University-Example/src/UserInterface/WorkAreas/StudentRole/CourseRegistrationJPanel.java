@@ -5,8 +5,19 @@
 package UserInterface.WorkAreas.StudentRole;
 
 import Business.Business;
+import info5100.university.example.CourseCatalog.Course;
+import info5100.university.example.CourseSchedule.CourseLoad;
+import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.CourseSchedule;
+import info5100.university.example.CourseSchedule.SeatAssignment;
+import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
 import info5100.university.example.Persona.StudentProfile;
+import info5100.university.example.Persona.Transcript;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +29,8 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
     StudentProfile studentProfile;
     JPanel CardSequencePanel;
     
+    private static final String CURRENT_SEMESTER = "Spring 2026";
+    
     /**
      * Creates new form CourseRegistrationJPanel
      */
@@ -25,6 +38,10 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
         this.studentProfile = studentProfile;
         this.CardSequencePanel = CardSequencePanel;
         initComponents();
+        
+        populateSearchComboBox();
+        populateAvailableCoursesTable();
+        populateMyCoursesTable();
     }
 
     /**
@@ -72,6 +89,11 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
         });
 
         btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         tblAvailableCourses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,9 +109,14 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblAvailableCourses);
 
         lblAvailableCourses.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        lblAvailableCourses.setText("Available Courses - Summer 2026");
+        lblAvailableCourses.setText("Available Courses - Spring 2026");
 
         btnEnroll.setText("Enroll");
+        btnEnroll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnrollActionPerformed(evt);
+            }
+        });
 
         tblMyCourses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,7 +132,7 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tblMyCourses);
 
         lblMyCourses.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        lblMyCourses.setText("My Courses - Summer 2026");
+        lblMyCourses.setText("My Courses - Spring 2026");
 
         btnDrop.setText("Drop");
         btnDrop.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +200,36 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
 
     private void btnDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDropActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblMyCourses.getSelectedRow();
+        
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,"Please select a course to drop!","No Selection",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try {
+
+            String courseId = (String) tblMyCourses.getValueAt(selectedRow, 0);
+            String courseName = (String) tblMyCourses.getValueAt(selectedRow, 1);
+            
+
+            int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to drop:\n" + courseId + " - " + courseName + "?","Confirm Drop",JOptionPane.YES_NO_OPTION);
+            
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this,"Successfully dropped " + courseId,"Drop Success",JOptionPane.INFORMATION_MESSAGE);
+                
+            populateAvailableCoursesTable();
+            populateMyCoursesTable();
+
+            
+        } catch (Exception e) {
+            System.err.println("Error dropping course: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnDropActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -186,6 +243,126 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
     private void fieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldSearchActionPerformed
+
+    private void btnEnrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrollActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblAvailableCourses.getSelectedRow();
+        
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,"Please select a course to enroll!","Warning",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try {
+            String courseId = (String) tblAvailableCourses.getValueAt(selectedRow, 0);
+            String courseName = (String) tblAvailableCourses.getValueAt(selectedRow, 1);
+            int credits = (int) tblAvailableCourses.getValueAt(selectedRow, 3);
+            String status = (String) tblAvailableCourses.getValueAt(selectedRow, 5);
+            
+
+            if (status.equals("Full")) {
+                JOptionPane.showMessageDialog(this,"This course is full!","Enrollment Failed",JOptionPane.ERROR_MESSAGE);
+                return;
+            } else {
+ 
+            JOptionPane.showMessageDialog(this,"Successfully enrolled in " + courseId + " - " + courseName,"Success",JOptionPane.INFORMATION_MESSAGE);
+            
+               
+            populateAvailableCoursesTable();
+            populateMyCoursesTable();
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error enrolling: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Error: " + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEnrollActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        String searchType = (String) cmbSearchType.getSelectedItem();
+        String searchText = fieldSearch.getText().trim();
+        
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Please enter search text!", 
+                "Search Error", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) tblAvailableCourses.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Department dept = business.getDepartment();
+            CourseSchedule schedule = dept.getCourseSchedule(CURRENT_SEMESTER);
+            
+            if (schedule == null) return;
+            
+            ArrayList<CourseOffer> offers = schedule.getSchedule();
+            int foundCount = 0;
+            
+            for (CourseOffer offer : offers) {
+                boolean matches = false;
+                
+                Course course = offer.getSubjectCourse();
+                FacultyProfile faculty = offer.getFacultyProfile();
+
+                if (searchType.equals("Course ID")) {
+                    matches = course.getCourseNumber().toLowerCase().contains(searchText.toLowerCase());
+                    
+                } else if (searchType.equals("Teacher")) {
+                    if (faculty != null) {
+                        String teacherName = faculty.getPerson().getFirstName();
+                        matches = teacherName.toLowerCase().contains(searchText.toLowerCase());
+                    }
+                    
+                } else if (searchType.equals("Course Name")) {
+                    matches = course.getCourseName().toLowerCase().contains(searchText.toLowerCase());
+                }
+
+                
+                if (matches) {
+                    String courseId = course.getCourseNumber();
+                    String courseName = course.getCourseName();
+                    String instructor = faculty != null ? faculty.getPerson().getFirstName() : "TBA";
+                    int credits = course.getCredits();
+                    
+                    int totalSeats = offer.getSeatCount();
+                    int occupiedSeats = offer.getEnrolledCount();
+                    int availableSeats = totalSeats - occupiedSeats;
+                    String status = availableSeats > 0 ? "Open" : "Full";
+                    
+                    Object[] row = {
+                        courseId,
+                        courseName,
+                        instructor,
+                        credits,
+                        availableSeats + "/" + totalSeats,
+                        status
+                    };
+                    
+                    model.addRow(row);
+                    foundCount++;
+                }
+            }
+            
+            if (foundCount == 0) {
+                JOptionPane.showMessageDialog(this,
+                    "No courses found matching: " + searchText,
+                    "Search Result",
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Found " + foundCount + " courses");
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error searching courses: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -204,4 +381,119 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
     private javax.swing.JTable tblAvailableCourses;
     private javax.swing.JTable tblMyCourses;
     // End of variables declaration//GEN-END:variables
+
+    private void populateSearchComboBox() {
+        cmbSearchType.removeAllItems();
+        cmbSearchType.addItem("Course ID");
+        cmbSearchType.addItem("Teacher");
+        cmbSearchType.addItem("Course Name");
+    }
+
+    private void populateAvailableCoursesTable() {
+        DefaultTableModel model = (DefaultTableModel) tblAvailableCourses.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Department dept = business.getDepartment();
+            CourseSchedule schedule = dept.getCourseSchedule(CURRENT_SEMESTER);
+            
+            if (schedule == null) {
+                System.out.println("No course schedule found for " + CURRENT_SEMESTER);
+                return;
+            }
+            
+            ArrayList<CourseOffer> offers = schedule.getSchedule();
+            
+            if (offers == null || offers.isEmpty()) {
+                System.out.println("No course offers available");
+                return;
+            }
+            
+            
+            for (CourseOffer offer : offers) {
+                Course course = offer.getSubjectCourse();
+                FacultyProfile faculty = offer.getFacultyProfile();
+                
+                String courseId = course.getCourseNumber();
+                String courseName = course.getCourseName();
+                String instructorFirstName = faculty != null ? faculty.getPerson().getFirstName() : "TBA";
+                //String instructorLastName = faculty != null ? faculty.getPerson().getLastName() : "TBA";
+                int credits = course.getCredits();
+                
+                
+                int totalSeats = offer.getSeatCount();
+                int occupiedSeats = offer.getEnrolledCount();
+                int availableSeats = totalSeats - occupiedSeats;
+                
+                String status = availableSeats > 0 ? "Open" : "Full";
+                
+                Object[] row = {
+                    courseId,
+                    courseName,
+                    instructorFirstName, //+ instructorLastName,
+                    credits,
+                    //availableSeats + "/" + totalSeats,
+                    //"open"
+                };
+                
+                model.addRow(row);
+            }
+            
+            System.out.println("Loaded " + offers.size() + " available courses");
+            
+        } catch (Exception e) {
+            System.err.println("Error loading available courses: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void populateMyCoursesTable() {
+        DefaultTableModel model = (DefaultTableModel) tblMyCourses.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Transcript transcript = studentProfile.getTranscript();
+            CourseLoad courseLoad = transcript.getCourseLoadBySemester(CURRENT_SEMESTER);
+            
+            if (courseLoad == null) {
+                System.out.println("No course load for current semester");
+                return;
+            }
+            
+            ArrayList<SeatAssignment> seats = courseLoad.getSeatAssignments();
+            
+            if (seats == null || seats.isEmpty()) {
+                System.out.println("No courses enrolled");
+                return;
+            }
+            
+            for (SeatAssignment seat : seats) {
+                Course course = seat.getAssociatedCourse();
+                CourseOffer offer = seat.getCourseOffer();
+                FacultyProfile faculty = offer.getFacultyProfile();
+                
+                String courseId = course.getCourseNumber();
+                String courseName = course.getCourseName();
+                String instructor = faculty != null ? faculty.getPerson().getFirstName() : "TBA";
+                int credits = course.getCredits();
+                
+                Object[] row = {
+                    courseId,
+                    courseName,
+                    instructor,
+                    credits
+                };
+                
+                model.addRow(row);
+            }
+            
+            System.out.println("Loaded " + seats.size() + " enrolled courses");
+            
+        } catch (Exception e) {
+            System.err.println("Error loading my courses: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    
 }

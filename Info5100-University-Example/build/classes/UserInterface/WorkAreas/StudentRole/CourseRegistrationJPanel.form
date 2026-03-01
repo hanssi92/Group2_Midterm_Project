@@ -124,6 +124,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
 
@@ -181,13 +184,16 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Helvetica Neue" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Available Courses - Summer 2026"/>
+        <Property name="text" type="java.lang.String" value="Available Courses - Spring 2026"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnEnroll">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enroll"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnrollActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
 
@@ -239,7 +245,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Helvetica Neue" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="My Courses - Summer 2026"/>
+        <Property name="text" type="java.lang.String" value="My Courses - Spring 2026"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnDrop">
