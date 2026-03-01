@@ -41,10 +41,14 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
 
         lblMyProfileTitle = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
-        lblName = new javax.swing.JLabel();
-        lblStudentID = new javax.swing.JLabel();
-        fieldName = new javax.swing.JTextField();
-        fieldStudentID = new javax.swing.JTextField();
+        lblFirstName = new javax.swing.JLabel();
+        lblLastName = new javax.swing.JLabel();
+        fieldFirstName = new javax.swing.JTextField();
+        fieldEmail = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
+        lblDegree = new javax.swing.JLabel();
+        fieldLastName = new javax.swing.JTextField();
+        fieldDegree = new javax.swing.JTextField();
 
         lblMyProfileTitle.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         lblMyProfileTitle.setText("My Profile");
@@ -56,13 +60,21 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
             }
         });
 
-        lblName.setText("Name:");
+        lblFirstName.setText("First Name:");
 
-        lblStudentID.setText("Student ID:");
+        lblLastName.setText("Last Name:");
 
-        fieldName.setEditable(false);
+        fieldFirstName.setEditable(false);
 
-        fieldStudentID.setEditable(false);
+        fieldEmail.setEditable(false);
+
+        lblEmail.setText("Email:");
+
+        lblDegree.setText("Degree:");
+
+        fieldLastName.setEditable(false);
+
+        fieldDegree.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -78,13 +90,17 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(240, 240, 240)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblStudentID)
-                            .addComponent(lblName))
+                            .addComponent(lblLastName)
+                            .addComponent(lblFirstName)
+                            .addComponent(lblEmail)
+                            .addComponent(lblDegree))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fieldName)
-                            .addComponent(fieldStudentID, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
-                .addContainerGap(335, Short.MAX_VALUE))
+                            .addComponent(fieldFirstName)
+                            .addComponent(fieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                            .addComponent(fieldLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                            .addComponent(fieldDegree, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
+                .addContainerGap(333, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,13 +111,21 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
                     .addComponent(lblMyProfileTitle))
                 .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblFirstName)
+                    .addComponent(fieldFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStudentID)
-                    .addComponent(fieldStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(301, Short.MAX_VALUE))
+                    .addComponent(lblLastName)
+                    .addComponent(fieldLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmail)
+                    .addComponent(fieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDegree)
+                    .addComponent(fieldDegree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -116,16 +140,21 @@ public class StudentManageProfileJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JTextField fieldName;
-    private javax.swing.JTextField fieldStudentID;
+    private javax.swing.JTextField fieldDegree;
+    private javax.swing.JTextField fieldEmail;
+    private javax.swing.JTextField fieldFirstName;
+    private javax.swing.JTextField fieldLastName;
+    private javax.swing.JLabel lblDegree;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblFirstName;
+    private javax.swing.JLabel lblLastName;
     private javax.swing.JLabel lblMyProfileTitle;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblStudentID;
     // End of variables declaration//GEN-END:variables
 
     private void populateData() {
-        fieldName.setText(student.getPerson().getPersonId());
-        fieldStudentID.setText(student.getPerson().getPersonId());
-       
+        fieldFirstName.setText(student.getPerson().getFirstName());
+        fieldLastName.setText(student.getPerson().getLastName());
+        fieldEmail.setText(student.getPerson().getEmail());
+        fieldDegree.setText(student.getPerson().getDegree());
     }
 }
