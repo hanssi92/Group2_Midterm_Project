@@ -6,7 +6,9 @@ package UserInterface.WorkAreas.FacultyRole.FacultyRoleWorkResp02;
 
 import Business.Business;
 import Business.UserAccounts.UserAccount;
+import info5100.university.example.CourseSchedule.CourseLoad;
 import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.CourseSchedule;
 import info5100.university.example.CourseSchedule.Seat;
 import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Department.Department;
@@ -26,17 +28,21 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
     
+    Business business;   
     FacultyProfile facultyProfile;
+    JPanel CardSequencePanel;
     
     
     
     /**
      * Creates new form ManageStudentProfileListJPanel
      */
-    public ManageStudentProfileListJPanel(Business business, JPanel CardSequencePanel, FacultyProfile facultyProfile) {
+    public ManageStudentProfileListJPanel(Business business, FacultyProfile facultyProfile,JPanel CardSequencePanel) {
         initComponents();
         
+        this.business = business;
         this.facultyProfile = facultyProfile;
+        this.CardSequencePanel = CardSequencePanel;
         
         populateTable();
     }
@@ -67,7 +73,7 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "NUID", "First Name", "Last Name", "Degree", "GPA"
+                "NUID", "First Name", "Last Name", "Department", "GPA"
             }
         ));
         jScrollPane1.setViewportView(tblManageStudentProfile);
@@ -161,8 +167,45 @@ public class ManageStudentProfileListJPanel extends javax.swing.JPanel {
         model.setRowCount(0);
         
         Department dept = business.getDepartment();
-        ///prevent null
         if (dept == null || facultyProfile == null) return;
+        
+        String sem = "Spring 2026";
+        CourseSchedule cs = dept.getCourseSchedule(sem);
+        if (cs == null) return;
+        
+        java.util.HashSet<StudentProfile> unique = new java.util.HashSet<>();
+        
+        for (CourseOffer co : cs.getSchedule()) {
+            
+            FacultyProfile assigned = co.getFacultyProfile();
+            if (assigned == null) continue;
+            
+            //subjects that assigned only
+            if (assigned != facultyProfile) continue;
+            
+            //students enrolled subjects
+            for (Seat s : co.getSeatList()) {
+                SeatAssignment sa = s.getSeatAssignment();
+                if (sa == null) continue;
                 
+                CourseLoad cl = sa.getCourseLoad();
+                if (cl == null) continue;
+                
+                StudentProfile sp = cl.getStudentProfile();
+                if (sp == null) continue;
+                
+                unique.add(sp);
+            }
+        }
+        for (StudentProfile sp : unique) {
+            Object [] row = new Object[5];
+            row[0] = sp.getPerson().getPersonId();
+            row[1] = sp.getPerson().getFirstName();
+            row[2] = sp.getPerson().getLastName();
+            row[3] = sp.getDepartment();
+            row[4] = sp.getPerson().getGPA();
+            
+            model.addRow(row);
+        }     
     }
 }

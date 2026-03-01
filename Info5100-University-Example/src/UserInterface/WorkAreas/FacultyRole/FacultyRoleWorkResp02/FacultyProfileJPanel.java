@@ -20,26 +20,23 @@ import javax.swing.JPanel;
  */
 public class FacultyProfileJPanel extends javax.swing.JPanel {
     
-    Business business;
+    FacultyProfile facultyProfile;
     JPanel CardSequencePanel;
-    UserAccount userAccount;
-    
-    private FacultyProfile facultyProfile;
     
     /**
      * Creates new form MyProfileJPanel
      */
-    public FacultyProfileJPanel(Business b, JPanel csp, UserAccount ua) {
+    public FacultyProfileJPanel(FacultyProfile facultyProfile, JPanel CardSequencePanel) {
         initComponents();
         
-        this.business = b;
-        this.CardSequencePanel = csp;
-        this.userAccount = ua;
+        this.facultyProfile = facultyProfile;
+        this.CardSequencePanel = CardSequencePanel;
         
         
         populateFields();
+        setEditable(false);
         
-        setAllfieldDisabled();
+        btnUpdate.setEnabled(true);
         btnSave.setEnabled(false);
         
     }
@@ -71,6 +68,8 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         lblPersonInformation = new javax.swing.JLabel();
         lblProfInformation = new javax.swing.JLabel();
+        lblLastUpdated = new javax.swing.JLabel();
+        txtLastUpdated = new javax.swing.JTextField();
 
         lblProfileTitle.setFont(new java.awt.Font("맑은 고딕", 1, 24)); // NOI18N
         lblProfileTitle.setText("Faculty Profile");
@@ -122,43 +121,56 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
         lblProfInformation.setFont(new java.awt.Font("맑은 고딕 Semilight", 1, 14)); // NOI18N
         lblProfInformation.setText("Professional Information");
 
+        lblLastUpdated.setText("Last Updated");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(307, 307, 307)
-                .addComponent(lblProfileTitle)
-                .addContainerGap(328, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblProfInformation)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblLastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFacultyId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFirstName)
-                            .addComponent(lblDepartment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblPersonInformation))
-                        .addGap(73, 73, 73)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFacultyId)
-                            .addComponent(txtFirstName)
-                            .addComponent(txtLastName)
-                            .addComponent(txtDepartment)
-                            .addComponent(txtTitle)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(241, 241, 241)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPersonInformation)
+                            .addComponent(lblProfileTitle)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(btnBack)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSave)))
-                .addGap(228, 228, 228))
+                        .addGap(238, 238, 238)
+                        .addComponent(lblProfInformation))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblFacultyId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblFirstName))
+                                    .addComponent(lblLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFacultyId, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblLastUpdated))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtLastUpdated, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                                        .addComponent(txtTitle)
+                                        .addComponent(txtDepartment))
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBack)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUpdate)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSave)))))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +179,7 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
                 .addComponent(lblProfileTitle)
                 .addGap(18, 18, 18)
                 .addComponent(lblPersonInformation)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFacultyId)
                     .addComponent(txtFacultyId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -179,53 +191,32 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLastName)
                     .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addGap(24, 24, 24)
                 .addComponent(lblProfInformation)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDepartment)
                     .addComponent(txtDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTitle))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEmail))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitle)
-                    .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLastUpdated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLastUpdated))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnUpdate)
                     .addComponent(btnSave))
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    private void populateFields() {
-        
-        if (userAccount == null || userAccount.getAssociatedPerson() == null) {
-            JOptionPane.showMessageDialog(null, "No faculty profile. Please Create your account first.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        Person p = userAccount.getAssociatedPerson();
-        
-        Department dept = business.getDepartment();
-        FacultyDirectory fd = dept.getFacultyDirectory();
-        
-        FacultyProfile facultyProfile = fd.findFacultyByPersonId(p.getPersonId());
-
-        txtFacultyId.setText(p.getPersonId());
-        txtFirstName.setText(facultyProfile.getFirstName());
-        txtLastName.setText(facultyProfile.getLastName());
-        
-        Department d = facultyProfile.getDepartment();
-        txtDepartment.setText(dept.getName());
-        
-        txtTitle.setText(facultyProfile.getTitle());
-        txtEmail.setText(facultyProfile.getEmail());
-        
-    }
 
 
     private void txtFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirstNameActionPerformed
@@ -234,29 +225,46 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        if (facultyProfile == null) {
+        if (facultyProfile == null){
             JOptionPane.showMessageDialog(null, "No faculty profile. Please Create your account first", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
+        String title = txtTitle.getText();
+        String email = txtEmail.getText();
+        
+        if (title.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Title is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (email.isEmpty() || !email.contains("@")) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid email", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         facultyProfile.setFirstName(txtFirstName.getText());
         facultyProfile.setFirstName(txtLastName.getText());
         facultyProfile.setTitle(txtTitle.getText());
         facultyProfile.setEmail(txtEmail.getText());
         
         //to get "MSIS" 
-        facultyProfile.setDepartment(business.getDepartment());
-        
+        txtDepartment.setText(facultyProfile.getDepartment() == null ? "MSIS" : facultyProfile.getDepartment().getName());
+        txtLastUpdated.setText(java.time.LocalDate.now().toString());
+
         JOptionPane.showMessageDialog(this, "Successfully Saved!", "Information", JOptionPane.INFORMATION_MESSAGE);
         
-        setAllfieldDisabled();
-        btnSave.setEnabled(false);
+
+        setEditable(false);
+
         
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         setEditable(true);
+        
+        btnUpdate.setEnabled(false);
         btnSave.setEnabled(true);
         
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -280,6 +288,7 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblFacultyId;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblLastName;
+    private javax.swing.JLabel lblLastUpdated;
     private javax.swing.JLabel lblPersonInformation;
     private javax.swing.JLabel lblProfInformation;
     private javax.swing.JLabel lblProfileTitle;
@@ -289,24 +298,39 @@ public class FacultyProfileJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtFacultyId;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
+    private javax.swing.JTextField txtLastUpdated;
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
 
-        
-    private void setAllfieldDisabled() {
-        setEditable(false);
-    }
-    
+
     private void setEditable(boolean b) {
         txtFacultyId.setEditable(false);
         txtDepartment.setEditable(false);
+        txtFirstName.setEditable(false);
+        txtLastName.setEditable(false);
         
-        txtFirstName.setEditable(true);
-        txtLastName.setEnabled(true);
-        txtTitle.setEnabled(true);
-        txtEmail.setEnabled(true);
+        txtTitle.setEditable(true);
+        txtEmail.setEditable(true);
     }
 
+    private void populateFields() {
+        if (facultyProfile == null) return;
+        
+        txtFacultyId.setText(facultyProfile.getFacultyId());
+        txtFirstName.setText(facultyProfile.getFirstName());
+        txtLastName.setText(facultyProfile.getLastName());
+        
+        if (facultyProfile.getDepartment() != null) {
+            txtDepartment.setText(facultyProfile.getDepartment().getName());
+        } else {
+            txtDepartment.setText("");
+        }
+        
+        txtTitle.setText(facultyProfile.getTitle());
+        txtEmail.setText(facultyProfile.getEmail());
+        
+        txtLastUpdated.setText(java.time.LocalDate.now().toString());
 
+    }
 
 }

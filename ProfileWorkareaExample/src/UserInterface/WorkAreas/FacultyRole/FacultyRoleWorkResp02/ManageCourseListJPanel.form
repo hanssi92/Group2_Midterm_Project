@@ -91,8 +91,8 @@
                 <Column editable="true" title="Course Number" type="java.lang.Object"/>
                 <Column editable="true" title="Course Name" type="java.lang.Object"/>
                 <Column editable="true" title="Credits" type="java.lang.Object"/>
-                <Column editable="true" title="Department" type="java.lang.Object"/>
-                <Column editable="true" title="Last Updated" type="java.lang.Object"/>
+                <Column editable="true" title="Semester" type="java.lang.Object"/>
+                <Column editable="true" title="Seats" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>

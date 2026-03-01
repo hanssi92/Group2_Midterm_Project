@@ -81,7 +81,7 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Course Number", "Course Name", "Credits", "Semester", "Last Updated"
+                "Course Number", "Course Name", "Credits", "Department", "Last Updated"
             }
         ));
         jScrollPane2.setViewportView(tblCourseList);
@@ -168,25 +168,15 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
         Department dept = business.getDepartment();
         if (dept == null || dept.getCourseCatalog() == null) return;
         
-        CourseSchedule cs = dept.getCourseSchedule("Spring2026");
-        if (cs == null) return;
-        
-        for (CourseOffer co : cs.getSchedule()) {
-            
-            FacultyProfile assigned = co.getFacultyProfile();
-            if (assigned == null) continue;
-            
-            if (assigned != facultyProfile) continue;
-
         for (Course c : dept.getCourseCatalog().getCourseList()) {
+            
             Object[] row = new Object[5];
-            row[0] = c;
-            row[1] = c.getCourseName();
-            row[2] = c.getCredits();
-            row[3] = dept.getCourseSchedule("Spring2026");
+            row[0] = c;                  //course Number
+            row[1] = c.getCourseName(); // Course Name
+            row[2] = c.getCredits();    //Credits
+            row[3] = dept.getName();  //Degree(MSIS)
             row[4] = dept.getCourseCatalog().getLastUpdated();
             model.addRow(row);
         }
     }
-}
 }

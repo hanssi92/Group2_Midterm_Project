@@ -92,6 +92,18 @@ public class CourseOffer {
         }
         return null;
     }
+    
+    public int getEnrolledCount() {
+        
+        int count = 0;
+        
+        for (Seat s : seatlist) {
+            if(s.isOccupied()) {
+                count++;
+            }
+        }
+        return count;
+    }
 
 
     public SeatAssignment assignEmptySeat(CourseLoad cl) {
@@ -120,15 +132,16 @@ public class CourseOffer {
     public Course getSubjectCourse(){
         return course;
     }
-    public int getCreditHours(){
-        return course.getCredits();
-    }
 
     public void assignFaculty(FacultyProfile fp) {
         this.facultyAssignment = new FacultyAssignment(fp, this);
         if (fp != null && fp.getFacultyAssignments() != null){
             fp.getFacultyAssignments().add(this.facultyAssignment);
         }
+    }
+    
+     public int getCreditHours(){
+        return course.getCredits();
     }
    
     public java.util.ArrayList<Seat> getSeatList() {

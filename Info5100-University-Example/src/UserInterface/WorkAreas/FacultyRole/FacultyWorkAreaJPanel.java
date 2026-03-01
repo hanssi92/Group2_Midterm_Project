@@ -167,7 +167,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnManageStudentProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageStudentProfileActionPerformed
         // TODO add your handling code here:
-        ManageStudentProfileListJPanel panel = new ManageStudentProfileListJPanel(facultyProfile);
+        ManageStudentProfileListJPanel panel = new ManageStudentProfileListJPanel(business, facultyProfile, CardSequencePanel);
         CardSequencePanel.add("ManageStudentsJPanel", panel);
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 
@@ -176,7 +176,7 @@ public class FacultyWorkAreaJPanel extends javax.swing.JPanel {
 
     private void btnfacultyProfileIdentifyEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfacultyProfileIdentifyEventsActionPerformed
         // TODO add your handling code here:
-       FManageProfileJPanel panel = new ManageProfileJPanel(facultyProfile, CardSequencePanel);
+       FacultyProfileJPanel panel = new FacultyProfileJPanel(facultyProfile, CardSequencePanel);
        CardSequencePanel.add("ManageProfileJPanel", panel);
        ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
 }//GEN-LAST:event_btnfacultyProfileIdentifyEventsActionPerformed

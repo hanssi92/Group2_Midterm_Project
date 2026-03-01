@@ -161,7 +161,7 @@ class ConfigureABusiness {
         
         ///3. Create Course schedule for "Spring 2026"
         String sem = "Spring 2026";
-        CourseSchedule csSpring2026 = dept.newCourseSchedule("Spring2026");
+        CourseSchedule csSpring2026 = dept.newCourseSchedule(sem);
         
         ///4. Create course offer and assign faculty
         CourseOffer co1 = csSpring2026.newCourseOffer("INFO5100");

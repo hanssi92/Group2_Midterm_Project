@@ -10,6 +10,7 @@ import info5100.university.example.CourseCatalog.Course;
 import info5100.university.example.CourseSchedule.CourseOffer;
 import info5100.university.example.CourseSchedule.CourseSchedule;
 import info5100.university.example.Department.Department;
+import info5100.university.example.Persona.Faculty.FacultyProfile;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,17 +21,20 @@ import javax.swing.table.DefaultTableModel;
  * @author Hyungs
  */
 public class ManageCourseListJPanel extends javax.swing.JPanel {
-    JPanel CardSequencePanel;
+    
     Business business;
+    FacultyProfile facultyProfile;
+    JPanel CardSequencePanel;
     
     /**
      * Creates new form ManageCourseListJPanel
      */
-    public ManageCourseListJPanel(Business b, JPanel csp) {
+    public ManageCourseListJPanel(Business business,FacultyProfile facultyProfile, JPanel CardSequencePanel) {
         initComponents();
         
-        this.business = b;
-        this.CardSequencePanel = csp;
+        this.business = business;
+        this.facultyProfile = facultyProfile;
+        this.CardSequencePanel = CardSequencePanel;
         
         populateTable();
     }
@@ -75,7 +79,7 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Course Number", "Course Name", "Credits", "Department", "Last Updated"
+                "Course Number", "Course Name", "Credits", "Semester", "Seats"
             }
         ));
         jScrollPane2.setViewportView(tblCourseList);
@@ -159,16 +163,27 @@ public class ManageCourseListJPanel extends javax.swing.JPanel {
         model.setRowCount(0);
         
         Department dept = business.getDepartment();
+        if (dept == null) return;
         
-        for (Course c : dept.getCourseCatalog().getCourseList()) {
+        String semester = "Spring 2026";
+        CourseSchedule cs = dept.getCourseSchedule(semester);
+        if (cs == null) return;
+        
+        for (CourseOffer co : cs.getSchedule()) {
+            FacultyProfile assigned = co.getFacultyProfile();
+            if (assigned == null) continue;
             
-            Object row [] = new Object [5];
+            if (!assigned.getPerson().getPersonId().equals(personId));
             
-            row[0] = c;
-            row[1] = c.getCourseName();
-            row[2] = c.getCredits();
-            row[3] = dept.getName();
-            row[4] = dept.getCourseCatalog().getLastUpdated();
+            Course course = co.getCourse();
+            if (course == null)continue;
+
+            Object row [] = new Object [5];            
+            row[0] = course;
+            row[1] = course.getCourseName();
+            row[2] = course.getCredits();
+            row[3] = semester;
+            row[4] = co.getSeatCount();
             
             model.addRow(row);
             

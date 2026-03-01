@@ -84,6 +84,10 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
 
         txtCourseNumber.setEditable(false);
 
+        txtCourseName.setEditable(false);
+
+        txtCredits.setEditable(false);
+
         txtDepartment.setEditable(false);
 
         txtLastUpdated.setEditable(false);
@@ -129,44 +133,44 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(330, 330, 330)
-                                .addComponent(lblCourseTitle))
+                                .addGap(275, 275, 275)
+                                .addComponent(btnCourseBack)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCourseUpdate)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCourseSave))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(242, 242, 242)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGap(224, 224, 224)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblCourseNumber)
-                                        .addGap(66, 66, 66)
-                                        .addComponent(txtCourseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblCourseName)
-                                        .addGap(78, 78, 78)
-                                        .addComponent(txtCourseName))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblCredits)
-                                            .addComponent(lblDepartment)
-                                            .addComponent(lblLastUpdated))
-                                        .addGap(81, 81, 81)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtCredits)
-                                            .addComponent(txtDepartment)
-                                            .addComponent(txtLastUpdated, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 253, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)))
+                                        .addGap(88, 88, 88)
+                                        .addComponent(lblCourseTitle))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblCourseNumber)
+                                            .addGap(66, 66, 66)
+                                            .addComponent(txtCourseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblCourseName)
+                                            .addGap(78, 78, 78)
+                                            .addComponent(txtCourseName))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lblCredits)
+                                                .addComponent(lblDepartment)
+                                                .addComponent(lblLastUpdated))
+                                            .addGap(81, 81, 81)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtCredits)
+                                                .addComponent(txtDepartment)
+                                                .addComponent(txtLastUpdated, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addGap(0, 267, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(275, 275, 275)
-                .addComponent(btnCourseBack)
-                .addGap(18, 18, 18)
-                .addComponent(btnCourseUpdate)
-                .addGap(18, 18, 18)
-                .addComponent(btnCourseSave)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +235,6 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         setEditMode();
-        btnCourseSave.setEnabled(true);
         
         
     }//GEN-LAST:event_btnCourseUpdateActionPerformed
@@ -241,8 +244,6 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         
         // validation: course name
         String name = txtCourseName.getText();
-        String creditstext = txtCredits.getText();
-        
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Couirse Name is required.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
@@ -252,11 +253,9 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         int Credits;
         try {
             Credits = Integer.parseInt(txtCredits.getText());
-
         } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Credits must be a valid number.");
-        return;
-        
+            JOptionPane.showMessageDialog(this, "Credits must be a valid number.");
+            return;
         }
         if (Credits <=0) {
             JOptionPane.showMessageDialog(this, "Credits must be greater than 0", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -268,8 +267,8 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         course.setCredits(Integer.parseInt(txtCredits.getText()));
         
         // LastUpdated Setting
-        Department dept = business.getDepartment();
-        dept.getCourseCatalog().updateLastUpdated();
+       
+        department.getCourseCatalog().updateLastUpdated();
         txtLastUpdated.setText(java.time.LocalDate.now().toString());
         
         JOptionPane.showMessageDialog(this, "Course upated.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -301,18 +300,15 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void populateCourseFields() {
-        if (course == null) return;
+        if (course == null || department == null) return;
         
         txtCourseNumber.setText(course.getCourseNumber());
         txtCourseName.setText(course.getCourseName());
         txtCredits.setText(String.valueOf(course.getCredits()));
         
-        //to show department
-        Department dept = business.getDepartment();
-        txtDepartment.setText(dept.getName());
-        
-        txtLastUpdated.setText(dept.getCourseCatalog().getLastUpdated());
-        
+        txtDepartment.setText(department.getName());
+        txtLastUpdated.setText(department.getCourseCatalog().getLastUpdated());
+
     }
     
     private void papulateOfferTable() {
@@ -321,27 +317,19 @@ public class CourseDetailJPanel extends javax.swing.JPanel {
         
         if (department == null || course == null) return;
         
-        HashMap<String, CourseSchedule> map = department.getMasterCourseCatalog();
-        for (String semester : department.getMasterCourseCatalog().keySet()) {
-            CourseSchedule cs = department.getMasterCourseCatalog().get(semester);
-            if (cs == null || cs.getSchedule() == null) continue;
+        CourseSchedule cs = department.getCourseSchedule("Spring 2026");
+        if (cs == null) return;
+        
+        for (CourseOffer co : cs.getSchedule()) {
+            if (co.getCourse() != course) continue;
             
-            for (CourseOffer co : cs.getSchedule()) {
-                if (co==null) continue;
-                
-                int seatCapacity = co.getSeatCount();
-                int enrolled = co.getTotalCourseRevenues();
-                int available = seatCapacity - enrolled;
-                
-                Object [] row = new Object [4];
-                row[0] = semester;
-                row[1] = co.getScheduleTime();
-                row[2] = seatCapacity;
-                row[3] = available;
-                
-                model.addRow(row);
-
-            }
+            Object row[] = new Object [4];
+            row[0] = "Spring 2026"; // Semester
+            row[1] = co.getScheduleTime(); //schedule time
+            row[2] = co.getSeatCount(); // Seat capacity
+            row[3] = co.getSeatCount() - co.getEnrolledCount(); //Total seatcount - Register student 
+            
+            model.addRow(row);
         }
     }
 }
