@@ -5,8 +5,15 @@
 package UserInterface.WorkAreas.StudentRole;
 
 import Business.Business;
+import info5100.university.example.CourseCatalog.Course;
+import info5100.university.example.CourseSchedule.CourseLoad;
+import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Persona.StudentProfile;
+import info5100.university.example.Persona.Transcript;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +25,8 @@ public class StudentCourseWork extends javax.swing.JPanel {
     private JPanel CardSequencePanel;
     Business business;
     
+    private static final String CURRENT_SEMESTER = "Spring 2026";
+    
     /**
      * Creates new form StudentCourseWork
      */
@@ -25,7 +34,9 @@ public class StudentCourseWork extends javax.swing.JPanel {
         this.studentProfile = studentProfile;
         this.CardSequencePanel = CardSequencePanel;
         
+        
         initComponents();
+        populateCurrentCourseTable();
     }
 
     /**
@@ -39,8 +50,8 @@ public class StudentCourseWork extends javax.swing.JPanel {
 
         lblManageCourseworkTitle = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
-        tblCurrentCourses = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        scrollpane1 = new javax.swing.JScrollPane();
+        tblCurrentCourses = new javax.swing.JTable();
         lblCurrentSemesterCourses = new javax.swing.JLabel();
         lblUploadAssignment = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -57,7 +68,7 @@ public class StudentCourseWork extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCurrentCourses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -68,7 +79,7 @@ public class StudentCourseWork extends javax.swing.JPanel {
                 "Course ID", "Title", "Credits", "Status"
             }
         ));
-        tblCurrentCourses.setViewportView(jTable1);
+        scrollpane1.setViewportView(tblCurrentCourses);
 
         lblCurrentSemesterCourses.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         lblCurrentSemesterCourses.setText("Current Semester Courses");
@@ -81,6 +92,11 @@ public class StudentCourseWork extends javax.swing.JPanel {
         jScrollPane2.setViewportView(fieldAssignment);
 
         btnSubmitAssignment.setText("Submit");
+        btnSubmitAssignment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitAssignmentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -93,7 +109,7 @@ public class StudentCourseWork extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(lblUploadAssignment)
                         .addComponent(lblCurrentSemesterCourses)
-                        .addComponent(tblCurrentCourses, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+                        .addComponent(scrollpane1, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(btnBack)
                             .addGap(194, 194, 194)
@@ -111,7 +127,7 @@ public class StudentCourseWork extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addComponent(lblCurrentSemesterCourses)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tblCurrentCourses, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollpane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(lblUploadAssignment)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -130,16 +146,65 @@ public class StudentCourseWork extends javax.swing.JPanel {
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnSubmitAssignmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAssignmentActionPerformed
+        // TODO add your handling code here:
+        String assignment = fieldAssignment.getText();
+        
+        if(assignment.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter information for our assignment before submitting", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Assignment received!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSubmitAssignmentActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSubmitAssignment;
     private javax.swing.JTextArea fieldAssignment;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCurrentSemesterCourses;
     private javax.swing.JLabel lblManageCourseworkTitle;
     private javax.swing.JLabel lblUploadAssignment;
-    private javax.swing.JScrollPane tblCurrentCourses;
+    private javax.swing.JScrollPane scrollpane1;
+    private javax.swing.JTable tblCurrentCourses;
     // End of variables declaration//GEN-END:variables
+
+    private void populateCurrentCourseTable() {
+        DefaultTableModel model = (DefaultTableModel) tblCurrentCourses.getModel();
+        model.setRowCount(0);
+        
+        try {
+            Transcript transcript = studentProfile.getTranscript();
+            CourseLoad courseLoad = transcript.getCourseLoadBySemester(CURRENT_SEMESTER);
+            
+            if (courseLoad == null) {
+                return;
+            }
+            
+            ArrayList<SeatAssignment> seats = courseLoad.getSeatAssignments();
+
+            for (SeatAssignment seat : seats) {
+                Course course = seat.getAssociatedCourse();
+                
+                String courseId = course.getCourseNumber();
+                String courseName = course.getCourseName();
+                int credits = course.getCredits();
+                
+                Object[] row = {
+                    courseId,
+                    courseName,
+                    credits,
+                    "In Progress"
+                };
+                
+                model.addRow(row);
+
+            }
+           
+            
+        } catch (Exception e) {
+            System.err.println("Error loading course fees: " + e.getMessage());
+        }
+    }
 }
