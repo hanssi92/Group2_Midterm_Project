@@ -5,8 +5,17 @@
 package UserInterface.WorkAreas.StudentRole;
 
 import Business.Business;
+import info5100.university.example.CourseCatalog.Course;
+import info5100.university.example.CourseSchedule.CourseLoad;
+import info5100.university.example.CourseSchedule.CourseOffer;
+import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Persona.StudentProfile;
+import info5100.university.example.Persona.Transcript;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,6 +36,9 @@ public class TranscriptJPanel extends javax.swing.JPanel {
         this.CardSequencePanel = CardSequencePanel;
         
         initComponents();
+        
+        loadSemesters();   // 加载学期列表到ComboBox
+        populateTranscript();
     }
 
     /**
@@ -58,6 +70,11 @@ public class TranscriptJPanel extends javax.swing.JPanel {
         lblSelectSemester.setText("Select Semester:");
 
         cmbSelectSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSelectSemester.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSelectSemesterActionPerformed(evt);
+            }
+        });
 
         tblTranscript.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,6 +132,11 @@ public class TranscriptJPanel extends javax.swing.JPanel {
         ((java.awt.CardLayout) CardSequencePanel.getLayout()).next(CardSequencePanel);
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void cmbSelectSemesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSelectSemesterActionPerformed
+        // TODO add your handling code here:
+        populateTranscript();
+    }//GEN-LAST:event_cmbSelectSemesterActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -124,4 +146,107 @@ public class TranscriptJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblTranscriptTitle;
     private javax.swing.JTable tblTranscript;
     // End of variables declaration//GEN-END:variables
+
+    private void loadSemesters() {
+        cmbSelectSemester.removeAllItems();
+        cmbSelectSemester.addItem("All Semesters");
+        
+        try {
+            Transcript transcript = studentProfile.getTranscript();
+
+            
+            ArrayList<SeatAssignment> allCourses = transcript.getCourseList();
+            HashSet<String> semesters = new HashSet<>();
+            
+            for (SeatAssignment seat : allCourses) {
+                CourseLoad courseLoad = seat.getCourseLoad();
+                if (courseLoad != null) {
+                    String semester = courseLoad.getTerm(); 
+                    semesters.add(semester);
+                }
+            }
+            
+            for (String term : semesters) {
+                cmbSelectSemester.addItem(term);
+            }
+            
+            System.out.println("Loaded " + semesters.size() + " semesters");
+            
+        } catch (Exception e) {
+            System.err.println("Error loading semesters: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void populateTranscript() {
+        DefaultTableModel model = (DefaultTableModel) tblTranscript.getModel();
+        model.setRowCount(0);
+        
+        try {
+            String selectedSemester = (String) cmbSelectSemester.getSelectedItem();
+            Transcript transcript = studentProfile.getTranscript();
+            ArrayList<SeatAssignment> allCourses = transcript.getCourseList();
+            
+            if (allCourses == null || allCourses.isEmpty()) {
+                System.out.println("No courses found");
+                return;
+            }
+
+            HashMap<String, ArrayList<SeatAssignment>> coursesBySemester = new HashMap<>();
+            
+            for (SeatAssignment seat : allCourses) {
+                CourseLoad courseLoad = seat.getCourseLoad();
+                if (courseLoad == null) continue;
+                
+                String term = courseLoad.getTerm();  // 直接访问semester属性
+               
+                if (!coursesBySemester.containsKey(term)) {
+                    coursesBySemester.put(term, new ArrayList<>());
+                }
+                coursesBySemester.get(term).add(seat);
+            }
+
+            for (String term : coursesBySemester.keySet()) {
+
+                if (selectedSemester != null && 
+                    !selectedSemester.equals("All Semesters") && 
+                    !term.equals(selectedSemester)) {
+                    continue;
+                }
+                
+                ArrayList<SeatAssignment> semesterCourses = coursesBySemester.get(term);
+                
+
+                for (SeatAssignment seat : semesterCourses) {
+                    CourseOffer offer = seat.getCourseOffer();
+                    Course course = seat.getAssociatedCourse();  // 使用getAssociatedCourse()
+                    
+                    String courseId = course.getCourseNumber();
+                    String courseName = course.getCourseName();
+                    
+                    float gradeValue = seat.getGrade();
+                    
+                    Object[] row = {
+                        term,
+                        courseId,
+                        courseName,
+                        "Instructor",
+                        gradeValue
+                        //String.format("%.2f", termGPA),
+                        //String.format("%.2f", overallGPA)
+                    };
+                    
+                    model.addRow(row);
+                }
+            }
+            
+            System.out.println("Transcript loaded: " + model.getRowCount() + " courses");
+            
+        } catch (Exception e) {
+            System.err.println("Error loading transcript: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
