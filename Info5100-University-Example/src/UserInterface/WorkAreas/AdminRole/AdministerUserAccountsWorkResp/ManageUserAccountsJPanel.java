@@ -230,7 +230,7 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
     private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 
-    private void refreshTable() {
+    public void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) userTable.getModel();
         // Set column names correctly
         model.setColumnIdentifiers(new String[]{"User Account", "Username", "Person Name", "Person ID", "Role"});

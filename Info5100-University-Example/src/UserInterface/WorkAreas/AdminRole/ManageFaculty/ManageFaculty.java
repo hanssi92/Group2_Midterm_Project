@@ -39,7 +39,7 @@ public class ManageFaculty extends javax.swing.JPanel {
         initComponents();
         
         populateFacultyTable();
-        populateStudentTable();
+        
     }
 
     /**
@@ -349,7 +349,7 @@ public class ManageFaculty extends javax.swing.JPanel {
                 }
 
                 // 7. Refresh the table
-                populateStudentTable();
+                populateFacultyTable();
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "An error occurred during deletion: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -360,7 +360,7 @@ public class ManageFaculty extends javax.swing.JPanel {
     private void btnRefreshStudentListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshStudentListActionPerformed
         // TODO add your handling code here:
         txtFacultySearch.setText("");
-        populateStudentTable(); // Reload all students
+        populateFacultyTable(); // Reload all students
     }//GEN-LAST:event_btnRefreshStudentListActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -385,45 +385,6 @@ public class ManageFaculty extends javax.swing.JPanel {
     private javax.swing.JTextField txtFacultySearch;
     // End of variables declaration//GEN-END:variables
 
-            
-    public void populateStudentTable(ArrayList<StudentProfile> studentList) {
-        DefaultTableModel model = (DefaultTableModel) tblFaculty.getModel(); // Assuming your student table is named tblStudents
-        model.setRowCount(0);
-
-        if (studentList == null) {
-            return; // No students in the list
-        }
-
-        for (StudentProfile sp : studentList) {
-            Person person = sp.getPerson(); // StudentProfile should have an associated Person
-            if (person != null) {
-                Object[] row = new Object[4];
-                row[0] = person.getPersonId(); 
-                row[1] = person.getFirstName();
-                row[2] = person.getEmail();
-                
-                // --- MODIFICATION: Get department from profile, not panel ---
-                // (Assuming StudentProfile was also updated with getDepartment())
-                if (sp.getDepartment() != null) {
-                    row[3] = sp.getDepartment().getName();
-                } else {
-                    row[3] = "Unassigned"; // More accurate
-                }
-                // --- END MODIFICATION ---
-                
-                row[4] = sp.getTranscript().getAcademicStatus(); // Assignment requirement [source: 36]
-                row[5] = String.format("%.2f", sp.getTranscript().calculateOverallGPA()); // Format GPA
-                
-                model.addRow(row);
-            }
-        }
-    }
-    public void populateStudentTable() {
-        StudentDirectory studentDirectory = department.getStudentDirectory();
-        if (studentDirectory != null) {
-            populateStudentTable(studentDirectory.getStudentlist());
-        }
-    }
 
     public void populateFacultyTable() {
         FacultyDirectory facultyDirectory = department.getFacultyDirectory();
