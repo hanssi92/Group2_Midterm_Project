@@ -2,7 +2,7 @@
 
 ## Team Worldwide (Group 2)
 - Hyeyoung Han (@003121713)
-- Herbert Doucet <mark>(NUID)</mark>
+- Herbert Doucet <mark>(003105320)</mark>
 - Sumayyah Husain (@003166161)
 
 ## Project Overview
