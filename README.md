@@ -1,25 +1,25 @@
 # Digital University System with Access Control Layer
 
 ## Team Worldwide (Group 2)
-- Hyeyoung Han <mark>(003121713)</mark>
-- Herbert Doucet <mark>(NUID)</mark>
+- Hyeyoung Han (@003121713)
+- Herbert Doucet <mark>(003105320)</mark>
 - Sumayyah Husain (@003166161)
 
 ## Project Overview
-- This midterm project integrates a reference implementation of a Digital University System with an Access Control Layer to support proper authentication and role-based authorization.
-The system allows different users to log in and access functionalities according to their assigned roles. The three main roles implemented in this project are:
-1. Administrator
-2. Faculty
-3. Student
+This midterm project integrates a reference implementation of a Digital University System with an Access Control Layer to support proper authentication and role-based authorization. The system allows different types of users to log in and access functionalities according to their assigned roles. The three main roles implemented in this project are:
+  1. Administrator
+  2. Faculty
+  3. Student
+<br/>
 Each team member was responsible for implementing one use case and ensuring that the assigned functionalities work correctly within the system architecture.
 The goal of this project is to demonstrate proper system integration, access control implementation, and functional user interfaces within a university management environment.
 
 ## Installation & Setup Instructions
-Prerequisites:
+### Prerequisites
 - NetBeans IDE
 - Git
 
-Clone the Repository
+### Clone the Repository
 - Clone the project using Git: https://github.com/hanssi92/Group2_Midterm_Project.git
 - Open the project
   1. Open NetBeans
@@ -27,43 +27,44 @@ Clone the Repository
   3. Choose (Info5100-University-Exampe)
   4. Click Open Project
 
- Run the application
+### Run the application
  1. Locate ProfileWorkAreaMainJFrame
  2. Click Run
 
 ## Authentication & Access Control
-- This system implements an Access Control Layer that ensures secure authentication and role-based authorization. (configured in ConfigureABusiness.java)
+This system implements an Access Control Layer that ensures secure authentication and role-based authorization (configured in ConfigureABusiness.java).
 Users must log in using a valid username and password. Authentication is handled by the UserAccount and UserAccountDirectory, which verifies user credentials before granting access to the system.
 After successful login, the system determines the user's role and loads the appropriate work area interface.
 
 ## Features Implemented
 This project was developed by a team of three members. Each member implemented a specific use case and integrated it into the Digital University System.
-- Administrator Features - Implemented by Herbert Doucet
-  The administrator role ensures that users are properly created and assigned to the correct roles within the system.
-  Functionality Include:
-  1. Administer user accounts (create, modify, and delete accounts)
-  2. Register persons (students, faculty, academic staff)
-  3. Manage student records (update, delete, or view student data)
-  4. Manage faculty records (update, delete, or view faculty data)
-  5. Manage own profile
+### Administrator Features - Implemented by Herbert Doucet <br>
+  - The administrator role ensures that users are properly created and assigned to the correct roles within the system. <br>
+  Functionality:
+    1. Administer user accounts (create, modify, and delete accounts)
+    2. Register persons (students, faculty, academic staff)
+    3. Manage student records (update, delete, or view student data)
+    4. Manage faculty records (update, delete, or view faculty data)
+    5. Manage own profile
 
-- Faculty Features - Implemented by Hyeyoung Han
-  Faculty members can access only the courses and students assigned to them. The system ensure proper authorization based on faculty assginments.
-  Functionality Include:
-  1. Manage courses (view, update course details)
-  2. Manage own profile
-  3. Generate performance reports (student grades in the class)
-  4. Manage student profiles (view hobbies, interests, academic progress)
+### Faculty Features - Implemented by Hyeyoung Han <br>
+  - Faculty members can access only the courses and students assigned to them. The system ensure proper authorization based on faculty assginments. <br>
+  Functionality:
+    1. Manage courses (view, update course details)
+    2. Manage own profile
+    3. Generate performance reports (student grades in the class)
+    4. Manage student profiles (view hobbies, interests, academic progress)
  
-- Student Features - Implemented by Sumayyah Husain
-  Student can log in and view their own information through the student portal.
-  1. Manage coursework (submit assignments, track progress)
-  2. Register for classes (enroll, drop courses)
-  3. Perform graduation audit (track credits and graduation requirements)
-  4. Review transcript (view academic history)
+ ### Student Features - Implemented by Sumayyah Husain <br>
+  - Student can log in and view their own information through the student portal. <br>
+  Functionality:
+    1. Manage coursework (view current enrolled courses, submit assignments)
+    2. Register for classes (enroll, drop courses)
+    3. Perform graduation audit (track credits and graduation requirements)
+    4. Review transcript (view academic history)
 
 ## Usage Instructions
-***
+This system allows members of a college community at varying levels to interact information pertaining ranging from coursework to faculty lists.
 
 ## Testing Guide
 Authentication Testing
@@ -89,7 +90,7 @@ Expected Result:
 
 Administrator Testing - Login as Admin user.
 Verify: 
-- Resgister persons (student, faculty, academic etc.)
+- Register persons (student, faculty, academic etc.)
 - Student and faculty records load correctly
 - Manage own profile
 Expected Result:
@@ -107,6 +108,7 @@ Expected Result:
 
 Student Testing - Login as Student user.
 Verify:
+- Log in using username and password (student1, ****)
 - Student profile loads correctly
 Expected Result:
 - Student information is displayed
@@ -125,7 +127,7 @@ Solution:
 - Clear documentation and task assignments helped the team stay organized despite the time differences.
 
 Challenge 3 - GitHub Collaboration
--Working in a shared repository caused merge conflicts and synchronization issues during development.
+- Working in a shared repository caused merge conflicts and synchronization issues during development.
 Solution: Feature branches were used for individual development, and changes were merged into the main branch after testing and verification.
 
 ## Future Enhancements
