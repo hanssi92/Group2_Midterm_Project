@@ -24,17 +24,18 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnMyProfile" alignment="0" min="-2" pref="164" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnManageFacultyStudent" min="-2" pref="164" max="-2" attributes="0"/>
                           <Component id="btnAdminUserAccount" min="-2" pref="164" max="-2" attributes="0"/>
+                          <Component id="btnMyProfile" alignment="0" min="-2" pref="164" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnRegisterPerson" min="-2" pref="164" max="-2" attributes="0"/>
-                          <Component id="btnAnalyticDashboard" min="-2" pref="164" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="btnRegisterPerson" min="-2" pref="164" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="btnManageFaculty" min="-2" pref="164" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                      <Component id="btnManageStudent" min="-2" pref="164" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="632" max="32767" attributes="0"/>
@@ -51,8 +52,8 @@
               </Group>
               <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnManageFacultyStudent" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="btnAnalyticDashboard" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="btnManageFaculty" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="btnManageStudent" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
               <Component id="btnMyProfile" min="-2" pref="40" max="-2" attributes="0"/>
@@ -93,7 +94,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdminUserAccountIdentifyResourceAssetsActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnManageFacultyStudent">
+    <Component class="javax.swing.JButton" name="btnManageFaculty">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="66" type="rgb"/>
@@ -104,7 +105,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Manage Faculty&amp;Student"/>
+        <Property name="text" type="java.lang.String" value="Manage Faculty"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
             <BevelBorder/>
@@ -121,7 +122,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageFacultyStudentActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageFacultyActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnRegisterPerson">
@@ -186,7 +187,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMyProfileIdentifyEventsActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnAnalyticDashboard">
+    <Component class="javax.swing.JButton" name="btnManageStudent">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="66" type="rgb"/>
@@ -197,7 +198,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Analytics Dashboard"/>
+        <Property name="text" type="java.lang.String" value="Manage Student"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
             <BevelBorder/>
@@ -214,7 +215,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnalyticDashboardActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManageStudentActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
