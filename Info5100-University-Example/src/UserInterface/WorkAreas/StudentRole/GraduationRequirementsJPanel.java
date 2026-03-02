@@ -5,7 +5,10 @@
 package UserInterface.WorkAreas.StudentRole;
 
 import Business.Business;
+import info5100.university.example.CourseSchedule.SeatAssignment;
 import info5100.university.example.Persona.StudentProfile;
+import info5100.university.example.Persona.Transcript;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
@@ -18,6 +21,8 @@ public class GraduationRequirementsJPanel extends javax.swing.JPanel {
     private JPanel CardSequencePanel;
     private Business business;
     
+    private static final int totalCreditsRequired = 32;
+        
     /**
      * Creates new form GraduationRequirementsJPanel
      */
@@ -26,6 +31,8 @@ public class GraduationRequirementsJPanel extends javax.swing.JPanel {
         this.CardSequencePanel = CardSequencePanel;
         
         initComponents();
+        
+        populateData();
     }
 
     /**
@@ -143,4 +150,45 @@ public class GraduationRequirementsJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblGradStatus;
     private javax.swing.JLabel lblOverallGPA;
     // End of variables declaration//GEN-END:variables
+
+
+    private void populateData() {
+       fieldCredits.setText(Integer.toString(totalCreditsRequired));
+       fieldGPA.setText(Double.toString(calculateOverallGPA()));
+       fieldGradStatus.setText("Degree not complete. Requirements in progress.");
+              
+    }
+
+    private double calculateOverallGPA() {
+        double totalQualityPoints = 0.0;
+        int totalCredits = 0;
+        
+        try {
+            Transcript transcript = studentProfile.getTranscript();
+            ArrayList<SeatAssignment> courses = transcript.getCourseList();
+            
+            for (SeatAssignment seat : courses) {
+                float gradeValue = seat.getGrade();
+                
+                if (gradeValue <= 0) {
+                    continue; 
+                }
+                
+                int credits = seat.getCreditHours();
+                
+                totalQualityPoints += gradeValue * credits;
+                totalCredits += credits;
+            }
+            
+            if (totalCredits > 0) {
+                return totalQualityPoints / totalCredits;
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error calculating GPA: " + e.getMessage());
+        }
+        
+        return 0.0;
+    }
+    
 }
