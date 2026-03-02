@@ -402,10 +402,6 @@ public class ManageStudent extends javax.swing.JPanel {
                 } else {
                     row[3] = "Unassigned"; // More accurate
                 }
-                // --- END MODIFICATION ---
-                
-                row[4] = sp.getTranscript().getAcademicStatus(); // Assignment requirement [source: 36]
-                row[5] = String.format("%.2f", sp.getTranscript().calculateOverallGPA()); // Format GPA
                 
                 model.addRow(row);
             }

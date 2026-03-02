@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import java.awt.Component; 
 import java.util.Arrays;
+import javax.management.relation.Role;
 
 /**
  *h
@@ -44,7 +45,6 @@ public class AdminUserAccount extends javax.swing.JPanel {
         this.isEditMode = (ua != null);
         
         initComponents();
-        addPersonSelectionListener(); // Add listener to determine role automatically
         populateFields(); // Populate fields based on mode
 
     }
@@ -115,6 +115,8 @@ public class AdminUserAccount extends javax.swing.JPanel {
         btnSave = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
+        lblRole = new javax.swing.JLabel();
+        txtRole = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 153, 153));
         setLayout(null);
@@ -165,6 +167,12 @@ public class AdminUserAccount extends javax.swing.JPanel {
         jLabel1.setBounds(400, 60, 20, 17);
         add(txtId);
         txtId.setBounds(430, 60, 150, 23);
+
+        lblRole.setText("Role");
+        add(lblRole);
+        lblRole.setBounds(370, 100, 42, 17);
+        add(txtRole);
+        txtRole.setBounds(430, 100, 150, 23);
     }// </editor-fold>//GEN-END:initComponents
 
     private void Back1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back1ActionPerformed
@@ -181,11 +189,13 @@ public class AdminUserAccount extends javax.swing.JPanel {
         String username = (txtUsername != null) ? txtUsername.getText().trim() : "";
         String password = (txtPassword != null) ? txtPassword.getText() : "";
         String confirmPassword = (txtConfirmPassword != null) ? txtConfirmPassword.getText() : "";
+        String determinedRole = (txtRole != null) ? txtRole.getText() : "N/A";
+        
         Person selectedPerson = null;
-        }
+        
 
         // 2. Validation
-        if (username.isEmpty()) {
+        if (username.isEmpty() || determinedRole.isEmpty() || determinedRole.equals("N/A")) {
             JOptionPane.showMessageDialog(this, "Username cannot be empty and a valid Role must be determined for the selected Person.", "Input Error", JOptionPane.ERROR_MESSAGE);
             return; // Stay on page
         }
@@ -237,7 +247,7 @@ public class AdminUserAccount extends javax.swing.JPanel {
 
              // Update role (verify - role shouldn't change here typically)
              // !!! IMPORTANT: Need UserAccount.setRole(String) method !!!
-              accountToEdit.setRole(determinedRole); // Usually role is fixed or changed via profile management
+              //accountToEdit.setRole(determinedRole); // Usually role is fixed or changed via profile management
               System.out.println("Placeholder: Role (" + determinedRole + ") verified for " + userAccount.getUserLoginName());
 
              JOptionPane.showMessageDialog(this, "User account updated successfully.", "Update Success", JOptionPane.INFORMATION_MESSAGE);
@@ -251,10 +261,10 @@ public class AdminUserAccount extends javax.swing.JPanel {
               }
 
             // Create new UserAccount using the determined role
-            UserAccount newUserAccount = uad.newUserAccount(selectedPerson, username, password, Role);
+            UserAccount newUserAccount = uad.newUserAccount(selectedPerson, username, password, determinedRole);
 
             if (newUserAccount != null) {
-                 JOptionPane.showMessageDialog(this, "User account created successfully for " + selectedPerson.getName() + " with role " + Role + ".", "Creation Success", JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.showMessageDialog(this, "User account created successfully for " + selectedPerson.getFirstName()+ " with role " + determinedRole + ".", "Creation Success", JOptionPane.INFORMATION_MESSAGE);
                  saveSuccessful = true;
             } else {
                  JOptionPane.showMessageDialog(this, "Failed to create user account (check directory implementation).", "Creation Error", JOptionPane.ERROR_MESSAGE);
@@ -295,11 +305,13 @@ public class AdminUserAccount extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblConfirmPassword;
     private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JTextField txtConfirmPassword;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtRole;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 

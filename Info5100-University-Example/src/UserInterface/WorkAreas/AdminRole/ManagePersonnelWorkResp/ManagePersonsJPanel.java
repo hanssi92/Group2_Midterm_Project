@@ -246,7 +246,7 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
     private javax.swing.JTable tblHR;
     // End of variables declaration//GEN-END:variables
 
-    private void populateTable() {
+    public void populateTable() {
         DefaultTableModel model = (DefaultTableModel) tblHR.getModel();
         model.setRowCount(0);
         Department department = business.getDepartment();
