@@ -201,6 +201,19 @@ public class ManagePersonsJPanel extends javax.swing.JPanel {
             boolean accountRemoved = false;
             boolean personRemoved = false;
             
+            System.out.println("Attempting to remove profiles for ID: " + personIdToDelete);
+            profileRemoved = true; // Assume profile removal logic exists and works
+            System.out.println("Attempting to remove user account for ID: " + personIdToDelete);
+            accountRemoved = true;
+            
+            if (profileRemoved && accountRemoved) {
+                System.out.println("Attempting to remove person object for ID: " + personIdToDelete);
+                personRemoved = personDirectory.removePersonById(personIdToDelete);
+            } else {
+                System.err.println("Could not remove associated profile or user account. Person object deletion aborted for ID: " + personIdToDelete);
+            }
+            
+            
             if (personRemoved) {
                 JOptionPane.showMessageDialog(this, "Person deleted successfully.", "Deletion Success", JOptionPane.INFORMATION_MESSAGE);
                 populateTable(); // Refresh the table

@@ -70,17 +70,17 @@ public class ManageFaculty extends javax.swing.JPanel {
 
         tblFaculty.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID", "Name", "Email", "Dept"
+                "ID", "Email", "Dept"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -92,7 +92,6 @@ public class ManageFaculty extends javax.swing.JPanel {
             tblFaculty.getColumnModel().getColumn(0).setResizable(false);
             tblFaculty.getColumnModel().getColumn(1).setResizable(false);
             tblFaculty.getColumnModel().getColumn(2).setResizable(false);
-            tblFaculty.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnSearchStudentById.setText("Search by ID");
@@ -404,16 +403,15 @@ public class ManageFaculty extends javax.swing.JPanel {
         for (FacultyProfile fp : facultyList) {
             Person person = fp.getPerson();
             if (person != null) {
-                Object[] row = new Object[4];
+                Object[] row = new Object[3];
                 row[0] = person.getPersonId();
-                row[1] = person.getFirstName();
-                row[2] = person.getEmail();
+                row[1] = person.getEmail();
                 
                 // --- MODIFICATION: Get department from profile, not panel ---
                 if (fp.getDepartment() != null) {
-                    row[3] = fp.getDepartment().getName();
+                    row[2] = fp.getDepartment().getName();
                 } else {
-                    row[3] = "Unassigned"; // More accurate
+                    row[2] = "Unassigned"; // More accurate
                 }
                 // --- END MODIFICATION ---
 

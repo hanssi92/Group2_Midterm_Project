@@ -150,6 +150,7 @@ public class AdminPersonJPanel extends javax.swing.JPanel {
         String name = txtName.getText().trim();
         String email = txtEmail.getText().trim();
         String selectedRole = (String) cmbRole.getSelectedItem();
+        String uniqueID = txtPersonId.getText().trim();
 
         // 2. Validate input
         if (name.isEmpty() || email.isEmpty() || selectedRole == null) {
@@ -196,22 +197,7 @@ public class AdminPersonJPanel extends javax.swing.JPanel {
             saveSuccessful = true; // Assume success for now
 
         } else {
-            // --- Add new person ---
-            // *** Use new ID generation logic ***
-            String idPrefix = "";
-            if ("Student".equals(selectedRole)) {
-                idPrefix = "S";
-            } else if ("Faculty".equals(selectedRole)) {
-                idPrefix = "F";
-            } // Add other prefixes if needed
-
-            if (idPrefix.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Invalid role selected for ID generation.", "Creation Error", JOptionPane.ERROR_MESSAGE);
-                return; // Stay on page
-            }
-
-            String uniqueID = generateNextPersonId(idPrefix, personDirectory);
-            // *** End new ID generation logic ***
+            
 
             Person newPerson = personDirectory.newPerson(uniqueID);
             if (newPerson == null) { // Check if ID already exists or other error
@@ -293,7 +279,7 @@ public class AdminPersonJPanel extends javax.swing.JPanel {
             cmbRole.setEnabled(true);
         } else {
             lblTitle.setText("Add New Person"); // Update title
-            txtPersonId.setText("(Auto-generated on save)"); // Updated placeholder text
+            txtPersonId.setText(""); // Updated placeholder text
             txtName.setText("");
             txtEmail.setText("");
             

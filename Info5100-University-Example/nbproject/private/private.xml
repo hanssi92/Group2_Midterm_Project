@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/sumayyahhusain/Documents/GitHub/Group2MidtermINFO5100/Info5100-University-Example/src/UserInterface/WorkAreas/StudentRole/GraduationRequirementsJPanel.java</file>
-            <file>file:/Users/sumayyahhusain/Documents/GitHub/Group2MidtermINFO5100/Info5100-University-Example/src/UserInterface/WorkAreas/StudentRole/StudentManageProfileJPanel.java</file>
+            <file>file:/Users/hdIV/NetBeansProjects/Group2_Midterm_Project/Group2_Midterm_Project/Info5100-University-Example/src/UserInterface/WorkAreas/AdminRole/AdminRoleWorkAreaJPanel.java</file>
+            <file>file:/Users/hdIV/NetBeansProjects/Group2_Midterm_Project/Group2_Midterm_Project/Info5100-University-Example/src/Business/ProfileWorkAreaMainFrame.java</file>
+            <file>file:/Users/hdIV/NetBeansProjects/Group2_Midterm_Project/Group2_Midterm_Project/Info5100-University-Example/src/UserInterface/WorkAreas/AdminRole/MyProfile/AdminManageProfileJPanel.java</file>
+            <file>file:/Users/hdIV/NetBeansProjects/Group2_Midterm_Project/Group2_Midterm_Project/Info5100-University-Example/src/UserInterface/WorkAreas/AdminRole/AdministerUserAccountsWorkResp/AdminUserAccount.java</file>
+            <file>file:/Users/hdIV/NetBeansProjects/Group2_Midterm_Project/Group2_Midterm_Project/Info5100-University-Example/src/UserInterface/WorkAreas/AdminRole/AdministerUserAccountsWorkResp/ManageUserAccountsJPanel.java</file>
+            <file>file:/Users/hdIV/NetBeansProjects/Group2_Midterm_Project/Group2_Midterm_Project/Info5100-University-Example/src/info5100/university/example/Persona/Person.java</file>
         </group>
     </open-files>
 </project-private>

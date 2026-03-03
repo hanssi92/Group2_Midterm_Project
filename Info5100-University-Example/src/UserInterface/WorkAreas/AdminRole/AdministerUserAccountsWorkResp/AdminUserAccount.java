@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import java.awt.Component; 
 import java.util.Arrays;
-import javax.management.relation.Role;
 
 /**
  *h
@@ -46,8 +45,7 @@ public class AdminUserAccount extends javax.swing.JPanel {
         
         initComponents();
         populateFields(); // Populate fields based on mode
-
-    }
+}
     
     private void populateFields() {
         // Possible roles (reference)
@@ -190,8 +188,12 @@ public class AdminUserAccount extends javax.swing.JPanel {
         String password = (txtPassword != null) ? txtPassword.getText() : "";
         String confirmPassword = (txtConfirmPassword != null) ? txtConfirmPassword.getText() : "";
         String determinedRole = (txtRole != null) ? txtRole.getText() : "N/A";
-        
         Person selectedPerson = null;
+//        String personId = (txtId != null) ? txtId.getText().trim() : "";
+                       
+
+        
+      
         
 
         // 2. Validation
@@ -254,16 +256,14 @@ public class AdminUserAccount extends javax.swing.JPanel {
              saveSuccessful = true;
 
         } else {
-            // --- Create ---
-             if (selectedPerson == null) {
-                 JOptionPane.showMessageDialog(this, "Please select a Person to associate the account with.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                 return; // Stay on page
-              }
+            
+          
 
             // Create new UserAccount using the determined role
             UserAccount newUserAccount = uad.newUserAccount(selectedPerson, username, password, determinedRole);
 
             if (newUserAccount != null) {
+                String personName = selectedPerson.getFirstName();
                  JOptionPane.showMessageDialog(this, "User account created successfully for " + selectedPerson.getFirstName()+ " with role " + determinedRole + ".", "Creation Success", JOptionPane.INFORMATION_MESSAGE);
                  saveSuccessful = true;
             } else {

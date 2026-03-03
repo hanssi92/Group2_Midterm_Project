@@ -33,6 +33,43 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
         initComponents();
         refreshTable();
         
+        userTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = userTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    DefaultTableModel mdl = (DefaultTableModel) userTable.getModel();
+                    int modelRow = userTable.convertRowIndexToModel(selectedRow);
+                    selectedUserAccount = (UserAccount) mdl.getValueAt(modelRow, 0);
+                } else {
+                    selectedUserAccount = null;
+                }
+            }
+        });
+    
+        
+    }
+    
+    public void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+    model.setColumnIdentifiers(new String[]{"User Account", "Username", "Person Name", "Person ID", "Role"});
+    model.setRowCount(0);
+
+    UserAccountDirectory uad = business.getUserAccountDirectory();
+    for (UserAccount ua : uad.getUserAccountList()) {
+        Person person = ua.getAssociatedPerson();
+        Object[] row = new Object[5];
+        row[0] = ua;
+        row[1] = ua.getUserLoginName();
+        row[2] = (person != null) ? person.getFirstName() : "N/A";
+        row[3] = (person != null) ? person.getPersonId() : "N/A";
+        row[4] = ua.getRole();
+        model.addRow(row);
+    }
+        // Hide the first column (User Account Object)
+        if (userTable.getColumnModel().getColumnCount() == 5) {
+        userTable.removeColumn(userTable.getColumnModel().getColumn(0));
+        }
+        selectedUserAccount = null; // Reset selection
     }
 
     /**
@@ -54,11 +91,16 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 153, 153));
+        setLayout(null);
 
         lblTitle.setFont(new java.awt.Font("Helvetica Neue", 0, 36)); // NOI18N
         lblTitle.setText("Manage User Accounts");
+        add(lblTitle);
+        lblTitle.setBounds(139, 21, 375, 44);
 
         jLabel1.setText("User Accounts");
+        add(jLabel1);
+        jLabel1.setBounds(40, 83, 85, 17);
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,12 +129,17 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
             userTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        add(jScrollPane1);
+        jScrollPane1.setBounds(40, 118, 577, 265);
+
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateActionPerformed(evt);
             }
         });
+        add(btnCreate);
+        btnCreate.setBounds(40, 401, 120, 23);
 
         btnViewEdit.setText("View/Edit");
         btnViewEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +147,8 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
                 btnViewEditActionPerformed(evt);
             }
         });
+        add(btnViewEdit);
+        btnViewEdit.setBounds(272, 401, 120, 23);
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +156,8 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
                 btnDeleteActionPerformed(evt);
             }
         });
+        add(btnDelete);
+        btnDelete.setBounds(497, 401, 120, 23);
 
         btnBack.setText("<<Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -114,49 +165,8 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
                 btnBackActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(lblTitle))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(112, 112, 112)
-                                    .addComponent(btnViewEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(35, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(lblTitle)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCreate)
-                    .addComponent(btnViewEdit)
-                    .addComponent(btnDelete))
-                .addGap(29, 29, 29)
-                .addComponent(btnBack)
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
+        add(btnBack);
+        btnBack.setBounds(40, 453, 120, 23);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
@@ -230,26 +240,5 @@ public class ManageUserAccountsJPanel extends javax.swing.JPanel {
     private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 
-    public void refreshTable() {
-        DefaultTableModel model = (DefaultTableModel) userTable.getModel();
-        // Set column names correctly
-        model.setColumnIdentifiers(new String[]{"User Account", "Username", "Person Name", "Person ID", "Role"});
-        model.setRowCount(0); // Clear existing rows
 
-        UserAccountDirectory uad = business.getUserAccountDirectory();
-
-        for (UserAccount ua : uad.getUserAccountList()) {
-            Person person = ua.getAssociatedPerson(); // Get the associated Person
-            Object[] row = new Object[5];
-            row[0] = ua; // Store the UserAccount object itself (displayed via toString)
-            row[1] = ua.getUserLoginName();
-            row[2] = (person != null) ? person.getFirstName() : "N/A"; // Display Person's name
-            row[3] = (person != null) ? person.getPersonId() : "N/A"; // Display Person's ID
-            row[4] = ua.getRole();
-            model.addRow(row);
-        }
-        // Hide the first column (User Account Object)
-        userTable.removeColumn(userTable.getColumnModel().getColumn(0));
-        selectedUserAccount = null; // Reset selection
-    }
 }

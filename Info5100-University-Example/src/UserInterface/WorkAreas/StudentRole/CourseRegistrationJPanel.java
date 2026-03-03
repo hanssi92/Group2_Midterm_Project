@@ -37,6 +37,7 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
     public CourseRegistrationJPanel(Business business, StudentProfile studentProfile, JPanel CardSequencePanel) {
         this.studentProfile = studentProfile;
         this.CardSequencePanel = CardSequencePanel;
+        this.business = business;
         initComponents();
         
         populateSearchComboBox();
@@ -432,6 +433,7 @@ public class CourseRegistrationJPanel extends javax.swing.JPanel {
                     courseName,
                     instructorFirstName, //+ instructorLastName,
                     credits,
+                    status
                     //availableSeats + "/" + totalSeats,
                     //"open"
                 };

@@ -35,6 +35,10 @@ public class ViewEditFacultyJPanel extends javax.swing.JPanel {
         initComponents();
         
         populateDetails();
+        txtFacultyId.setEditable(true);
+        txtName.setEditable(true);
+        txtEmail.setEditable(true);
+            
         
     }
 
@@ -181,9 +185,7 @@ public class ViewEditFacultyJPanel extends javax.swing.JPanel {
             txtName.setText(person.getFirstName());
             txtEmail.setText(person.getEmail());
         }
-        txtFacultyId.setEditable(false);
-        txtName.setEditable(false);
-            
+       
             
             
         }

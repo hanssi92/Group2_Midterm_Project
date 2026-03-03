@@ -33,8 +33,8 @@ public class ViewEditStudentJPanel extends javax.swing.JPanel {
         initComponents();
         
         populateDetails();
-        txtStudentId.setEditable(false); // ID should not be editable
-        txtName.setEditable(false); // Name should not be editable
+        txtStudentId.setEditable(true); 
+        txtName.setEditable(true); 
     
     }
 
